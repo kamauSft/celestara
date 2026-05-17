@@ -500,7 +500,22 @@ body:hover .cursor-glow {
 }
 
 .footer-tag {
+  margin-bottom: 0.75rem !important;
+}
+
+.footer-live {
   margin-bottom: 1.25rem !important;
+  font-size: 0.8rem !important;
+}
+
+.footer-live a {
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+}
+
+.footer-live a:hover {
+  text-decoration: underline;
 }
 
 .footer-cta {

@@ -23,11 +23,15 @@ Products save in your browser automatically. To persist on GitHub:
 2. Replace `data/products.json` in this repo
 3. Commit and push
 
+## Live site
+
+**https://kamauSft.github.io/celestara/**
+
 ## Deploy on GitHub Pages
 
-1. Push this folder to a GitHub repo
-2. **Settings → Pages →** Source: `main` branch, folder `/` (root) or `/docs` if you move files
-3. Your site will be live at `https://YOUR_USERNAME.github.io/REPO_NAME/`
+1. Repo: **https://github.com/kamauSft/celestara**
+2. **Settings → Pages →** Source: `master` branch, folder `/ (root)` — or **GitHub Actions** if using the workflow
+3. Live URL: **https://kamauSft.github.io/celestara/**
 
 ## Brand
 
