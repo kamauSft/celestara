@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celestara — Imaginary Luxury Emporium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <nav class="nav">
+      <a href="#" class="logo">
+        <span class="logo-mark">✦</span>
+        <span class="logo-text">Celestara</span>
+      </a>
+      <div class="nav-links">
+        <a href="#collection">Collection</a>
+        <a href="#about">Our Myth</a>
+        <a href="admin.html" class="nav-admin">Curator Studio</a>
+      </div>
+    </nav>
+    <div class="hero">
+      <p class="hero-eyebrow">Est. in dreams · MMXVI</p>
+      <h1>Where imagination<br /><em>becomes heirloom</em></h1>
+      <p class="hero-sub">An imaginary emporium of impossible wonders — explore, adore, and never explain the shipping.</p>
+      <a href="#collection" class="btn btn-primary">Enter the Vault</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="collection" class="collection">
+      <div class="section-head">
+        <span class="section-tag">The Vault</span>
+        <h2>Curated Wonders</h2>
+        <p class="section-desc">Each piece exists only in legend — until you decide otherwise.</p>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="about-card">
+        <span class="section-tag">Our Myth</span>
+        <h2>Born between starlight &amp; silk</h2>
+        <p>Celestara is not a store — it is a <em>whisper</em> from a parallel boutique that never opened. We trade in moon-thread scarves, bottled auroras, and clocks that remember tomorrow. Every listing is fiction dressed in gold leaf. Perfect for exploring design, storytelling, and the art of the impossible.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span class="logo-mark">✦</span>
+    <p>© Celestara Imaginary Emporium — all wonders fictional, all vibes real.</p>
+    <a href="admin.html">Add new treasures →</a>
+  </footer>
+
+  <dialog id="product-modal" class="modal">
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-content" id="modal-content"></div>
+  </dialog>
+
+  <script src="js/store.js" type="module"></script>
+</body>
+</html>

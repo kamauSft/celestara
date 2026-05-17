@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curator Studio — Celestara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital@0;1&family=Outfit:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <div class="admin-page">
+    <header class="admin-header">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">✦</span>
+        <span class="logo-text">Celestara</span>
+      </a>
+      <h1>Curator Studio</h1>
+      <p>Upload new imaginary treasures in seconds — no backend required.</p>
+    </header>
+
+    <div class="admin-grid">
+      <section class="admin-panel">
+        <h2>Add a wonder</h2>
+        <form id="product-form">
+          <div class="form-group">
+            <label for="name">Product name</label>
+            <input type="text" id="name" required placeholder="e.g. Bottled Aurora — No. VIII" />
+          </div>
+          <div class="form-group">
+            <label for="description">Legend (description)</label>
+            <textarea id="description" required placeholder="Tell the impossible story of this piece…"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="price">Price (USD)</label>
+            <input type="number" id="price" required min="0" step="1" placeholder="2847" />
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category"></select>
+          </div>
+          <div class="form-group">
+            <label>Image</label>
+            <div class="drop-zone" id="drop-zone">
+              <p>Drop an image here, click to browse, or paste a URL below</p>
+              <input type="file" id="file-input" accept="image/*" hidden />
+              <img id="preview" alt="" hidden />
+            </div>
+            <input type="url" id="image-url" class="url-input" placeholder="https://… or upload above" />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add to vault</button>
+            <button type="button" class="btn btn-secondary" id="reset-form">Clear form</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-panel">
+        <h2>Your collection</h2>
+        <div class="product-list" id="product-list"></div>
+        <div class="form-actions admin-actions">
+          <button type="button" class="btn btn-secondary" id="export-json">Download products.json</button>
+          <label class="btn btn-secondary import-label">
+            Import JSON
+            <input type="file" id="import-json" accept=".json" hidden />
+          </label>
+          <button type="button" class="btn btn-danger" id="reset-all">Reset to defaults</button>
+        </div>
+        <p class="admin-tip">
+          Tip: After downloading products.json, replace data/products.json in your repo and push to GitHub for a permanent catalog.
+        </p>
+      </section>
+    </div>
+
+    <p class="back-link">
+      <a href="index.html">← Back to the emporium</a>
+    </p>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/admin.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "aurora-vial",
+    "name": "Bottled Aurora — No. VII",
+    "description": "A hand-captured slice of northern lights, sealed in Venetian glass. Swirl gently before opening at midnight. Side effects may include spontaneous poetry.",
+    "price": 2847,
+    "category": "Elixirs",
+    "image": "https://images.unsplash.com/photo-1536431311719-398b6704d4cc?w=800&q=80"
+  },
+  {
+    "id": "moon-thread-scarf",
+    "name": "Moon-Thread Scarf",
+    "description": "Woven from threads that only exist during the waning crescent. Warms the wearer with memories of summers they never had.",
+    "price": 890,
+    "category": "Vestments",
+    "image": "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=800&q=80"
+  },
+  {
+    "id": "tomorrow-clock",
+    "name": "Clock That Remembers Tomorrow",
+    "description": "Its hands move counterclockwise on Tuesdays. Ticks in a language your grandmother almost spoke. Batteries not included — runs on intention.",
+    "price": 4200,
+    "category": "Artifacts",
+    "image": "https://images.unsplash.com/photo-1563861826100-9cb518e86ea7?w=800&q=80"
+  },
+  {
+    "id": "velvet-whisper",
+    "name": "Velvet Whisper Earrings",
+    "description": "Rose-gold drops that hum faintly when someone is thinking of you. Impossible to photograph correctly — they look better in person and in dreams.",
+    "price": 1650,
+    "category": "Adornments",
+    "image": "https://images.unsplash.com/photo-1535632066927-ab7c9f6095f2?w=800&q=80"
+  },
+  {
+    "id": "starlight-tea",
+    "name": "Starlight Reserve Tea",
+    "description": "Leaves harvested during meteor showers, aged in cedar chests lined with constellation maps. Brew with water that has never seen a city.",
+    "price": 124,
+    "category": "Elixirs",
+    "image": "https://images.unsplash.com/photo-1556678373-bb3304d771fd?w=800&q=80"
+  },
+  {
+    "id": "phantom-parfum",
+    "name": "Phantom Parfum — L'Absente",
+    "description": "A fragrance that smells different to every wearer: rain on stone, old libraries, or the moment before a first kiss. The bottle is always slightly cold.",
+    "price": 310,
+    "category": "Elixirs",
+    "image": "https://images.unsplash.com/photo-1541643600912-78b140683f23?w=800&q=80"
+  }
+]
