@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Celestara — an imaginary luxury emporium of impossible wonders." />
   <title>Celestara — Imaginary Luxury Emporium</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,7 +11,18 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <div id="preloader" class="preloader" aria-hidden="true">
+    <div class="preloader-inner">
+      <span class="logo-mark preloader-mark">✦</span>
+      <p class="preloader-text">Celestara</p>
+      <div class="preloader-bar"><span></span></div>
+    </div>
+  </div>
+
   <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
 
   <header class="site-header">
     <nav class="nav">
@@ -20,42 +32,95 @@
       </a>
       <div class="nav-links">
         <a href="#collection">Collection</a>
+        <a href="#marquee">Heritage</a>
         <a href="#about">Our Myth</a>
         <a href="admin.html" class="nav-admin">Curator Studio</a>
       </div>
     </nav>
+
     <div class="hero">
-      <p class="hero-eyebrow">Est. in dreams · MMXVI</p>
-      <h1>Where imagination<br /><em>becomes heirloom</em></h1>
-      <p class="hero-sub">An imaginary emporium of impossible wonders — explore, adore, and never explain the shipping.</p>
-      <a href="#collection" class="btn btn-primary">Enter the Vault</a>
+      <div class="hero-frame">
+        <div class="hero-corner hero-corner--tl"></div>
+        <div class="hero-corner hero-corner--tr"></div>
+        <div class="hero-corner hero-corner--bl"></div>
+        <div class="hero-corner hero-corner--br"></div>
+        <p class="hero-eyebrow reveal">Est. in dreams · MMXVI</p>
+        <h1 class="reveal reveal-delay-1">
+          <span class="shimmer">Where imagination</span><br />
+          <em>becomes heirloom</em>
+        </h1>
+        <p class="hero-sub reveal reveal-delay-2">
+          An imaginary emporium of impossible wonders — explore, adore, and never explain the shipping.
+        </p>
+        <div class="hero-actions reveal reveal-delay-3">
+          <a href="#collection" class="btn btn-primary">Enter the Vault</a>
+          <a href="admin.html" class="btn btn-ghost">Curate a wonder</a>
+        </div>
+      </div>
+      <div class="hero-orbs" aria-hidden="true">
+        <span class="orb orb-1"></span>
+        <span class="orb orb-2"></span>
+        <span class="orb orb-3"></span>
+      </div>
     </div>
   </header>
 
+  <section class="stats reveal" aria-label="Emporium statistics">
+    <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Impossible items</span></div>
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">Shipping complaints</span></div>
+    <div class="stat"><span class="stat-num">★★★★★</span><span class="stat-label">Dream reviews</span></div>
+  </section>
+
+  <div id="marquee" class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>MOON-THREAD</span><span class="dot">✦</span>
+      <span>BOTTLED AURORA</span><span class="dot">✦</span>
+      <span>VELVET WHISPER</span><span class="dot">✦</span>
+      <span>STARLIGHT RESERVE</span><span class="dot">✦</span>
+      <span>PHANTOM PARFUM</span><span class="dot">✦</span>
+      <span>MOON-THREAD</span><span class="dot">✦</span>
+      <span>BOTTLED AURORA</span><span class="dot">✦</span>
+      <span>VELVET WHISPER</span><span class="dot">✦</span>
+    </div>
+  </div>
+
   <main>
     <section id="collection" class="collection">
-      <div class="section-head">
+      <div class="section-head reveal">
         <span class="section-tag">The Vault</span>
         <h2>Curated Wonders</h2>
         <p class="section-desc">Each piece exists only in legend — until you decide otherwise.</p>
+        <div class="ornament-line"></div>
       </div>
-      <div class="filters" id="filters"></div>
+      <div class="filters reveal" id="filters"></div>
       <div class="product-grid" id="product-grid"></div>
     </section>
 
+    <section class="quotes">
+      <blockquote class="quote-card reveal">
+        <p>“I wore the Moon-Thread Scarf to a party that hadn’t happened yet. Everyone complimented my nostalgia.”</p>
+        <cite>— A satisfied dreamer</cite>
+      </blockquote>
+      <blockquote class="quote-card reveal">
+        <p>“The Clock That Remembers Tomorrow arrived yesterday. Highly recommend for Tuesdays.”</p>
+        <cite>— Time-adjacent patron</cite>
+      </blockquote>
+    </section>
+
     <section id="about" class="about">
-      <div class="about-card">
+      <div class="about-card reveal">
         <span class="section-tag">Our Myth</span>
         <h2>Born between starlight &amp; silk</h2>
-        <p>Celestara is not a store — it is a <em>whisper</em> from a parallel boutique that never opened. We trade in moon-thread scarves, bottled auroras, and clocks that remember tomorrow. Every listing is fiction dressed in gold leaf. Perfect for exploring design, storytelling, and the art of the impossible.</p>
+        <p>Celestara is not a store — it is a <em>whisper</em> from a parallel boutique that never opened. We trade in moon-thread scarves, bottled auroras, and clocks that remember tomorrow. Every listing is fiction dressed in gold leaf.</p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <span class="logo-mark">✦</span>
-    <p>© Celestara Imaginary Emporium — all wonders fictional, all vibes real.</p>
-    <a href="admin.html">Add new treasures →</a>
+    <p class="footer-brand">Celestara Imaginary Emporium</p>
+    <p class="footer-tag">All wonders fictional · All vibes immaculate</p>
+    <a href="admin.html" class="footer-cta">Add new treasures →</a>
   </footer>
 
   <dialog id="product-modal" class="modal">

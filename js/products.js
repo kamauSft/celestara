@@ -44,7 +44,7 @@ export async function loadProducts() {
   }
 
   try {
-    const res = await fetch("data/products.json");
+    const res = await fetch("./data/products.json");
     if (!res.ok) throw new Error("fetch failed");
     const products = await res.json();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
