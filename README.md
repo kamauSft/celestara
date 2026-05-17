@@ -25,13 +25,13 @@ Products save in your browser automatically. To persist on GitHub:
 
 ## Live site
 
-**https://kamauSft.github.io/celestara/**
+**https://kamausft.github.io/celestara/**
 
 ## Deploy on GitHub Pages
 
 1. Repo: **https://github.com/kamauSft/celestara**
 2. **Settings → Pages →** Source: `master` branch, folder `/ (root)` — or **GitHub Actions** if using the workflow
-3. Live URL: **https://kamauSft.github.io/celestara/**
+3. Live URL: **https://kamausft.github.io/celestara/**
 
 ## Brand
 
