@@ -1,35 +1,35 @@
-const STORAGE_KEY = "celestara-products";
+const STORAGE_KEY = "silai-atelier-products";
 
 const DEFAULT_PRODUCTS = [
   {
-    id: "aurora-vial",
-    name: "Bottled Aurora — No. VII",
+    id: "executive-suit-navy",
+    name: "Executive Navy Bespoke Suit",
     description:
-      "A hand-captured slice of northern lights, sealed in Venetian glass. Swirl gently before opening at midnight.",
-    price: 2847,
-    category: "Elixirs",
+      "A sharply tailored bespoke suit crafted for modern elegance and confidence. Precision-cut with premium fabric for a flawless silhouette.",
+    price: 18000,
+    category: "Menswear",
     image:
-      "https://images.unsplash.com/photo-1536431311719-398b6704d4cc?w=800&q=80",
+      "https://images.unsplash.com/photo-1520975916090-3105956dac38?w=800&q=80",
   },
   {
-    id: "moon-thread-scarf",
-    name: "Moon-Thread Scarf",
+    id: "evening-couture-gown",
+    name: "Elegant Evening Couture Gown",
     description:
-      "Woven from threads that only exist during the waning crescent. Warms the wearer with memories of summers they never had.",
-    price: 890,
-    category: "Vestments",
+      "A flowing couture gown designed for grace and presence. Hand-finished detailing with a refined luxury aesthetic.",
+    price: 15000,
+    category: "Women’s Couture",
     image:
-      "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=800&q=80",
+      "https://images.unsplash.com/photo-1520975682031-a6e0a6f3f0d5?w=800&q=80",
   },
   {
-    id: "tomorrow-clock",
-    name: "Clock That Remembers Tomorrow",
+    id: "modern-african-suit",
+    name: "Modern African Tailored Suit",
     description:
-      "Its hands move counterclockwise on Tuesdays. Runs on intention — batteries not included.",
-    price: 4200,
-    category: "Artifacts",
+      "A fusion of contemporary tailoring and African-inspired elegance, designed to stand out with subtle sophistication.",
+    price: 20000,
+    category: "Menswear",
     image:
-      "https://images.unsplash.com/photo-1563861826100-9cb518e86ea7?w=800&q=80",
+      "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=800&q=80",
   },
 ];
 
@@ -80,9 +80,7 @@ export function slugify(text) {
 }
 
 export const CATEGORIES = [
-  "Elixirs",
-  "Vestments",
-  "Artifacts",
-  "Adornments",
-  "Curios",
+  "Menswear",
+  "Women’s Couture",
+  "New Arrivals",
 ];
