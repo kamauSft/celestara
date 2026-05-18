@@ -16,7 +16,6 @@
 
 <body>
 
-  <!-- BACKGROUND -->
   <canvas id="stars"></canvas>
 
   <div class="admin-page">
@@ -31,16 +30,13 @@
 
       <h1>Curator Studio</h1>
 
-      <p>
-        Luxury tailoring dashboard — create, edit, and manage your bespoke collection.
-      </p>
+      <p>Luxury tailoring dashboard — manage your fashion collection</p>
 
     </header>
 
-    <!-- GRID -->
     <div class="admin-grid">
 
-      <!-- FORM -->
+      <!-- ================= FORM ================= -->
       <section class="admin-panel">
 
         <h2>Add / Edit Design</h2>
@@ -49,34 +45,41 @@
 
           <div class="form-group">
             <label for="name">Design Name</label>
-            <input type="text" id="name" required placeholder="Executive Navy Bespoke Suit" />
+            <input type="text" id="name" required placeholder="Executive Navy Suit" />
           </div>
 
           <div class="form-group">
             <label for="description">Description</label>
-            <textarea id="description" required placeholder="Craftsmanship, fabric, finishing..."></textarea>
+            <textarea id="description" required placeholder="Luxury tailoring details..."></textarea>
           </div>
 
           <div class="form-group">
             <label for="price">Price (KES)</label>
-            <input type="number" id="price" required min="0" step="1" placeholder="18000" />
+            <input type="number" id="price" required min="0" placeholder="18000" />
           </div>
 
+          <!-- 🔥 UPDATED CATEGORIES -->
           <div class="form-group">
             <label for="category">Category</label>
-            <select id="category">
-              <option value="menswear">Menswear</option>
-              <option value="womenswear">Women’s Couture</option>
-              <option value="new">New Arrivals</option>
+            <select id="category" required>
+
+              <option value="dinner">Dinner / Evening Wear</option>
+              <option value="casual">Casual Luxury</option>
+              <option value="bridal">Bridal Couture</option>
+              <option value="beach">Beach / Resort Wear</option>
+              <option value="ankara">Traditional / Ankara</option>
+              <option value="business">Business / Official Wear</option>
+              <option value="twopiece">Two Piece Sets</option>
+
             </select>
           </div>
 
-          <!-- IMAGE -->
+          <!-- ================= IMAGE UPLOAD ================= -->
           <div class="form-group">
             <label>Design Image</label>
 
             <div class="drop-zone" id="drop-zone">
-              <p>Drop image, click to upload, or paste URL</p>
+              <p>Click / Drop image or paste URL</p>
 
               <input type="file" id="file-input" accept="image/*" hidden />
               <img id="preview" alt="Preview" hidden />
@@ -86,7 +89,7 @@
               type="url"
               id="image-url"
               class="url-input"
-              placeholder="https://image-url.com"
+              placeholder="Or paste image URL"
             />
           </div>
 
@@ -95,7 +98,7 @@
               Save Design
             </button>
 
-            <button type="button" class="btn btn-secondary" id="reset-form">
+            <button type="reset" class="btn btn-secondary" id="reset-form">
               Clear Form
             </button>
           </div>
@@ -104,7 +107,7 @@
 
       </section>
 
-      <!-- LIST -->
+      <!-- ================= LIST ================= -->
       <section class="admin-panel">
 
         <h2>Lookbook Collection</h2>
@@ -129,24 +132,21 @@
         </div>
 
         <p class="admin-tip">
-          Export your catalog and upload it to GitHub to permanently save your collection.
+          Export to GitHub or backend for permanent storage
         </p>
 
       </section>
 
     </div>
 
-    <!-- BACK -->
     <p class="back-link">
       <a href="index.html">← Back to Silai Atelier</a>
     </p>
 
   </div>
 
-  <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <!-- SCRIPT (IMPORTANT FIX) -->
   <script type="module" src="js/admin.js"></script>
 
 </body>
