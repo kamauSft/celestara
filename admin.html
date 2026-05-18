@@ -22,23 +22,18 @@
 
     <!-- HEADER -->
     <header class="admin-header">
-
       <a href="index.html" class="logo">
         <span class="logo-mark">✦</span>
         <span class="logo-text">Silai Atelier</span>
       </a>
-
       <h1>Curator Studio</h1>
-
       <p>Luxury tailoring dashboard — manage your fashion collection</p>
-
     </header>
 
     <div class="admin-grid">
 
       <!-- ================= FORM ================= -->
       <section class="admin-panel">
-
         <h2>Add / Edit Design</h2>
 
         <form id="product-form">
@@ -62,7 +57,6 @@
           <div class="form-group">
             <label for="category">Category</label>
             <select id="category" required>
-
               <option value="dinner">Dinner / Evening Wear</option>
               <option value="casual">Casual Luxury</option>
               <option value="bridal">Bridal Couture</option>
@@ -70,7 +64,6 @@
               <option value="ankara">Traditional / Ankara</option>
               <option value="business">Business / Official Wear</option>
               <option value="twopiece">Two Piece Sets</option>
-
             </select>
           </div>
 
@@ -79,9 +72,8 @@
             <label>Design Image</label>
 
             <div class="drop-zone" id="drop-zone">
-              <p>Click / Drop image or paste URL</p>
-
-              <input type="file" id="file-input" accept="image/*" hidden />
+              <p>Click to upload or paste URL</p>
+              <input type="file" id="file-input" accept="image/*" />
               <img id="preview" alt="Preview" hidden />
             </div>
 
@@ -89,52 +81,33 @@
               type="url"
               id="image-url"
               class="url-input"
-              placeholder="Or paste image URL"
+              placeholder="Or paste image URL (e.g. images/women_evening/gold_evening_gown.jpg)"
             />
           </div>
 
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary">
-              Save Design
-            </button>
-
-            <button type="reset" class="btn btn-secondary" id="reset-form">
-              Clear Form
-            </button>
+            <button type="submit" class="btn btn-primary">Save Design</button>
+            <button type="reset" class="btn btn-secondary" id="reset-form">Clear Form</button>
           </div>
 
         </form>
-
       </section>
 
       <!-- ================= LIST ================= -->
       <section class="admin-panel">
-
         <h2>Lookbook Collection</h2>
-
         <div class="product-list" id="product-list"></div>
 
         <div class="form-actions admin-actions">
-
-          <button type="button" class="btn btn-secondary" id="export-json">
-            Export Catalog (JSON)
-          </button>
-
+          <button type="button" class="btn btn-secondary" id="export-json">Export Catalog (JSON)</button>
           <label class="btn btn-secondary import-label">
             Import JSON
             <input type="file" id="import-json" accept=".json" hidden />
           </label>
-
-          <button type="button" class="btn btn-danger" id="reset-all">
-            Reset Collection
-          </button>
-
+          <button type="button" class="btn btn-danger" id="reset-all">Reset Collection</button>
         </div>
 
-        <p class="admin-tip">
-          Export to GitHub or backend for permanent storage
-        </p>
-
+        <p class="admin-tip">Export to GitHub or backend for permanent storage</p>
       </section>
 
     </div>
@@ -142,12 +115,10 @@
     <p class="back-link">
       <a href="index.html">← Back to Silai Atelier</a>
     </p>
-
   </div>
 
   <div class="toast" id="toast"></div>
 
   <script type="module" src="js/admin.js"></script>
-
 </body>
 </html>
