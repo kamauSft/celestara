@@ -1,625 +1,316 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <title>Silai Atelier — Bespoke Luxury</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-  <style>
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    :root{
-      --bg:#070707;
-      --surface:#111111;
-      --text:#f5f1ea;
-      --muted:#9f978c;
-      --gold:#c6a86a;
-      --border:rgba(255,255,255,.08);
-
-      --font-display:"Cormorant Garamond", serif;
-      --font-body:"Inter", sans-serif;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    body{
-      background:var(--bg);
-      color:var(--text);
-      font-family:var(--font-body);
-      overflow-x:hidden;
-    }
-
-    img{
-      width:100%;
-      display:block;
-    }
-
-    a{
-      text-decoration:none;
-      color:inherit;
-    }
-
-    /* ================= NAV ================= */
-
-    header{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      z-index:1000;
-
-      padding:28px 6vw;
-
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-
-      background:rgba(7,7,7,.55);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(255,255,255,.04);
-    }
-
-    .logo{
-      font-family:var(--font-display);
-      font-size:2rem;
-      letter-spacing:.15em;
-      color:var(--gold);
-    }
-
-    nav{
-      display:flex;
-      gap:40px;
-      align-items:center;
-    }
-
-    nav a{
-      font-size:.8rem;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      color:#d8d2c8;
-      transition:.3s;
-    }
-
-    nav a:hover{
-      color:var(--gold);
-    }
-
-    /* ================= HERO ================= */
-
-    .hero{
-      position:relative;
-      height:100vh;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      text-align:center;
-
-      background:
-      linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.6)),
-      url('images/hero.jpg') center/cover no-repeat;
-    }
-
-    .hero-content{
-      max-width:1000px;
-      padding:40px;
-    }
-
-    .hero-sub{
-      color:var(--gold);
-      letter-spacing:.35em;
-      text-transform:uppercase;
-      font-size:.7rem;
-      margin-bottom:24px;
-    }
-
-    .hero h1{
-      font-family:var(--font-display);
-      font-size:clamp(4rem,9vw,8rem);
-      font-weight:300;
-      line-height:.95;
-      margin-bottom:30px;
-    }
-
-    .hero p{
-      max-width:650px;
-      margin:auto;
-      font-size:1rem;
-      line-height:2;
-      color:#d0c9be;
-      margin-bottom:45px;
-    }
-
-    .hero-btn{
-      display:inline-block;
-      padding:18px 38px;
-
-      border:1px solid rgba(255,255,255,.1);
-
-      color:var(--text);
-
-      text-transform:uppercase;
-      letter-spacing:.2em;
-      font-size:.72rem;
-
-      transition:.4s ease;
-    }
-
-    .hero-btn:hover{
-      background:var(--gold);
-      color:#111;
-      border-color:var(--gold);
-    }
-
-    /* ================= FEATURED PRODUCTS ================= */
-
-    .product-row{
-      display:grid;
-      grid-template-columns:1.2fr 1fr;
-      min-height:100vh;
-      align-items:center;
-    }
-
-    .product-row.reverse{
-      grid-template-columns:1fr 1.2fr;
-    }
-
-    .product-image{
-      height:100%;
-      overflow:hidden;
-    }
-
-    .product-image img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-
-      transition:transform 1.2s ease;
-    }
-
-    .product-row:hover img{
-      transform:scale(1.04);
-    }
-
-    .product-info{
-      padding:8vw;
-    }
-
-    .product-category{
-      color:var(--gold);
-      font-size:.72rem;
-      text-transform:uppercase;
-      letter-spacing:.3em;
-      margin-bottom:18px;
-    }
-
-    .product-info h2{
-      font-family:var(--font-display);
-      font-size:clamp(3rem,5vw,5rem);
-      line-height:1;
-      font-weight:300;
-      margin-bottom:24px;
-    }
-
-    .product-info p{
-      color:var(--muted);
-      line-height:2;
-      max-width:520px;
-      margin-bottom:35px;
-      font-size:1rem;
-    }
-
-    .price{
-      font-size:1.4rem;
-      color:var(--gold);
-      margin-bottom:35px;
-      font-family:var(--font-display);
-    }
-
-    .shop-link{
-      display:inline-block;
-
-      border-bottom:1px solid var(--gold);
-
-      padding-bottom:6px;
-
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      font-size:.72rem;
-
-      transition:.3s;
-    }
-
-    .shop-link:hover{
-      opacity:.6;
-    }
-
-    /* ================= FULL WIDTH IMAGE ================= */
-
-    .editorial{
-      height:90vh;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .editorial img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .editorial-overlay{
-      position:absolute;
-      inset:0;
-
-      background:linear-gradient(
-        rgba(0,0,0,.15),
-        rgba(0,0,0,.5)
-      );
-
-      display:flex;
-      align-items:flex-end;
-
-      padding:7vw;
-    }
-
-    .editorial-overlay h2{
-      font-family:var(--font-display);
-      font-size:clamp(3rem,7vw,6rem);
-      font-weight:300;
-      max-width:700px;
-      line-height:1;
-    }
-
-    /* ================= ABOUT ================= */
-
-    .about{
-      padding:180px 8vw;
-      text-align:center;
-      max-width:1100px;
-      margin:auto;
-    }
-
-    .about span{
-      color:var(--gold);
-      letter-spacing:.3em;
-      text-transform:uppercase;
-      font-size:.7rem;
-    }
-
-    .about h2{
-      font-family:var(--font-display);
-      font-size:clamp(3rem,5vw,5rem);
-      font-weight:300;
-      margin:30px 0;
-    }
-
-    .about p{
-      max-width:760px;
-      margin:auto;
-
-      color:var(--muted);
-
-      font-size:1.15rem;
-      line-height:2.1;
-    }
-
-    /* ================= FOOTER ================= */
-
-    footer{
-      padding:70px 6vw;
-      border-top:1px solid rgba(255,255,255,.06);
-
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:30px;
-    }
-
-    footer h3{
-      font-family:var(--font-display);
-      font-size:2rem;
-      color:var(--gold);
-      font-weight:300;
-    }
-
-    footer p{
-      color:var(--muted);
-      line-height:1.8;
-    }
-
-    .footer-btn{
-      border:1px solid rgba(255,255,255,.08);
-      padding:16px 30px;
-
-      text-transform:uppercase;
-      letter-spacing:.2em;
-      font-size:.7rem;
-
-      transition:.4s;
-    }
-
-    .footer-btn:hover{
-      background:var(--gold);
-      color:#111;
-    }
-
-    /* ================= MOBILE ================= */
-
-    @media(max-width:950px){
-
-      nav{
-        display:none;
-      }
-
-      .product-row,
-      .product-row.reverse{
-        grid-template-columns:1fr;
-      }
-
-      .product-image{
-        height:70vh;
-      }
-
-      .product-info{
-        padding:70px 8vw;
-      }
-
-      .hero h1{
-        font-size:4rem;
-      }
-
-      .editorial{
-        height:65vh;
-      }
-
-      footer{
-        flex-direction:column;
-        text-align:center;
-      }
-
-    }
-
-  </style>
-</head>
-
-<body>
-
-  <!-- NAV -->
-
-  <header>
-
-    <div class="logo">
-      SILAI
-    </div>
-
-    <nav>
-      <a href="#collection">Collection</a>
-      <a href="#about">Atelier</a>
-      <a href="#contact">Contact</a>
-    </nav>
-
-  </header>
-
-  <!-- HERO -->
-
-  <section class="hero">
-
-    <div class="hero-content">
-
-      <div class="hero-sub">
-        Bespoke Luxury Tailoring
-      </div>
-
-      <h1>
-        Crafted To Be Remembered
-      </h1>
-
-      <p>
-        Timeless bespoke menswear and couture garments
-        handcrafted with precision, elegance, and modern refinement.
-      </p>
-
-      <a href="https://wa.me/254791307166" class="hero-btn">
-        Book Consultation
-      </a>
-
-    </div>
-
-  </section>
-
-  <!-- PRODUCT 1 -->
-
-  <section class="product-row" id="collection">
-
-    <div class="product-image">
-      <img src="images/suit.jpg" alt="">
-    </div>
-
-    <div class="product-info">
-
-      <div class="product-category">
-        Bespoke Suiting
-      </div>
-
-      <h2>
-        Midnight Double-Breasted Suit
-      </h2>
-
-      <p>
-        Tailored from premium wool with structured shoulders,
-        peak lapels, and a refined silhouette designed for
-        commanding presence.
-      </p>
-
-      <div class="price">
-        KSh 48,000
-      </div>
-
-      <a
-        href="https://wa.me/254791307166"
-        class="shop-link"
-      >
-        Enquire via WhatsApp
-      </a>
-
-    </div>
-
-  </section>
-
-  <!-- PRODUCT 2 -->
-
-  <section class="product-row reverse">
-
-    <div class="product-info">
-
-      <div class="product-category">
-        Bridal Couture
-      </div>
-
-      <h2>
-        Ivory Handcrafted Bridal Gown
-      </h2>
-
-      <p>
-        A couture bridal silhouette crafted with delicate
-        detailing, elegant structure, and timeless femininity.
-      </p>
-
-      <div class="price">
-        KSh 95,000
-      </div>
-
-      <a
-        href="https://wa.me/254791307166"
-        class="shop-link"
-      >
-        Enquire via WhatsApp
-      </a>
-
-    </div>
-
-    <div class="product-image">
-      <img src="images/bridal.jpg" alt="">
-    </div>
-
-  </section>
-
-  <!-- EDITORIAL -->
-
-  <section class="editorial">
-
-    <img src="images/editorial.jpg" alt="">
-
-    <div class="editorial-overlay">
-
-      <h2>
-        Tailoring That Moves With Presence
-      </h2>
-
-    </div>
-
-  </section>
-
-  <!-- PRODUCT 3 -->
-
-  <section class="product-row">
-
-    <div class="product-image">
-      <img src="images/traditional.jpg" alt="">
-    </div>
-
-    <div class="product-info">
-
-      <div class="product-category">
-        Heritage Wear
-      </div>
-
-      <h2>
-        Contemporary Traditional Attire
-      </h2>
-
-      <p>
-        Heritage-inspired tailoring combining modern luxury
-        with authentic cultural craftsmanship.
-      </p>
-
-      <div class="price">
-        KSh 32,000
-      </div>
-
-      <a
-        href="https://wa.me/254791307166"
-        class="shop-link"
-      >
-        Enquire via WhatsApp
-      </a>
-
-    </div>
-
-  </section>
-
-  <!-- ABOUT -->
-
-  <section class="about" id="about">
-
-    <span>
-      The Atelier
-    </span>
-
-    <h2>
-      Every Garment Begins With Intention
-    </h2>
-
-    <p>
-      At Silai Atelier, tailoring is more than construction.
-      It is the balance of silhouette, movement, fabric,
-      and individuality. Every piece is crafted to embody
-      timeless sophistication while remaining deeply personal
-      to the wearer.
-    </p>
-
-  </section>
-
-  <!-- FOOTER -->
-
-  <footer id="contact">
-
-    <div>
-
-      <h3>
-        Silai Atelier
-      </h3>
-
-      <p>
-        Rimpa, Kiserian · Kajiado County · Kenya
-      </p>
-
-    </div>
-
-    <a
-      href="https://wa.me/254791307166"
-      class="footer-btn"
-    >
-      WhatsApp Consultation
-    </a>
-
-  </footer>
-
-</body>
-</html>
+:root{
+  --bg:#060606;
+  --surface:#101010;
+  --text:#f5f1ea;
+  --muted:#a8a096;
+  --gold:#c6a86a;
+  --border:rgba(255,255,255,.08);
+
+  --display:"Cormorant Garamond", serif;
+  --body:"Inter", sans-serif;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:var(--body);
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* ================= HEADER ================= */
+
+header{
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:24px 6vw;
+
+  background:rgba(6,6,6,.6);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.logo{
+  font-family:var(--display);
+  font-size:1.8rem;
+  letter-spacing:.18em;
+  color:var(--gold);
+}
+
+nav{
+  display:flex;
+  gap:32px;
+}
+
+nav a{
+  font-size:.75rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--muted);
+  transition:.3s;
+}
+
+nav a:hover{
+  color:var(--gold);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  background:
+    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.75)),
+    url('images/hero.jpg') center/cover no-repeat;
+}
+
+.hero-content{
+  max-width:900px;
+  padding:40px;
+}
+
+.hero-sub{
+  color:var(--gold);
+  letter-spacing:.35em;
+  font-size:.7rem;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(3rem,8vw,7rem);
+  font-weight:300;
+  line-height:1;
+  margin-bottom:25px;
+}
+
+.hero p{
+  max-width:600px;
+  margin:auto;
+  color:var(--muted);
+  font-size:1rem;
+  line-height:2;
+  margin-bottom:40px;
+}
+
+.hero-btn{
+  display:inline-block;
+  padding:16px 34px;
+  border:1px solid var(--border);
+  text-transform:uppercase;
+  letter-spacing:.2em;
+  font-size:.7rem;
+  transition:.3s;
+}
+
+.hero-btn:hover{
+  background:var(--gold);
+  color:#111;
+  border-color:var(--gold);
+}
+
+/* ================= PRODUCT LAYOUT ================= */
+
+.product-row{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  min-height:100vh;
+  align-items:center;
+}
+
+.product-row.reverse{
+  grid-template-columns:1fr 1.2fr;
+}
+
+.product-image{
+  height:100%;
+  overflow:hidden;
+}
+
+.product-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform 1.2s ease;
+}
+
+.product-row:hover img{
+  transform:scale(1.05);
+}
+
+.product-info{
+  padding:8vw;
+}
+
+.product-category{
+  font-size:.7rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:18px;
+}
+
+.product-info h2{
+  font-family:var(--display);
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  font-weight:300;
+  line-height:1;
+  margin-bottom:20px;
+}
+
+.product-info p{
+  color:var(--muted);
+  max-width:520px;
+  line-height:2;
+  margin-bottom:30px;
+}
+
+.price{
+  font-family:var(--display);
+  font-size:1.4rem;
+  color:var(--gold);
+  margin-bottom:25px;
+}
+
+.shop-link{
+  display:inline-block;
+  border-bottom:1px solid var(--gold);
+  padding-bottom:5px;
+  font-size:.7rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  transition:.3s;
+}
+
+.shop-link:hover{
+  opacity:.6;
+}
+
+/* ================= EDITORIAL ================= */
+
+.editorial{
+  height:85vh;
+  position:relative;
+  overflow:hidden;
+}
+
+.editorial img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.editorial-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(rgba(0,0,0,.2), rgba(0,0,0,.7));
+  display:flex;
+  align-items:flex-end;
+  padding:6vw;
+}
+
+.editorial-overlay h2{
+  font-family:var(--display);
+  font-size:clamp(2.5rem,6vw,5rem);
+  font-weight:300;
+  max-width:700px;
+  line-height:1;
+}
+
+/* ================= ABOUT ================= */
+
+.about{
+  padding:160px 6vw;
+  text-align:center;
+  max-width:900px;
+  margin:auto;
+}
+
+.about span{
+  color:var(--gold);
+  letter-spacing:.3em;
+  font-size:.7rem;
+  text-transform:uppercase;
+}
+
+.about h2{
+  font-family:var(--display);
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  font-weight:300;
+  margin:25px 0;
+}
+
+.about p{
+  color:var(--muted);
+  font-size:1.1rem;
+  line-height:2;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+  padding:70px 6vw;
+  border-top:1px solid rgba(255,255,255,.06);
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:25px;
+}
+
+footer h3{
+  font-family:var(--display);
+  font-size:2rem;
+  color:var(--gold);
+  font-weight:300;
+}
+
+footer p{
+  color:var(--muted);
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:900px){
+
+  nav{
+    display:none;
+  }
+
+  .product-row,
+  .product-row.reverse{
+    grid-template-columns:1fr;
+  }
+
+  .product-image{
+    height:70vh;
+  }
+
+  .product-info{
+    padding:70px 6vw;
+  }
+
+}
