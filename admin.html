@@ -3,85 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Curator Studio — Celestara</title>
+
+  <title>Curator Studio — Silai Atelier</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital@0;1&family=Outfit:wght@300;400&display=swap" rel="stylesheet" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="css/styles.css" />
 </head>
+
 <body>
   <canvas id="stars" aria-hidden="true"></canvas>
 
   <div class="admin-page">
+
+    <!-- HEADER -->
     <header class="admin-header">
+
       <a href="index.html" class="logo">
         <span class="logo-mark">✦</span>
-        <span class="logo-text">Celestara</span>
+        <span class="logo-text">Silai Atelier</span>
       </a>
+
       <h1>Curator Studio</h1>
-      <p>Upload new imaginary treasures in seconds — no backend required.</p>
+
+      <p>
+        Manage your tailoring collection — add new designs, update pricing,
+        and maintain your luxury lookbook.
+      </p>
+
     </header>
 
+    <!-- MAIN GRID -->
     <div class="admin-grid">
+
+      <!-- ADD PRODUCT -->
       <section class="admin-panel">
-        <h2>Add a wonder</h2>
+
+        <h2>Add a New Design</h2>
+
         <form id="product-form">
+
           <div class="form-group">
-            <label for="name">Product name</label>
-            <input type="text" id="name" required placeholder="e.g. Bottled Aurora — No. VIII" />
+            <label for="name">Design Name</label>
+            <input type="text" id="name" required placeholder="e.g. Executive Navy Bespoke Suit" />
           </div>
+
           <div class="form-group">
-            <label for="description">Legend (description)</label>
-            <textarea id="description" required placeholder="Tell the impossible story of this piece…"></textarea>
+            <label for="description">Description</label>
+            <textarea id="description" required placeholder="Describe the craftsmanship, fabric, and style…"></textarea>
           </div>
+
           <div class="form-group">
-            <label for="price">Price (USD)</label>
-            <input type="number" id="price" required min="0" step="1" placeholder="2847" />
+            <label for="price">Price (KES)</label>
+            <input type="number" id="price" required min="0" step="1" placeholder="18000" />
           </div>
+
           <div class="form-group">
             <label for="category">Category</label>
-            <select id="category"></select>
+            <select id="category">
+              <option value="menswear">Menswear</option>
+              <option value="womenswear">Women’s Couture</option>
+              <option value="new">New Arrivals</option>
+            </select>
           </div>
+
           <div class="form-group">
-            <label>Image</label>
+
+            <label>Design Image</label>
+
             <div class="drop-zone" id="drop-zone">
-              <p>Drop an image here, click to browse, or paste a URL below</p>
+              <p>Drop an image, click to upload, or paste a URL below</p>
+
               <input type="file" id="file-input" accept="image/*" hidden />
-              <img id="preview" alt="" hidden />
+
+              <img id="preview" alt="Preview" hidden />
             </div>
-            <input type="url" id="image-url" class="url-input" placeholder="https://… or upload above" />
+
+            <input
+              type="url"
+              id="image-url"
+              class="url-input"
+              placeholder="https://image-url.com"
+            />
+
           </div>
+
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Add to vault</button>
-            <button type="button" class="btn btn-secondary" id="reset-form">Clear form</button>
+
+            <button type="submit" class="btn btn-primary">
+              Save Design
+            </button>
+
+            <button type="button" class="btn btn-secondary" id="reset-form">
+              Clear Form
+            </button>
+
           </div>
+
         </form>
+
       </section>
 
+      <!-- COLLECTION LIST -->
       <section class="admin-panel">
-        <h2>Your collection</h2>
+
+        <h2>Lookbook Collection</h2>
+
         <div class="product-list" id="product-list"></div>
+
         <div class="form-actions admin-actions">
-          <button type="button" class="btn btn-secondary" id="export-json">Download products.json</button>
+
+          <button type="button" class="btn btn-secondary" id="export-json">
+            Export Catalog (JSON)
+          </button>
+
           <label class="btn btn-secondary import-label">
             Import JSON
             <input type="file" id="import-json" accept=".json" hidden />
           </label>
-          <button type="button" class="btn btn-danger" id="reset-all">Reset to defaults</button>
+
+          <button type="button" class="btn btn-danger" id="reset-all">
+            Reset Collection
+          </button>
+
         </div>
+
         <p class="admin-tip">
-          Tip: After downloading products.json, replace data/products.json in your repo and push to GitHub for a permanent catalog.
+          Tip: Export your catalog and upload it to your GitHub repo to keep your lookbook permanently updated.
         </p>
+
       </section>
+
     </div>
 
+    <!-- BACK LINK -->
     <p class="back-link">
-      <a href="index.html">← Back to the emporium</a>
+      <a href="index.html">← Back to Silai Atelier</a>
     </p>
+
   </div>
 
+  <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
   <script src="js/admin.js" type="module"></script>
+
 </body>
 </html>
