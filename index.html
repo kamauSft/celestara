@@ -7,129 +7,41 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #1C1A1A;
-      color: #F9F9F9;
+      margin:0;
+      font-family:'Inter',sans-serif;
+      background:linear-gradient(180deg,#0d0d0d,#1C1A1A 60%,#2a1f1f);
+      color:#F9F9F9;
     }
     header {
-      position: sticky;
-      top: 0;
-      background: rgba(28,26,26,0.9);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 40px;
-      z-index: 1000;
+      position:sticky;top:0;
+      background:rgba(28,26,26,0.95);
+      backdrop-filter:blur(6px);
+      display:flex;justify-content:space-between;align-items:center;
+      padding:15px 40px;z-index:1000;
     }
-    header h1 {
-      font-family: 'Playfair Display', serif;
-      color: #D4AF37;
-      margin: 0;
-    }
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #F9F9F9;
-      font-weight: 500;
-    }
-    .hero {
-      text-align: center;
-      padding: 120px 20px;
-    }
-    .hero h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5em;
-      margin-bottom: 20px;
-    }
-    .hero p {
-      font-size: 1.2em;
-      margin-bottom: 30px;
-    }
-    .cta {
-      background-color: #D4AF37;
-      color: #1C1A1A;
-      padding: 15px 30px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      padding: 60px 20px;
-      background-color: #222;
-    }
-    .stat-box {
-      border: 2px solid #D4AF37;
-      padding: 20px;
-      text-align: center;
-      font-family: 'Playfair Display', serif;
-    }
-    .story {
-      display: flex;
-      gap: 40px;
-      padding: 80px 40px;
-      align-items: center;
-    }
-    .story-text-box h2 {
-      font-family: 'Playfair Display', serif;
-      color: #D4AF37;
-    }
-    .story-text-box p:first-child {
-      font-style: italic;
-      font-size: 1.2em;
-      color: #D4AF37;
-    }
-    .creations-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 40px;
-    }
-    .creation-card {
-      background-color: #222;
-      border: 2px solid #D4AF37;
-      padding: 30px;
-      text-align: center;
-      font-family: 'Playfair Display', serif;
-    }
-    .commission-link {
-      display: inline-block;
-      margin: 20px;
-      color: #D4AF37;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .footer {
-      background-color: #111;
-      text-align: center;
-      padding: 30px;
-      font-size: 0.9em;
-    }
-    .whatsapp-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #25D366;
-      color: #fff;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 28px;
-      animation: pulse 2s infinite;
-      text-decoration: none;
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.7); }
-      70% { box-shadow: 0 0 0 20px rgba(37,211,102,0); }
-      100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
-    }
+    header h1 {font-family:'Playfair Display',serif;color:#D4AF37;margin:0;}
+    nav a {margin:0 15px;text-decoration:none;color:#F9F9F9;font-weight:500;transition:color 0.3s;}
+    nav a:hover {color:#D4AF37;}
+    nav .admin {border:1px solid #D4AF37;padding:6px 12px;border-radius:4px;color:#D4AF37;}
+    .hero {text-align:center;padding:120px 20px;animation:fadeIn 1.5s ease;}
+    .hero h2 {font-family:'Playfair Display',serif;font-size:2.8em;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;}
+    .hero p {font-size:1.2em;margin-bottom:30px;}
+    .cta {background:#D4AF37;color:#1C1A1A;padding:15px 30px;border:none;font-weight:bold;cursor:pointer;border-radius:4px;transition:all 0.3s;}
+    .cta:hover {background:#bfa136;transform:scale(1.05);}
+    .stats {display:flex;justify-content:center;gap:40px;padding:60px 20px;background:#111;}
+    .stat-box {border:2px solid #D4AF37;padding:20px;text-align:center;font-family:'Playfair Display',serif;transition:all 0.3s;}
+    .stat-box:hover {background:#222;transform:translateY(-5px);}
+    .story {display:flex;gap:40px;padding:80px 40px;align-items:center;}
+    .story-text-box h2 {font-family:'Playfair Display',serif;color:#D4AF37;}
+    .story-text-box p:first-child {font-style:italic;font-size:1.2em;color:#D4AF37;}
+    .creations-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:40px;}
+    .creation-card {background:#222;border:2px solid #D4AF37;padding:30px;text-align:center;font-family:'Playfair Display',serif;transition:all 0.3s;}
+    .creation-card:hover {transform:translateY(-5px);box-shadow:0 0 15px rgba(212,175,55,0.6);}
+    .commission-link {display:inline-block;margin:20px;color:#D4AF37;text-decoration:none;font-weight:bold;}
+    .footer {background:#111;text-align:center;padding:30px;font-size:0.9em;border-top:1px solid #D4AF37;}
+    .whatsapp-btn {position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;border-radius:50%;width:60px;height:60px;display:flex;justify-content:center;align-items:center;font-size:28px;animation:glow 2s infinite;text-decoration:none;}
+    @keyframes glow {0%{box-shadow:0 0 5px #25D366;}50%{box-shadow:0 0 20px #25D366;}100%{box-shadow:0 0 5px #25D366;}}
+    @keyframes fadeIn {from{opacity:0;}to{opacity:1;}}
   </style>
 </head>
 <body>
@@ -140,7 +52,7 @@
     <a href="#gallery">Gallery</a>
     <a href="#story">Our Story</a>
     <a href="#contact">Contact</a>
-    <a href="#admin">Admin Dashboard</a>
+    <a href="admin.html" class="admin">Admin Dashboard</a>
   </nav>
 </header>
 
@@ -165,19 +77,12 @@
     <p>We celebrate the journey from raw thread to a finished masterpiece, ensuring that the final piece doesn't just fit your body—it echoes your story.</p>
   </div>
   <div class="story-image-box">
-    <img src="images/atelier.jpg" alt="Luxury tailoring atelier" style="max-width:100%; border:2px solid #D4AF37;">
+    <img src="images/atelier.jpg" alt="Luxury tailoring atelier" style="max-width:100%;border:2px solid #D4AF37;">
   </div>
 </section>
 
 <section id="gallery">
-  <h2 style="text-align:center; font-family:'Playfair Display', serif; color:#D4AF37;">Recent Creations</h2>
-  <div class="creations-grid">
-    <div class="creation-card">WOMEN · FORMAL<br>Evening Gown</div>
-    <div class="creation-card">MEN · CEREMONIAL<br>Wedding Suit</div>
-    <div class="creation-card">MEN · CLASSIC<br>Safari Suit</div>
-    <div class="creation-card">WOMEN · EVENING<br>Cocktail Dress</div>
-  </div>
-  <h2 style="text-align:center; font-family:'Playfair Display', serif; color:#D4AF37;">Creations by Category</h2>
+  <h2 style="text-align:center;font-family:'Playfair Display',serif;color:#D4AF37;">Creations by Category</h2>
   <div class="creations-grid">
     <div class="creation-card">MEN · CORPORATE<br>Business Suit</div>
     <div class="creation-card">UNISEX · HERITAGE<br>Traditional Wear</div>
@@ -186,11 +91,6 @@
   </div>
   <p style="text-align:center;">Each creation is unique. Contact us to commission your piece.</p>
   <a href="#contact" class="commission-link">COMMISSION A PIECE →</a>
-</section>
-
-<section id="admin" style="padding:40px; text-align:center;">
-  <h2 style="font-family:'Playfair Display', serif; color:#D4AF37;">Admin Dashboard</h2>
-  <p>[Admin upload interface placeholder — Image URL, Title, Category, Description, Publish Design]</p>
 </section>
 
 <footer id="contact" class="footer">
