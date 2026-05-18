@@ -3,136 +3,313 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Celestara — an imaginary luxury emporium of impossible wonders." />
-  <link rel="canonical" href="https://kamausft.github.io/celestara/" />
-  <title>Celestara — Imaginary Luxury Emporium</title>
+
+  <title>Silai Atelier — Luxury Bespoke Tailoring</title>
+
+  <meta
+    name="description"
+    content="Luxury bespoke tailoring for men and women in Rimpa, Kiserian. Handcrafted couture, premium fits, and timeless elegance."
+  />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
-  <base href="./" />
-  <link rel="stylesheet" href="css/styles.css?v=2" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/styles.css?v=3" />
 </head>
+
 <body>
-  <div id="preloader" class="preloader" aria-hidden="true">
-    <div class="preloader-inner">
-      <span class="logo-mark preloader-mark">✦</span>
-      <p class="preloader-text">Celestara</p>
-      <div class="preloader-bar"><span></span></div>
-    </div>
-  </div>
 
-  <canvas id="stars" aria-hidden="true"></canvas>
-  <div class="aurora" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+  <!-- BACKGROUND EFFECTS -->
+  <canvas id="stars"></canvas>
+  <div class="aurora"></div>
+  <div class="grain"></div>
 
+  <!-- HEADER -->
   <header class="site-header">
+
     <nav class="nav">
+
       <a href="#" class="logo">
-        <span class="logo-mark">✦</span>
-        <span class="logo-text">Celestara</span>
+        <span class="logo-text">Silai Atelier</span>
       </a>
+
       <div class="nav-links">
-        <a href="#collection">Collection</a>
-        <a href="#marquee">Heritage</a>
-        <a href="#about">Our Myth</a>
-        <a href="admin.html" class="nav-admin">Curator Studio</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#story">Our Story</a>
+        <a href="#contact">Contact</a>
+
+        <a href="admin.html" class="nav-admin">
+          Admin Dashboard
+        </a>
       </div>
+
     </nav>
 
-    <div class="hero">
+    <!-- HERO -->
+    <section class="hero">
+
       <div class="hero-frame">
-        <div class="hero-corner hero-corner--tl"></div>
-        <div class="hero-corner hero-corner--tr"></div>
-        <div class="hero-corner hero-corner--bl"></div>
-        <div class="hero-corner hero-corner--br"></div>
-        <p class="hero-eyebrow reveal">Est. in dreams · MMXVI</p>
-        <h1 class="reveal reveal-delay-1">
-          <span class="shimmer">Where imagination</span><br />
-          <em>becomes heirloom</em>
-        </h1>
-        <p class="hero-sub reveal reveal-delay-2">
-          An imaginary emporium of impossible wonders — explore, adore, and never explain the shipping.
+
+        <p class="hero-eyebrow reveal">
+          Luxury Bespoke Tailoring · Rimpa, Kiserian
         </p>
+
+        <h1 class="hero-title reveal reveal-delay-1">
+          Impeccable Fit.<br />
+          Absolute Luxury.<br />
+          Tailored For You.
+        </h1>
+
+        <p class="hero-sub reveal reveal-delay-2">
+          Bespoke custom-made menswear and women’s couture,
+          handcrafted right here in Rimpa, Kiserian.
+        </p>
+
         <div class="hero-actions reveal reveal-delay-3">
-          <a href="#collection" class="btn btn-primary">Enter the Vault</a>
-          <a href="admin.html" class="btn btn-ghost">Curate a wonder</a>
+
+          <a
+            href="https://wa.me/254791307166"
+            target="_blank"
+            class="btn btn-primary"
+          >
+            Book a Fitting via WhatsApp
+          </a>
+
+          <a href="#gallery" class="btn btn-ghost">
+            Explore Lookbook
+          </a>
+
         </div>
+
       </div>
-      <div class="hero-orbs" aria-hidden="true">
-        <span class="orb orb-1"></span>
-        <span class="orb orb-2"></span>
-        <span class="orb orb-3"></span>
-      </div>
-    </div>
+
+    </section>
+
   </header>
 
-  <section class="stats reveal" aria-label="Emporium statistics">
-    <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Impossible items</span></div>
-    <div class="stat"><span class="stat-num">0</span><span class="stat-label">Shipping complaints</span></div>
-    <div class="stat"><span class="stat-num">★★★★★</span><span class="stat-label">Dream reviews</span></div>
+  <!-- STATS -->
+  <section class="stats">
+
+    <div class="stat reveal">
+      <span class="stat-num">2+</span>
+      <span class="stat-label">Years Experience</span>
+    </div>
+
+    <div class="stat reveal">
+      <span class="stat-num">15+</span>
+      <span class="stat-label">Happy Clients</span>
+    </div>
+
+    <div class="stat reveal">
+      <span class="stat-num">20+</span>
+      <span class="stat-label">Garments Delivered</span>
+    </div>
+
   </section>
 
-  <div id="marquee" class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>MOON-THREAD</span><span class="dot">✦</span>
-      <span>BOTTLED AURORA</span><span class="dot">✦</span>
-      <span>VELVET WHISPER</span><span class="dot">✦</span>
-      <span>STARLIGHT RESERVE</span><span class="dot">✦</span>
-      <span>PHANTOM PARFUM</span><span class="dot">✦</span>
-      <span>MOON-THREAD</span><span class="dot">✦</span>
-      <span>BOTTLED AURORA</span><span class="dot">✦</span>
-      <span>VELVET WHISPER</span><span class="dot">✦</span>
-    </div>
-  </div>
-
+  <!-- LOOKBOOK -->
   <main>
-    <section id="collection" class="collection">
+
+    <section id="gallery" class="collection">
+
       <div class="section-head reveal">
-        <span class="section-tag">The Vault</span>
-        <h2>Curated Wonders</h2>
-        <p class="section-desc">Each piece exists only in legend — until you decide otherwise.</p>
-        <div class="ornament-line"></div>
+
+        <span class="section-tag">
+          Luxury Lookbook
+        </span>
+
+        <h2>Crafted Collections</h2>
+
+        <p class="section-desc">
+          Premium menswear and women’s couture tailored with
+          precision, elegance, and timeless African luxury.
+        </p>
+
       </div>
-      <div class="filters reveal" id="filters"></div>
-      <div class="product-grid" id="product-grid"></div>
+
+      <!-- FILTERS -->
+      <div class="filters reveal">
+
+        <button class="filter-btn active">
+          All
+        </button>
+
+        <button class="filter-btn">
+          Menswear
+        </button>
+
+        <button class="filter-btn">
+          Women’s Couture
+        </button>
+
+        <button class="filter-btn">
+          New Arrivals
+        </button>
+
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="product-grid">
+
+        <!-- CARD -->
+        <div class="product-card reveal">
+
+          <img
+            src="images/mensuit.jpg"
+            alt="Luxury Menswear"
+          />
+
+          <div class="product-overlay">
+
+            <span class="product-category">
+              Menswear
+            </span>
+
+            <h3>
+              Executive Bespoke Suit
+            </h3>
+
+            <p class="product-price">
+              From KES 18,000
+            </p>
+
+            <a
+              href="https://wa.me/254791307166"
+              target="_blank"
+              class="card-btn"
+            >
+              Inquire via WhatsApp
+            </a>
+
+          </div>
+
+        </div>
+
+        <!-- CARD -->
+        <div class="product-card reveal">
+
+          <img
+            src="images/women.jpg"
+            alt="Women's Couture"
+          />
+
+          <div class="product-overlay">
+
+            <span class="product-category">
+              Women’s Couture
+            </span>
+
+            <h3>
+              Elegant Evening Couture
+            </h3>
+
+            <p class="product-price">
+              From KES 15,000
+            </p>
+
+            <a
+              href="https://wa.me/254791307166"
+              target="_blank"
+              class="card-btn"
+            >
+              Inquire via WhatsApp
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
     </section>
 
-    <section class="quotes">
-      <blockquote class="quote-card reveal">
-        <p>“I wore the Moon-Thread Scarf to a party that hadn’t happened yet. Everyone complimented my nostalgia.”</p>
-        <cite>— A satisfied dreamer</cite>
-      </blockquote>
-      <blockquote class="quote-card reveal">
-        <p>“The Clock That Remembers Tomorrow arrived yesterday. Highly recommend for Tuesdays.”</p>
-        <cite>— Time-adjacent patron</cite>
-      </blockquote>
+    <!-- OUR STORY -->
+    <section id="story" class="about">
+
+      <div class="about-grid">
+
+        <div class="about-card reveal">
+
+          <span class="section-tag">
+            Our Story
+          </span>
+
+          <h2>
+            Crafted with precision & identity
+          </h2>
+
+          <p class="gold-intro">
+            The stitches that started as an idea become
+            the seams that define your style.
+          </p>
+
+          <p>
+            Before the needle ever meets the fabric,
+            there is a vision of how a garment should move,
+            breathe, and command a room.
+          </p>
+
+          <p>
+            From our studio in Rimpa, Silai Atelier brings
+            meticulous hand-guided precision to bespoke
+            menswear and women's couture.
+          </p>
+
+          <p>
+            We celebrate the journey from raw thread
+            to a finished masterpiece, ensuring that
+            the final piece doesn’t just fit your body —
+            it echoes your story.
+          </p>
+
+        </div>
+
+        <div class="about-image reveal">
+
+          <img
+            src="images/atelier.jpg"
+            alt="Luxury tailoring atelier"
+          />
+
+        </div>
+
+      </div>
+
     </section>
 
-    <section id="about" class="about">
-      <div class="about-card reveal">
-        <span class="section-tag">Our Myth</span>
-        <h2>Born between starlight &amp; silk</h2>
-        <p>Celestara is not a store — it is a <em>whisper</em> from a parallel boutique that never opened. We trade in moon-thread scarves, bottled auroras, and clocks that remember tomorrow. Every listing is fiction dressed in gold leaf.</p>
-      </div>
-    </section>
   </main>
 
-  <footer class="site-footer">
-    <span class="logo-mark">✦</span>
-    <p class="footer-brand">Celestara Imaginary Emporium</p>
-    <p class="footer-tag">All wonders fictional · All vibes immaculate</p>
-    <p class="footer-live">
-      <a href="https://kamausft.github.io/celestara/" rel="noopener">kamausft.github.io/celestara</a>
+  <!-- FLOATING WHATSAPP -->
+  <a
+    href="https://wa.me/254791307166"
+    target="_blank"
+    class="floating-whatsapp"
+  >
+    <span>Chat with Us</span>
+  </a>
+
+  <!-- FOOTER -->
+  <footer id="contact" class="site-footer">
+
+    <h3>Silai Atelier</h3>
+
+    <p>
+      Rimpa, Kiserian, Kajiado County, Kenya
     </p>
-    <a href="admin.html" class="footer-cta">Add new treasures →</a>
+
+    <p>
+      Exclusively available via WhatsApp
+      +254 791 307 166
+    </p>
+
   </footer>
 
-  <dialog id="product-modal" class="modal">
-    <button class="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-content" id="modal-content"></div>
-  </dialog>
+  <script src="js/store.js?v=3"></script>
 
-  <script src="js/store.js?v=2" type="module"></script>
 </body>
 </html>
