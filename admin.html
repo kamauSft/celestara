@@ -9,21 +9,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body>
-  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <!-- BACKGROUND -->
+  <canvas id="stars"></canvas>
 
   <div class="admin-page">
-
-    <!-- LUXURY TOP BAR -->
-    <div class="admin-topbar">
-      <h2>Silai Atelier Admin</h2>
-      <p>Luxury Collection Management System</p>
-    </div>
 
     <!-- HEADER -->
     <header class="admin-header">
@@ -36,15 +32,15 @@
       <h1>Curator Studio</h1>
 
       <p>
-        Manage your tailoring collection — add, edit, and refine your luxury designs with precision.
+        Luxury tailoring dashboard — create, edit, and manage your bespoke collection.
       </p>
 
     </header>
 
-    <!-- MAIN GRID -->
+    <!-- GRID -->
     <div class="admin-grid">
 
-      <!-- ADD / EDIT PRODUCT -->
+      <!-- FORM -->
       <section class="admin-panel">
 
         <h2>Add / Edit Design</h2>
@@ -53,12 +49,12 @@
 
           <div class="form-group">
             <label for="name">Design Name</label>
-            <input type="text" id="name" required placeholder="e.g. Executive Navy Bespoke Suit" />
+            <input type="text" id="name" required placeholder="Executive Navy Bespoke Suit" />
           </div>
 
           <div class="form-group">
             <label for="description">Description</label>
-            <textarea id="description" required placeholder="Describe craftsmanship, fabric, and tailoring details…"></textarea>
+            <textarea id="description" required placeholder="Craftsmanship, fabric, finishing..."></textarea>
           </div>
 
           <div class="form-group">
@@ -75,16 +71,14 @@
             </select>
           </div>
 
-          <!-- IMAGE UPLOAD -->
+          <!-- IMAGE -->
           <div class="form-group">
-
             <label>Design Image</label>
 
             <div class="drop-zone" id="drop-zone">
-              <p>Drop image, click to upload, or paste a URL</p>
+              <p>Drop image, click to upload, or paste URL</p>
 
               <input type="file" id="file-input" accept="image/*" hidden />
-
               <img id="preview" alt="Preview" hidden />
             </div>
 
@@ -94,11 +88,9 @@
               class="url-input"
               placeholder="https://image-url.com"
             />
-
           </div>
 
           <div class="form-actions">
-
             <button type="submit" class="btn btn-primary">
               Save Design
             </button>
@@ -106,14 +98,13 @@
             <button type="button" class="btn btn-secondary" id="reset-form">
               Clear Form
             </button>
-
           </div>
 
         </form>
 
       </section>
 
-      <!-- COLLECTION LIST -->
+      <!-- LIST -->
       <section class="admin-panel">
 
         <h2>Lookbook Collection</h2>
@@ -138,14 +129,14 @@
         </div>
 
         <p class="admin-tip">
-          Tip: Export your catalog and upload it to your GitHub repo to permanently save your lookbook.
+          Export your catalog and upload it to GitHub to permanently save your collection.
         </p>
 
       </section>
 
     </div>
 
-    <!-- BACK LINK -->
+    <!-- BACK -->
     <p class="back-link">
       <a href="index.html">← Back to Silai Atelier</a>
     </p>
@@ -155,7 +146,8 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <script src="js/admin.js" type="module"></script>
+  <!-- SCRIPT (IMPORTANT FIX) -->
+  <script type="module" src="js/admin.js"></script>
 
 </body>
 </html>
