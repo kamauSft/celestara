@@ -2,126 +2,176 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Curator Studio — Silai Atelier</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2 family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      background-color: #0e0e0e;
-      color: #f5f5f5;
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
-    .admin-page {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
+
+    :root{
+      --gold:#D4AF37;
+      --dark:#0e0e0e;
+      --soft:#171717;
+      --text:#f5f5f5;
+      --muted:#b8b8b8;
     }
-    .admin-header {
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-      padding-bottom: 20px;
-      margin-bottom: 40px;
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--dark);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    /* ================= RESTORED HEADER STYLE ================= */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+
       display: flex;
-      flex-direction: column;
-    }
-    .logo {
-      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: #D4AF37;
-      font-family: 'Playfair Display', serif;
+
+      padding: 24px 8%;
+
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .logo {
+      font-family: 'Playfair Display',serif;
       font-size: 1.8rem;
-      font-weight: bold;
-      margin-bottom: 10px;
       letter-spacing: 2px;
+      color: var(--gold);
+      text-decoration: none;
     }
-    .admin-header h1 {
-      font-family: 'Playfair Display', serif;
-      color: #f5f5f5;
-      margin: 5px 0;
+
+    .studio-title {
+      font-family: 'Inter', sans-serif;
       font-size: 2.2rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
     }
-    .admin-header p {
-      color: #b8b8b8;
-      margin: 0;
-      font-weight: 300;
+
+    .studio-tagline {
+      color: var(--muted);
+      font-size: .95rem;
+      font-weight: 400;
+      text-align: right;
     }
+
+    /* ================= MAIN CONTAINER WRAPPER ================= */
+    .admin-container {
+      max-width: 1400px;
+      margin: 140px auto 60px; /* Pushes content below the fixed header */
+      padding: 0 8%;
+    }
+
+    .back-nav {
+      margin-bottom: 30px;
+    }
+
+    .back-nav a {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: .3s;
+    }
+
+    .back-nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* ================= TWO-COLUMN GRID LAYOUT ================= */
     .admin-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
     }
-    @media (max-width: 900px) {
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+
     .admin-panel {
-      background: #171717;
-      border: 1px solid rgba(212, 175, 55, 0.15);
+      background: var(--soft);
+      border: 1px solid rgba(212,175,55,.12);
       border-radius: 24px;
-      padding: 35px;
+      padding: 40px;
     }
+
     .admin-panel h2 {
       font-family: 'Playfair Display', serif;
-      color: #D4AF37;
-      margin-top: 0;
+      color: var(--gold);
+      font-size: 1.8rem;
+      margin-bottom: 25px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
       padding-bottom: 15px;
-      font-size: 1.8rem;
     }
+
+    /* ================= MANAGEMENT FORM FIELDS ================= */
     .form-group {
       margin-bottom: 22px;
     }
+
     .form-group label {
       display: block;
       margin-bottom: 8px;
-      color: #D4AF37;
+      color: var(--gold);
       font-size: 0.9rem;
       letter-spacing: 1px;
     }
+
     .form-group input, .form-group textarea, .form-group select {
       width: 100%;
       padding: 14px;
-      background: #0e0e0e;
+      background: var(--dark);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 8px;
-      color: #f5f5f5;
-      box-sizing: border-box;
+      color: var(--text);
       font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
+      box-sizing: border-box;
     }
+
     .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
       outline: none;
-      border-color: #D4AF37;
+      border-color: var(--gold);
     }
+
+    /* ================= DRAG AND DROP CONTAINER ================= */
     .drop-zone {
       cursor: pointer;
-      border: 2px dashed #D4AF37;
+      border: 2px dashed var(--gold);
       padding: 30px 20px;
       text-align: center;
       border-radius: 12px;
-      background: rgba(14, 14, 14, 0.6);
+      background: rgba(0,0,0,0.3);
       transition: all 0.3s ease;
     }
+
     .drop-zone:hover {
       background: rgba(212, 175, 55, 0.04);
     }
+
     .url-input {
       margin-top: 12px;
     }
+
     .form-actions {
       display: flex;
       gap: 15px;
       margin-top: 30px;
     }
+
+    /* ================= DASHBOARD ACTIONS ================= */
     .btn {
       padding: 14px 28px;
       border-radius: 50px;
@@ -132,98 +182,124 @@
       font-size: 0.9rem;
       border: none;
     }
+
     .btn-primary {
-      background: #D4AF37;
-      color: #0e0e0e;
+      background: var(--gold);
+      color: #111;
     }
+
     .btn-primary:hover {
       background: #e7c04b;
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
     }
+
     .btn-secondary {
       background: rgba(255, 255, 255, 0.06);
-      color: #f5f5f5;
+      color: var(--text);
       border: 1px solid rgba(255,255,255,0.05);
     }
+
     .btn-secondary:hover {
       background: rgba(255, 255, 255, 0.12);
     }
+
     .btn-danger {
       background: #b33939;
       color: #fff;
     }
+
     .btn-danger:hover {
       background: #d63031;
     }
+
+    /* ================= LIVE LOOKBOOK MODULE ================= */
     .product-list {
       display: flex;
       flex-direction: column;
       gap: 15px;
-      max-height: 450px;
+      max-height: 480px;
       overflow-y: auto;
       margin-bottom: 20px;
       padding-right: 5px;
     }
+
     .list-item {
       display: flex;
       align-items: center;
       gap: 15px;
-      background: #0e0e0e;
+      background: var(--dark);
       padding: 12px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.04);
     }
+
     .list-item img {
       width: 60px;
       height: 60px;
       object-fit: cover;
       border-radius: 8px;
     }
+
     .list-item-details {
       flex: 1;
     }
+
     .list-item-details h4 {
       margin: 0 0 4px 0;
       font-family: 'Playfair Display', serif;
-      color: #f5f5f5;
+      color: var(--text);
     }
+
     .list-item-details p {
       margin: 0;
       font-size: 0.8rem;
-      color: #b8b8b8;
+      color: var(--muted);
       text-transform: uppercase;
     }
+
     .admin-tip {
       font-size: 0.85rem;
       color: #666;
       margin-top: 20px;
       font-style: italic;
     }
-    .back-link {
-      margin-top: 40px;
-    }
-    .back-link a {
-      color: #b8b8b8;
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s ease;
-    }
-    .back-link a:hover {
-      color: #D4AF37;
+
+    /* ================= RESPONSIVE ADAPTATIONS ================= */
+    @media (max-width: 900px) {
+      header {
+        padding: 20px 6%;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .studio-tagline {
+        text-align: center;
+      }
+      .admin-container {
+        margin-top: 220px;
+        padding: 0 6%;
+      }
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="admin-page">
+  <header>
+    <a href="index.html" class="logo">Silai Atelier</a>
+    <div class="studio-title">Curator Studio</div>
+    <div class="studio-tagline">Luxury tailoring dashboard — manage your fashion collection</div>
+  </header>
 
-    <header class="admin-header">
-      <a href="index.html" class="logo">Silai Atelier</a>
-      <h1>Curator Studio</h1>
-      <p>Luxury tailoring dashboard — manage your fashion collection</p>
-    </header>
+  <div class="admin-container">
+    
+    <div class="back-nav">
+      <a href="index.html">← Back to Silai Atelier</a>
+    </div>
 
     <div class="admin-grid">
 
@@ -231,7 +307,6 @@
         <h2>Add / Edit Design</h2>
 
         <form id="product-form">
-
           <div class="form-group">
             <label for="name">Design Name</label>
             <input type="text" id="name" required placeholder="Executive Navy Suit" />
@@ -262,7 +337,6 @@
 
           <div class="form-group">
             <label>Design Image</label>
-
             <div class="drop-zone" id="drop-zone">
               <div id="drop-zone-prompt">
                 <p style="margin: 0; font-weight: 500;">Click to upload local photo</p>
@@ -274,19 +348,13 @@
 
             <div style="text-align: center; margin: 12px 0; color: #555; font-size: 0.85rem;">— OR —</div>
 
-            <input
-              type="text"
-              id="image-url"
-              class="url-input"
-              placeholder="Or paste local path (e.g. images/suit.jpg)"
-            />
+            <input type="text" id="image-url" class="url-input" placeholder="Or paste local path (e.g. images/suit.jpg)" />
           </div>
 
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save Design</button>
             <button type="reset" class="btn btn-secondary" id="reset-form">Clear</button>
           </div>
-
         </form>
       </section>
 
@@ -303,10 +371,6 @@
       </section>
 
     </div>
-
-    <p class="back-link">
-      <a href="index.html">← Back to Silai Atelier Storefront</a>
-    </p>
   </div>
 
   <script>
@@ -322,10 +386,8 @@
 
       let uploadedImageBase64 = "";
 
-      // Open file dialog on drop-zone click
       dropZone.addEventListener('click', () => fileInput.click());
 
-      // Read local file upload
       fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -335,13 +397,12 @@
             previewImg.src = uploadedImageBase64;
             previewImg.style.display = "block";
             dropZonePrompt.style.display = "none";
-            imageUrlInput.value = ""; // Clear URL field to avoid conflicts
+            imageUrlInput.value = "";
           };
           reader.readAsDataURL(file);
         }
       });
 
-      // Render items to the admin panel listing list
       function renderAdminCollection() {
         productList.innerHTML = "";
         const products = JSON.parse(localStorage.getItem("products") || "[]");
@@ -366,10 +427,8 @@
         });
       }
 
-      // Handle Form Submit
       productForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const finalImage = uploadedImageBase64 || imageUrlInput.value.trim();
 
         if (!finalImage) {
@@ -389,7 +448,6 @@
         currentProducts.push(newProduct);
         localStorage.setItem("products", JSON.stringify(currentProducts));
 
-        // Reset values
         productForm.reset();
         uploadedImageBase64 = "";
         previewImg.style.display = "none";
@@ -398,7 +456,6 @@
         renderAdminCollection();
       });
 
-      // Global scoped delete function attached to index window
       window.deleteProduct = (index) => {
         const currentProducts = JSON.parse(localStorage.getItem("products") || "[]");
         currentProducts.splice(index, 1);
@@ -406,7 +463,6 @@
         renderAdminCollection();
       };
 
-      // Reset entire session tracking collection
       resetAllBtn.addEventListener('click', () => {
         if (confirm("Are you sure you want to clear your uploaded lookbook collection memory?")) {
           localStorage.removeItem("products");
@@ -414,7 +470,6 @@
         }
       });
 
-      // Initial layout execution
       renderAdminCollection();
     });
   </script>
