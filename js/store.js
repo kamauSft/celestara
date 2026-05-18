@@ -13,7 +13,7 @@ let activeCategory = "All";
 function formatPrice(n) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency: "KES",
     maximumFractionDigits: 0,
   }).format(n);
 }
@@ -38,7 +38,9 @@ function initReveal() {
     },
     { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
   );
+
   els.forEach((el) => io.observe(el));
+
   document.querySelectorAll(".hero .reveal").forEach((el) => {
     setTimeout(() => el.classList.add("visible"), 400);
   });
@@ -46,6 +48,7 @@ function initReveal() {
 
 function initCursor() {
   if (!cursorGlow || window.matchMedia("(pointer: coarse)").matches) return;
+
   document.addEventListener("mousemove", (e) => {
     cursorGlow.style.left = `${e.clientX}px`;
     cursorGlow.style.top = `${e.clientY}px`;
@@ -54,6 +57,7 @@ function initCursor() {
 
 function renderFilters(categories) {
   const all = ["All", ...categories];
+
   filtersEl.innerHTML = all
     .map(
       (cat) =>
@@ -77,7 +81,11 @@ function renderGrid() {
       : products.filter((p) => p.category === activeCategory);
 
   if (!filtered.length) {
-    grid.innerHTML = `<p class="empty-state reveal visible">The vault awaits your first wonder.<br><a href="admin.html">Open Curator Studio →</a></p>`;
+    grid.innerHTML = `
+      <p class="empty-state reveal visible">
+        No designs available yet.<br>
+        <a href="admin.html">Open Curator Studio →</a>
+      </p>`;
     return;
   }
 
@@ -89,13 +97,15 @@ function renderGrid() {
         <img src="${p.image}" alt="${p.name}" loading="lazy" />
         <span class="product-badge">${p.category}</span>
       </div>
+
       <div class="product-body">
         <p class="product-category">${p.category}</p>
         <h3>${p.name}</h3>
         <p>${p.description}</p>
+
         <div class="product-footer">
           <span class="product-price">${formatPrice(p.price)}</span>
-          <span class="product-cta">View legend →</span>
+          <span class="product-cta">View design →</span>
         </div>
       </div>
     </article>`
@@ -118,6 +128,7 @@ function renderGrid() {
     },
     { threshold: 0.1 }
   );
+
   cards.forEach((c) => io.observe(c));
 }
 
@@ -133,10 +144,12 @@ function openModal(id) {
       <p class="product-price">${formatPrice(p.price)}</p>
       <p>${p.description}</p>
     </div>`;
+
   modal.showModal();
 }
 
 modal.querySelector(".modal-close").addEventListener("click", () => modal.close());
+
 modal.addEventListener("click", (e) => {
   if (e.target === modal) modal.close();
 });
@@ -144,12 +157,14 @@ modal.addEventListener("click", (e) => {
 function initStars() {
   const canvas = document.getElementById("stars");
   if (!canvas) return;
+
   const ctx = canvas.getContext("2d");
   let w, h, stars;
 
   function resize() {
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
+
     stars = Array.from({ length: Math.floor(w * 0.12) }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
@@ -162,17 +177,22 @@ function initStars() {
 
   function draw() {
     ctx.clearRect(0, 0, w, h);
+
     for (const s of stars) {
       s.a += s.speed;
       s.x += s.drift;
+
       if (s.x < 0) s.x = w;
       if (s.x > w) s.x = 0;
+
       const opacity = 0.25 + Math.sin(s.a) * 0.35;
+
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(212, 175, 55, ${opacity})`;
       ctx.fill();
     }
+
     requestAnimationFrame(draw);
   }
 
@@ -186,8 +206,11 @@ async function init() {
   initCursor();
   initStars();
   initReveal();
+
   products = await loadProducts();
+
   const categories = [...new Set(products.map((p) => p.category))].sort();
+
   renderFilters(categories);
   renderGrid();
 }
