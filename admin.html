@@ -71,17 +71,23 @@
           <div class="form-group">
             <label>Design Image</label>
 
-            <div class="drop-zone" id="drop-zone">
-              <p>Click to upload or paste URL</p>
-              <input type="file" id="file-input" accept="image/*" />
-              <img id="preview" alt="Preview" hidden />
+            <!-- Enhanced Interactive Drop Zone -->
+            <div class="drop-zone" id="drop-zone" style="cursor: pointer; border: 2px dashed #D4AF37; padding: 25px; text-align: center; border-radius: 8px; background: rgba(28, 26, 26, 0.6); transition: background 0.3s ease;">
+              <div id="drop-zone-prompt">
+                <p style="margin: 0; color: #F9F9F9; font-weight: 500;">Click to upload local photo</p>
+                <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #D4AF37;">Supports PNG, JPG, JPEG</p>
+              </div>
+              <input type="file" id="file-input" accept="image/*" style="display: none;" />
+              <img id="preview" alt="Preview Thumbnail" style="max-height: 180px; max-width: 100%; margin-top: 15px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);" hidden />
             </div>
+
+            <div style="text-align: center; margin: 12px 0; color: #666; font-size: 0.9em; font-style: italic;">— OR —</div>
 
             <input
               type="url"
               id="image-url"
               class="url-input"
-              placeholder="Or paste image URL (e.g. images/women_evening/gold_evening_gown.jpg)"
+              placeholder="Paste custom path (e.g. images/ankara/design1.jpg)"
             />
           </div>
 
