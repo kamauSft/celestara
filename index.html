@@ -216,7 +216,17 @@
       margin:18px 0 25px;
     }
 
-    .story-text p{
+    /* Applied requested single introduction sentence styling constraint */
+    .story-introduction-italicized {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 1.35rem !important;
+      line-height: 1.6 !important;
+      margin-bottom: 25px !important;
+    }
+
+    .story-text p {
       color:#c5c5c5;
       line-height:2;
       margin-bottom:20px;
@@ -226,10 +236,8 @@
     .story-image img{
       border-radius:28px;
       object-fit:cover;
-      min-height:650px;
-
-      box-shadow:
-        0 30px 60px rgba(0,0,0,.45);
+      min-height:500px;
+      box-shadow: 0 30px 60px rgba(0,0,0,.45);
     }
 
     /* ================= GALLERY ================= */
@@ -271,11 +279,12 @@
       cursor:pointer;
     }
 
+    /* Strict Headless Crop Guardrail Rule Application */
     .creation-card img{
       width:100%;
       height:100%;
       object-fit:cover;
-
+      object-position: center 25%; /* Forces cropped formatting to shift downward away from faces */
       transition:transform .8s ease;
     }
 
@@ -303,11 +312,19 @@
       font-size:.8rem;
       letter-spacing:2px;
       margin-bottom:10px;
+      text-transform: uppercase;
     }
 
     .overlay h3{
       font-family:'Playfair Display',serif;
       font-size:2rem;
+    }
+
+    .price-tag {
+      font-size: 1.1rem;
+      color: #fff;
+      margin-top: 5px;
+      font-weight: 300;
     }
 
     /* ================= CTA SECTION ================= */
@@ -429,220 +446,162 @@
 
 <body>
 
-  <!-- HEADER -->
-
   <header>
-
     <div class="logo">Silai Atelier</div>
-
     <nav>
       <a href="#story">Our Story</a>
       <a href="#gallery">Gallery</a>
       <a href="#contact">Contact</a>
-
-      <a href="admin.html" class="admin-btn">
-        Admin Dashboard
-      </a>
+      <a href="admin.html" class="admin-btn">Admin Dashboard</a>
     </nav>
-
   </header>
 
-  <!-- HERO -->
-
   <section class="hero">
-
     <h1>
       Impeccable Fit.<br>
       Absolute Luxury.
     </h1>
-
     <p>
       Bespoke menswear and women's couture handcrafted
       with precision, elegance, and timeless artistry
       from our atelier in Rimpa, Kiserian.
     </p>
-
     <a href="https://wa.me/254791307166" target="_blank">
       <button class="cta-btn">
         Book a Fitting via WhatsApp
       </button>
     </a>
-
   </section>
 
-  <!-- STATS -->
-
   <section class="stats">
-
     <div class="stat-box">
       <h2>2+</h2>
       <p>Years Experience</p>
     </div>
-
     <div class="stat-box">
       <h2>13</h2>
       <p>Happy Clients</p>
     </div>
-
     <div class="stat-box">
       <h2>15</h2>
       <p>Garments Delivered</p>
     </div>
-
   </section>
 
-  <!-- STORY -->
-
   <section class="story" id="story">
-
     <div class="story-text">
-
       <span>Our Story</span>
-
-      <h2>
-        Tailoring That Speaks Before You Do
-      </h2>
-
-      <p>
-        Every garment begins long before the first stitch.
-        It begins with intention — how it should move,
-        command presence, and become part of your identity.
+      <h2>Tailoring That Speaks Before You Do</h2>
+      
+      <p class="story-introduction-italicized">
+        "The stitches that started as an idea become the seams that define your style. Before the needle ever meets the fabric, there is a vision of how a garment should move, breathe, and command a room."
       </p>
-
-      <p>
-        At Silai Atelier, we craft bespoke menswear
-        and couture pieces that merge precision tailoring
-        with timeless luxury aesthetics.
-      </p>
-
-      <p>
-        From carefully selected fabrics to meticulous
-        finishing details, every piece is designed
-        to embody confidence, elegance, and individuality.
-      </p>
-
     </div>
 
     <div class="story-image">
       <img src="images/atelier.jpg" alt="Luxury tailoring atelier">
     </div>
-
   </section>
 
-  <!-- GALLERY -->
-
   <section class="gallery" id="gallery">
-
     <div class="section-title">
       <span>Featured Creations</span>
       <h2>Crafted Collections</h2>
     </div>
 
-    <div class="creations-grid">
-
-      <div class="creation-card">
-
+    <div class="creations-grid" id="dynamic-creations-grid">
+      
+      <div class="creation-card" data-category="business">
         <img src="images/suit.jpg" alt="Business Suit">
-
         <div class="overlay">
           <div>
-            <p>MEN · CORPORATE</p>
+            <p>business / official wear</p>
             <h3>Business Suit</h3>
           </div>
         </div>
-
       </div>
 
-      <div class="creation-card">
-
+      <div class="creation-card" data-category="ankara">
         <img src="images/traditional.jpg" alt="Traditional Wear">
-
         <div class="overlay">
           <div>
-            <p>UNISEX · HERITAGE</p>
+            <p>traditional / ankara</p>
             <h3>Traditional Wear</h3>
           </div>
         </div>
-
       </div>
 
-      <div class="creation-card">
-
+      <div class="creation-card" data-category="bridal">
         <img src="images/bridal.jpg" alt="Bridal Wear">
-
         <div class="overlay">
           <div>
-            <p>WOMEN · BRIDAL</p>
+            <p>bridal couture</p>
             <h3>Bridal Couture</h3>
           </div>
         </div>
-
       </div>
 
-      <div class="creation-card">
-
+      <div class="creation-card" data-category="casual">
         <img src="images/casual.jpg" alt="Casual Wear">
-
         <div class="overlay">
           <div>
-            <p>UNISEX · EVERYDAY</p>
+            <p>casual luxury</p>
             <h3>Casual Luxury</h3>
           </div>
         </div>
-
       </div>
 
     </div>
-
   </section>
-
-  <!-- CTA -->
 
   <section class="commission">
-
-    <h2>
-      Commission Your Signature Piece
-    </h2>
-
+    <h2>Commission Your Signature Piece</h2>
     <p>
-      Whether it's a wedding, executive wardrobe,
-      cultural attire, or statement couture —
-      your garment is crafted exclusively for you.
+      Whether it's a wedding, executive wardrobe, cultural attire, or statement couture — your garment is crafted exclusively for you.
     </p>
-
     <a href="https://wa.me/254791307166" target="_blank">
-      <button class="cta-btn">
-        Start Your Consultation
-      </button>
+      <button class="cta-btn">Start Your Consultation</button>
     </a>
-
   </section>
 
-  <!-- FOOTER -->
-
   <footer id="contact">
-
     <h3>Silai Atelier</h3>
-
-    <p>
-      Rimpa, Kiserian, Kajiado County, Kenya
-    </p>
-
-    <p>
-      WhatsApp: +254 791 307 166
-    </p>
-
+    <p>Rimpa, Kiserian, Kajiado County, Kenya</p>
+    <p>WhatsApp: +254 791 307 166</p>
   </footer>
 
-  <!-- WHATSAPP -->
+  <a href="https://wa.me/254791307166" class="whatsapp-btn" target="_blank">💬</a>
 
-  <a
-    href="https://wa.me/254791307166"
-    class="whatsapp-btn"
-    target="_blank"
-  >
-    💬
-  </a>
-
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const displayGrid = document.getElementById("dynamic-creations-grid");
+      
+      // Attempt to load catalog tracking array from browser memory
+      const localCatalog = JSON.parse(localStorage.getItem("products") || "[]");
+      
+      if (localCatalog.length > 0) {
+        // If items are found in storage, prioritize them over defaults
+        displayGrid.innerHTML = "";
+        
+        localCatalog.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "creation-card";
+          
+          // Form formatting mapping fields cleanly
+          card.innerHTML = `
+            <img src="${item.image || item.imageUrl || 'images/suit.jpg'}" alt="${item.name}">
+            <div class="overlay">
+              <div>
+                <p>${item.category || 'Bespoke Design'}</p>
+                <h3>${item.name}</h3>
+                ${item.price ? `<div class="price-tag">KES ${Number(item.price).toLocaleString()}</div>` : ''}
+              </div>
+            </div>
+          `;
+          displayGrid.appendChild(card);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
