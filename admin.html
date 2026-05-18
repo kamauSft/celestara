@@ -1,26 +1,422 @@
-<div class="form-group">
-  <label>Design Image</label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <div id="drop-zone"
-       style="cursor:pointer;border:2px dashed #D4AF37;padding:25px;text-align:center;border-radius:10px;background:rgba(28,26,26,0.6);">
+  <title>Curator Studio — Silai Atelier</title>
 
-    <p style="margin:0;color:#fff;">Click or drop image to upload</p>
-    <p style="margin-top:5px;font-size:12px;color:#D4AF37;">
-      JPG • PNG • JPEG (Recommended 1:1 or 4:5 ratio)
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2 family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background-color: #0e0e0e;
+      color: #f5f5f5;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .admin-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .admin-header {
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 20px;
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #D4AF37;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+    .admin-header h1 {
+      font-family: 'Playfair Display', serif;
+      color: #f5f5f5;
+      margin: 5px 0;
+      font-size: 2.2rem;
+    }
+    .admin-header p {
+      color: #b8b8b8;
+      margin: 0;
+      font-weight: 300;
+    }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    @media (max-width: 900px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .admin-panel {
+      background: #171717;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 24px;
+      padding: 35px;
+    }
+    .admin-panel h2 {
+      font-family: 'Playfair Display', serif;
+      color: #D4AF37;
+      margin-top: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 15px;
+      font-size: 1.8rem;
+    }
+    .form-group {
+      margin-bottom: 22px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #D4AF37;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 14px;
+      background: #0e0e0e;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      color: #f5f5f5;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      outline: none;
+      border-color: #D4AF37;
+    }
+    .drop-zone {
+      cursor: pointer;
+      border: 2px dashed #D4AF37;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 12px;
+      background: rgba(14, 14, 14, 0.6);
+      transition: all 0.3s ease;
+    }
+    .drop-zone:hover {
+      background: rgba(212, 175, 55, 0.04);
+    }
+    .url-input {
+      margin-top: 12px;
+    }
+    .form-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    .btn {
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      border: none;
+    }
+    .btn-primary {
+      background: #D4AF37;
+      color: #0e0e0e;
+    }
+    .btn-primary:hover {
+      background: #e7c04b;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: #f5f5f5;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .btn-danger {
+      background: #b33939;
+      color: #fff;
+    }
+    .btn-danger:hover {
+      background: #d63031;
+    }
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-height: 450px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      padding-right: 5px;
+    }
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: #0e0e0e;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .list-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .list-item-details {
+      flex: 1;
+    }
+    .list-item-details h4 {
+      margin: 0 0 4px 0;
+      font-family: 'Playfair Display', serif;
+      color: #f5f5f5;
+    }
+    .list-item-details p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: #b8b8b8;
+      text-transform: uppercase;
+    }
+    .admin-tip {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 20px;
+      font-style: italic;
+    }
+    .back-link {
+      margin-top: 40px;
+    }
+    .back-link a {
+      color: #b8b8b8;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+    .back-link a:hover {
+      color: #D4AF37;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="admin-page">
+
+    <header class="admin-header">
+      <a href="index.html" class="logo">Silai Atelier</a>
+      <h1>Curator Studio</h1>
+      <p>Luxury tailoring dashboard — manage your fashion collection</p>
+    </header>
+
+    <div class="admin-grid">
+
+      <section class="admin-panel">
+        <h2>Add / Edit Design</h2>
+
+        <form id="product-form">
+
+          <div class="form-group">
+            <label for="name">Design Name</label>
+            <input type="text" id="name" required placeholder="Executive Navy Suit" />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" required placeholder="Luxury tailoring details..." rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="price">Price (KES)</label>
+            <input type="number" id="price" required min="0" placeholder="18000" />
+          </div>
+
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" required>
+              <option value="dinner">Dinner / Evening Wear</option>
+              <option value="casual">Casual Luxury</option>
+              <option value="bridal">Bridal Couture</option>
+              <option value="beach">Beach / Resort Wear</option>
+              <option value="ankara">Traditional / Ankara</option>
+              <option value="business">Business / Official Wear</option>
+              <option value="twopiece">Two Piece Sets</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Design Image</label>
+
+            <div class="drop-zone" id="drop-zone">
+              <div id="drop-zone-prompt">
+                <p style="margin: 0; font-weight: 500;">Click to upload local photo</p>
+                <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #D4AF37;">Supports PNG, JPG, JPEG</p>
+              </div>
+              <input type="file" id="file-input" accept="image/*" style="display: none;" />
+              <img id="preview" alt="Preview Thumbnail" style="max-height: 150px; max-width: 100%; margin-top: 15px; border-radius: 8px; display: none; margin-left: auto; margin-right: auto;" />
+            </div>
+
+            <div style="text-align: center; margin: 12px 0; color: #555; font-size: 0.85rem;">— OR —</div>
+
+            <input
+              type="text"
+              id="image-url"
+              class="url-input"
+              placeholder="Or paste local path (e.g. images/suit.jpg)"
+            />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Design</button>
+            <button type="reset" class="btn btn-secondary" id="reset-form">Clear</button>
+          </div>
+
+        </form>
+      </section>
+
+      <section class="admin-panel">
+        <h2>Lookbook Collection</h2>
+        <div class="product-list" id="product-list">
+          </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-danger" id="reset-all">Reset Collection</button>
+        </div>
+
+        <p class="admin-tip">Your uploads instantly update the live storefront lookbook.</p>
+      </section>
+
+    </div>
+
+    <p class="back-link">
+      <a href="index.html">← Back to Silai Atelier Storefront</a>
     </p>
-
-    <input type="file" id="file-input" accept="image/*" hidden />
-
-    <img id="preview"
-         style="max-height:180px;margin-top:15px;border-radius:8px;display:none;" />
   </div>
 
-  <p style="text-align:center;margin:10px 0;color:#888;">OR</p>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const fileInput = document.getElementById('file-input');
+      const imageUrlInput = document.getElementById('image-url');
+      const previewImg = document.getElementById('preview');
+      const dropZone = document.getElementById('drop-zone');
+      const dropZonePrompt = document.getElementById('drop-zone-prompt');
+      const productForm = document.getElementById('product-form');
+      const productList = document.getElementById('product-list');
+      const resetAllBtn = document.getElementById('reset-all');
 
-  <input
-    type="url"
-    id="image-url"
-    class="url-input"
-    placeholder="Paste image path or CDN URL (e.g. images/dinner/1.jpg)"
-  />
-</div>
+      let uploadedImageBase64 = "";
+
+      // Open file dialog on drop-zone click
+      dropZone.addEventListener('click', () => fileInput.click());
+
+      // Read local file upload
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            uploadedImageBase64 = event.target.result;
+            previewImg.src = uploadedImageBase64;
+            previewImg.style.display = "block";
+            dropZonePrompt.style.display = "none";
+            imageUrlInput.value = ""; // Clear URL field to avoid conflicts
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Render items to the admin panel listing list
+      function renderAdminCollection() {
+        productList.innerHTML = "";
+        const products = JSON.parse(localStorage.getItem("products") || "[]");
+
+        if (products.length === 0) {
+          productList.innerHTML = `<p style="color:#666; font-style:italic; padding: 20px 0;">No uploaded items found in the current session. Storefront defaults are active.</p>`;
+          return;
+        }
+
+        products.forEach((prod, index) => {
+          const item = document.createElement("div");
+          item.className = "list-item";
+          item.innerHTML = `
+            <img src="${prod.image}" alt="${prod.name}">
+            <div class="list-item-details">
+              <h4>${prod.name}</h4>
+              <p>${prod.category} — KES ${Number(prod.price).toLocaleString()}</p>
+            </div>
+            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.75rem; border-radius: 4px;" onclick="deleteProduct(${index})">Remove</button>
+          `;
+          productList.appendChild(item);
+        });
+      }
+
+      // Handle Form Submit
+      productForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const finalImage = uploadedImageBase64 || imageUrlInput.value.trim();
+
+        if (!finalImage) {
+          alert("Please select a photo file or enter an image path reference.");
+          return;
+        }
+
+        const newProduct = {
+          name: document.getElementById('name').value.trim(),
+          description: document.getElementById('description').value.trim(),
+          price: document.getElementById('price').value.trim(),
+          category: document.getElementById('category').value,
+          image: finalImage
+        };
+
+        const currentProducts = JSON.parse(localStorage.getItem("products") || "[]");
+        currentProducts.push(newProduct);
+        localStorage.setItem("products", JSON.stringify(currentProducts));
+
+        // Reset values
+        productForm.reset();
+        uploadedImageBase64 = "";
+        previewImg.style.display = "none";
+        dropZonePrompt.style.display = "block";
+
+        renderAdminCollection();
+      });
+
+      // Global scoped delete function attached to index window
+      window.deleteProduct = (index) => {
+        const currentProducts = JSON.parse(localStorage.getItem("products") || "[]");
+        currentProducts.splice(index, 1);
+        localStorage.setItem("products", JSON.stringify(currentProducts));
+        renderAdminCollection();
+      };
+
+      // Reset entire session tracking collection
+      resetAllBtn.addEventListener('click', () => {
+        if (confirm("Are you sure you want to clear your uploaded lookbook collection memory?")) {
+          localStorage.removeItem("products");
+          renderAdminCollection();
+        }
+      });
+
+      // Initial layout execution
+      renderAdminCollection();
+    });
+  </script>
+</body>
+</html>
