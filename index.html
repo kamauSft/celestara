@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Curator Studio — Silai Atelier</title>
+  <title>Silai Atelier — Luxury Bespoke Tailoring</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -22,6 +22,10 @@
       --muted:#b8b8b8;
     }
 
+    html{
+      scroll-behavior:smooth;
+    }
+
     body{
       font-family:'Inter',sans-serif;
       background:var(--dark);
@@ -29,449 +33,371 @@
       overflow-x:hidden;
     }
 
-    /* ================= RESTORED HEADER STYLE ================= */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
+    a{ text-decoration:none; color:inherit; }
 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    img{ width:100%; display:block; }
 
-      padding: 24px 8%;
+    /* ================= HEADER ================= */
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:1000;
 
-      background: rgba(0,0,0,.45);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      padding:24px 8%;
+      background:rgba(0,0,0,.45);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,255,255,.06);
     }
 
-    .logo {
-      font-family: 'Playfair Display',serif;
-      font-size: 1.8rem;
-      letter-spacing: 2px;
-      color: var(--gold);
-      text-decoration: none;
+    .logo{
+      font-family:'Playfair Display',serif;
+      font-size:1.8rem;
+      letter-spacing:2px;
+      color:var(--gold);
     }
 
-    .studio-title {
-      font-family: 'Inter', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: #fff;
-      text-align: center;
+    nav{
+      display:flex;
+      gap:30px;
+      align-items:center;
     }
 
-    .studio-tagline {
-      color: var(--muted);
-      font-size: .95rem;
-      font-weight: 400;
-      text-align: right;
+    nav a{
+      color:#ddd;
+      font-size:.95rem;
+      transition:.3s;
     }
 
-    /* ================= MAIN CONTAINER WRAPPER ================= */
-    .admin-container {
-      max-width: 1400px;
-      margin: 140px auto 60px; /* Pushes content below the fixed header */
-      padding: 0 8%;
+    nav a:hover{
+      color:var(--gold);
     }
 
-    .back-nav {
-      margin-bottom: 30px;
+    .admin-btn{
+      border:1px solid rgba(212,175,55,.4);
+      padding:10px 18px;
+      border-radius:50px;
+      color:var(--gold);
     }
 
-    .back-nav a {
-      color: var(--gold);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: .3s;
+    .admin-btn:hover{
+      background:var(--gold);
+      color:#111;
     }
 
-    .back-nav a:hover {
-      text-decoration: underline;
+    /* ================= HERO ================= */
+    .hero{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:40px;
+
+      background:
+        linear-gradient(rgba(0,0,0,.72), rgba(0,0,0,.72)),
+        url('images/hero.jpg') center/cover no-repeat;
     }
 
-    /* ================= TWO-COLUMN GRID LAYOUT ================= */
-    .admin-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
+    .hero h1{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(3rem,8vw,6rem);
+      line-height:1.05;
+      max-width:1000px;
+      margin-bottom:25px;
     }
 
-    .admin-panel {
-      background: var(--soft);
-      border: 1px solid rgba(212,175,55,.12);
-      border-radius: 24px;
-      padding: 40px;
+    .hero p{
+      max-width:750px;
+      color:#d0d0d0;
+      line-height:1.9;
+      margin-bottom:35px;
     }
 
-    .admin-panel h2 {
-      font-family: 'Playfair Display', serif;
-      color: var(--gold);
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding-bottom: 15px;
+    .cta-btn{
+      background:var(--gold);
+      color:#111;
+      padding:16px 32px;
+      border:none;
+      border-radius:50px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.3s;
     }
 
-    /* ================= MANAGEMENT FORM FIELDS ================= */
-    .form-group {
-      margin-bottom: 22px;
+    .cta-btn:hover{
+      transform:translateY(-4px);
+      background:#e7c04b;
     }
 
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--gold);
-      font-size: 0.9rem;
-      letter-spacing: 1px;
+    /* ================= STATS ================= */
+    .stats{
+      padding:100px 8%;
+      background:#121212;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:25px;
     }
 
-    .form-group input, .form-group textarea, .form-group select {
-      width: 100%;
-      padding: 14px;
-      background: var(--dark);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 8px;
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      box-sizing: border-box;
+    .stat-box{
+      background:#1a1a1a;
+      padding:40px;
+      border-radius:20px;
+      border:1px solid rgba(212,175,55,.12);
     }
 
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-      outline: none;
-      border-color: var(--gold);
+    .stat-box h2{
+      color:var(--gold);
+      font-size:2.5rem;
+      font-family:'Playfair Display',serif;
     }
 
-    /* ================= DRAG AND DROP CONTAINER ================= */
-    .drop-zone {
-      cursor: pointer;
-      border: 2px dashed var(--gold);
-      padding: 30px 20px;
-      text-align: center;
-      border-radius: 12px;
-      background: rgba(0,0,0,0.3);
-      transition: all 0.3s ease;
+    .stat-box p{
+      color:#cfcfcf;
+      margin-top:10px;
     }
 
-    .drop-zone:hover {
-      background: rgba(212, 175, 55, 0.04);
+    /* ================= STORY ================= */
+    .story{
+      padding:120px 8%;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:70px;
+      align-items:center;
     }
 
-    .url-input {
-      margin-top: 12px;
+    .story-text span{
+      color:var(--gold);
+      letter-spacing:3px;
+      text-transform:uppercase;
+      font-size:.8rem;
     }
 
-    .form-actions {
-      display: flex;
-      gap: 15px;
-      margin-top: 30px;
+    .story-text h2{
+      font-family:'Playfair Display',serif;
+      font-size:3rem;
+      margin:15px 0 25px;
     }
 
-    /* ================= DASHBOARD ACTIONS ================= */
-    .btn {
-      padding: 14px 28px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      border: none;
+    .story-text p{
+      color:#c5c5c5;
+      line-height:2;
+      margin-bottom:15px;
     }
 
-    .btn-primary {
-      background: var(--gold);
-      color: #111;
+    .story-image img{
+      border-radius:25px;
+      box-shadow:0 30px 60px rgba(0,0,0,.4);
+      min-height:600px;
+      object-fit:cover;
     }
 
-    .btn-primary:hover {
-      background: #e7c04b;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
+    /* ================= GALLERY ================= */
+    .gallery{
+      padding:120px 8%;
+      background:#111;
     }
 
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.05);
+    .section-title{
+      text-align:center;
+      margin-bottom:60px;
     }
 
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.12);
+    .section-title span{
+      color:var(--gold);
+      letter-spacing:3px;
+      font-size:.8rem;
+      text-transform:uppercase;
     }
 
-    .btn-danger {
-      background: #b33939;
-      color: #fff;
+    .section-title h2{
+      font-family:'Playfair Display',serif;
+      font-size:3.2rem;
+      margin-top:10px;
     }
 
-    .btn-danger:hover {
-      background: #d63031;
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:25px;
     }
 
-    /* ================= LIVE LOOKBOOK MODULE ================= */
-    .product-list {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      max-height: 480px;
-      overflow-y: auto;
-      margin-bottom: 20px;
-      padding-right: 5px;
+    .card{
+      position:relative;
+      height:480px;
+      overflow:hidden;
+      border-radius:25px;
     }
 
-    .list-item {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      background: var(--dark);
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.04);
+    .card img{
+      height:100%;
+      object-fit:cover;
+      transition:.6s;
     }
 
-    .list-item img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 8px;
+    .card:hover img{
+      transform:scale(1.1);
     }
 
-    .list-item-details {
-      flex: 1;
+    .overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,.85), transparent);
+      display:flex;
+      align-items:flex-end;
+      padding:25px;
     }
 
-    .list-item-details h4 {
-      margin: 0 0 4px 0;
-      font-family: 'Playfair Display', serif;
-      color: var(--text);
+    .overlay h3{
+      color:var(--gold);
+      font-family:'Playfair Display',serif;
+      font-size:1.6rem;
     }
 
-    .list-item-details p {
-      margin: 0;
-      font-size: 0.8rem;
-      color: var(--muted);
-      text-transform: uppercase;
+    .overlay p{
+      color:#ddd;
+      font-size:.8rem;
+      margin-bottom:5px;
+      letter-spacing:2px;
     }
 
-    .admin-tip {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 20px;
-      font-style: italic;
+    /* ================= CTA ================= */
+    .cta{
+      padding:120px 8%;
+      text-align:center;
     }
 
-    /* ================= RESPONSIVE ADAPTATIONS ================= */
-    @media (max-width: 900px) {
-      header {
-        padding: 20px 6%;
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
+    .cta h2{
+      font-size:3rem;
+      font-family:'Playfair Display',serif;
+      margin-bottom:20px;
+    }
+
+    .cta p{
+      max-width:700px;
+      margin:auto;
+      color:#c6c6c6;
+      line-height:1.9;
+      margin-bottom:30px;
+    }
+
+    /* ================= FOOTER ================= */
+    footer{
+      padding:60px 8%;
+      background:#0a0a0a;
+      text-align:center;
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+
+    footer h3{
+      color:var(--gold);
+      font-family:'Playfair Display',serif;
+      margin-bottom:10px;
+    }
+
+    footer p{
+      color:#aaa;
+      line-height:1.7;
+    }
+
+    /* ================= WHATSAPP ================= */
+    .whatsapp{
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      width:60px;
+      height:60px;
+      background:#25D366;
+      border-radius:50%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:28px;
+      color:#fff;
+      box-shadow:0 10px 30px rgba(0,0,0,.3);
+    }
+
+    @media(max-width:900px){
+      .story{
+        grid-template-columns:1fr;
       }
-      .studio-tagline {
-        text-align: center;
-      }
-      .admin-container {
-        margin-top: 220px;
-        padding: 0 6%;
-      }
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
+
+      nav{ display:none; }
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <a href="index.html" class="logo">Silai Atelier</a>
-    <div class="studio-title">Curator Studio</div>
-    <div class="studio-tagline">Luxury tailoring dashboard — manage your fashion collection</div>
-  </header>
+<header>
+  <div class="logo">Silai Atelier</div>
 
-  <div class="admin-container">
-    
-    <div class="back-nav">
-      <a href="index.html">← Back to Silai Atelier</a>
-    </div>
+  <nav>
+    <a href="#story">Story</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+    <a class="admin-btn" href="admin.html">Admin</a>
+  </nav>
+</header>
 
-    <div class="admin-grid">
+<section class="hero">
+  <h1>Impeccable Fit.<br/>Absolute Luxury.</h1>
+  <p>
+    Bespoke tailoring crafted with precision, elegance, and timeless artistry.
+  </p>
+  <button class="cta-btn">Book via WhatsApp</button>
+</section>
 
-      <section class="admin-panel">
-        <h2>Add / Edit Design</h2>
+<section class="stats">
+  <div class="stat-box"><h2>2+</h2><p>Years Experience</p></div>
+  <div class="stat-box"><h2>13</h2><p>Happy Clients</p></div>
+  <div class="stat-box"><h2>15</h2><p>Garments Delivered</p></div>
+</section>
 
-        <form id="product-form">
-          <div class="form-group">
-            <label for="name">Design Name</label>
-            <input type="text" id="name" required placeholder="Executive Navy Suit" />
-          </div>
-
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" required placeholder="Luxury tailoring details..." rows="3"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="price">Price (KES)</label>
-            <input type="number" id="price" required min="0" placeholder="18000" />
-          </div>
-
-          <div class="form-group">
-            <label for="category">Category</label>
-            <select id="category" required>
-              <option value="dinner">Dinner / Evening Wear</option>
-              <option value="casual">Casual Luxury</option>
-              <option value="bridal">Bridal Couture</option>
-              <option value="beach">Beach / Resort Wear</option>
-              <option value="ankara">Traditional / Ankara</option>
-              <option value="business">Business / Official Wear</option>
-              <option value="twopiece">Two Piece Sets</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Design Image</label>
-            <div class="drop-zone" id="drop-zone">
-              <div id="drop-zone-prompt">
-                <p style="margin: 0; font-weight: 500;">Click to upload local photo</p>
-                <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #D4AF37;">Supports PNG, JPG, JPEG</p>
-              </div>
-              <input type="file" id="file-input" accept="image/*" style="display: none;" />
-              <img id="preview" alt="Preview Thumbnail" style="max-height: 150px; max-width: 100%; margin-top: 15px; border-radius: 8px; display: none; margin-left: auto; margin-right: auto;" />
-            </div>
-
-            <div style="text-align: center; margin: 12px 0; color: #555; font-size: 0.85rem;">— OR —</div>
-
-            <input type="text" id="image-url" class="url-input" placeholder="Or paste local path (e.g. images/suit.jpg)" />
-          </div>
-
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Save Design</button>
-            <button type="reset" class="btn btn-secondary" id="reset-form">Clear</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="admin-panel">
-        <h2>Lookbook Collection</h2>
-        <div class="product-list" id="product-list">
-          </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn btn-danger" id="reset-all">Reset Collection</button>
-        </div>
-
-        <p class="admin-tip">Your uploads instantly update the live storefront lookbook.</p>
-      </section>
-
-    </div>
+<section class="story" id="story">
+  <div class="story-text">
+    <span>Our Story</span>
+    <h2>Tailoring That Speaks Before You Do</h2>
+    <p>Every garment begins with intention and precision.</p>
+    <p>We craft luxury pieces that define identity and confidence.</p>
   </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const fileInput = document.getElementById('file-input');
-      const imageUrlInput = document.getElementById('image-url');
-      const previewImg = document.getElementById('preview');
-      const dropZone = document.getElementById('drop-zone');
-      const dropZonePrompt = document.getElementById('drop-zone-prompt');
-      const productForm = document.getElementById('product-form');
-      const productList = document.getElementById('product-list');
-      const resetAllBtn = document.getElementById('reset-all');
+  <div class="story-image">
+    <img src="images/atelier.jpg" alt="atelier">
+  </div>
+</section>
 
-      let uploadedImageBase64 = "";
+<section class="gallery" id="gallery">
+  <div class="section-title">
+    <span>Featured</span>
+    <h2>Collections</h2>
+  </div>
 
-      dropZone.addEventListener('click', () => fileInput.click());
+  <div class="grid">
+    <div class="card"><img src="images/suit.jpg"><div class="overlay"><div><p>MEN</p><h3>Business Suit</h3></div></div></div>
+    <div class="card"><img src="images/bridal.jpg"><div class="overlay"><div><p>BRIDAL</p><h3>Couture</h3></div></div></div>
+    <div class="card"><img src="images/casual.jpg"><div class="overlay"><div><p>CASUAL</p><h3>Luxury Wear</h3></div></div></div>
+  </div>
+</section>
 
-      fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            uploadedImageBase64 = event.target.result;
-            previewImg.src = uploadedImageBase64;
-            previewImg.style.display = "block";
-            dropZonePrompt.style.display = "none";
-            imageUrlInput.value = "";
-          };
-          reader.readAsDataURL(file);
-        }
-      });
+<section class="cta">
+  <h2>Commission Your Piece</h2>
+  <p>Exclusive tailoring made just for you.</p>
+  <button class="cta-btn">Start Consultation</button>
+</section>
 
-      function renderAdminCollection() {
-        productList.innerHTML = "";
-        const products = JSON.parse(localStorage.getItem("products") || "[]");
+<footer id="contact">
+  <h3>Silai Atelier</h3>
+  <p>Kajiado, Kenya</p>
+</footer>
 
-        if (products.length === 0) {
-          productList.innerHTML = `<p style="color:#666; font-style:italic; padding: 20px 0;">No uploaded items found in the current session. Storefront defaults are active.</p>`;
-          return;
-        }
+<a class="whatsapp" href="https://wa.me/254791307166">💬</a>
 
-        products.forEach((prod, index) => {
-          const item = document.createElement("div");
-          item.className = "list-item";
-          item.innerHTML = `
-            <img src="${prod.image}" alt="${prod.name}">
-            <div class="list-item-details">
-              <h4>${prod.name}</h4>
-              <p>${prod.category} — KES ${Number(prod.price).toLocaleString()}</p>
-            </div>
-            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.75rem; border-radius: 4px;" onclick="deleteProduct(${index})">Remove</button>
-          `;
-          productList.appendChild(item);
-        });
-      }
-
-      productForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const finalImage = uploadedImageBase64 || imageUrlInput.value.trim();
-
-        if (!finalImage) {
-          alert("Please select a photo file or enter an image path reference.");
-          return;
-        }
-
-        const newProduct = {
-          name: document.getElementById('name').value.trim(),
-          description: document.getElementById('description').value.trim(),
-          price: document.getElementById('price').value.trim(),
-          category: document.getElementById('category').value,
-          image: finalImage
-        };
-
-        const currentProducts = JSON.parse(localStorage.getItem("products") || "[]");
-        currentProducts.push(newProduct);
-        localStorage.setItem("products", JSON.stringify(currentProducts));
-
-        productForm.reset();
-        uploadedImageBase64 = "";
-        previewImg.style.display = "none";
-        dropZonePrompt.style.display = "block";
-
-        renderAdminCollection();
-      });
-
-      window.deleteProduct = (index) => {
-        const currentProducts = JSON.parse(localStorage.getItem("products") || "[]");
-        currentProducts.splice(index, 1);
-        localStorage.setItem("products", JSON.stringify(currentProducts));
-        renderAdminCollection();
-      };
-
-      resetAllBtn.addEventListener('click', () => {
-        if (confirm("Are you sure you want to clear your uploaded lookbook collection memory?")) {
-          localStorage.removeItem("products");
-          renderAdminCollection();
-        }
-      });
-
-      renderAdminCollection();
-    });
-  </script>
 </body>
 </html>
