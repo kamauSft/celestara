@@ -9,10 +9,12 @@ Canonical product site (static reference only): https://codzure-solutions.vercel
 
 ```bash
 cd agent
-cp .env.example .env   # set AGENT_ANTHROPIC_API_KEY
+cp .env.example .env   # AGENT_DEMO_MODE=1 = free offline (no paid API)
 npm install
 npm start              # or: npm run agent:dev
 ```
+
+**No money / no Anthropic credits?** Keep `AGENT_DEMO_MODE=1`. The server routes simple Neo/Nyumba phrases to the same tools + StubAdapters without calling Anthropic.
 
 Server defaults to `http://127.0.0.1:8787` (`AGENT_PORT`). Uses **StubAdapters** (in-memory sample sales + listings).
 
@@ -131,7 +133,8 @@ curl -s -X POST http://127.0.0.1:8787/agent/message \
 
 ### Live LLM note
 
-If `AGENT_ANTHROPIC_API_KEY` is unset, `/agent/message` curls cannot be run for real — do not invent a key. Health/tools and StubAdapter unit checks still verify the module without the LLM.
+- **Free:** `AGENT_DEMO_MODE=1` — offline tool routing, no Anthropic credits.
+- **Full LLM:** set `AGENT_ANTHROPIC_API_KEY` and turn demo mode off. Needs Anthropic billing/credits.
 
 ## Guardrails
 

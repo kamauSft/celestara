@@ -134,6 +134,11 @@ export interface AgentDeps {
   /** Model id; defaults to claude-sonnet-4-20250514 */
   model?: string;
   logger?: AgentLogger;
+  /**
+   * Free offline demo: skip Anthropic and route simple phrases to tools.
+   * Use when you have no API credits (AGENT_DEMO_MODE=1).
+   */
+  demoMode?: boolean;
 }
 
 export type MountHandler = (

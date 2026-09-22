@@ -46,10 +46,14 @@ function send(res: ServerResponse, out: AgentHttpResponse): void {
 }
 
 async function main(): Promise<void> {
-  const apiKey = readEnv("AGENT_ANTHROPIC_API_KEY");
-  if (!apiKey) {
+  const demoMode =
+    readEnv("AGENT_DEMO_MODE") === "1" ||
+    readEnv("AGENT_DEMO_MODE")?.toLowerCase() === "true";
+  const apiKey = readEnv("AGENT_ANTHROPIC_API_KEY") ?? "";
+
+  if (!demoMode && !apiKey) {
     console.error(
-      "Missing AGENT_ANTHROPIC_API_KEY. Copy .env.example → .env and set the key.",
+      "Missing AGENT_ANTHROPIC_API_KEY (or set AGENT_DEMO_MODE=1 for free offline demo).",
     );
     process.exit(1);
   }
@@ -58,7 +62,8 @@ async function main(): Promise<void> {
   const stubs = createStubAdapters();
   const deps: AgentDeps = {
     ...stubs,
-    anthropicApiKey: apiKey,
+    anthropicApiKey: apiKey || "demo-offline",
+    demoMode,
   };
 
   type Route = {
@@ -120,6 +125,9 @@ async function main(): Promise<void> {
   server.listen(port, () => {
     console.log(`[agent] listening on http://127.0.0.1:${port}`);
     console.log("[agent] StubAdapters active (in-memory Neo sales + Nyumba listings)");
+    if (demoMode) {
+      console.log("[agent] DEMO MODE on — free offline tool routing (no Anthropic credits)");
+    }
     console.log("[agent] POST /agent/message  GET /agent/health  GET /agent/tools?product=");
   });
 }

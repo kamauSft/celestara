@@ -97,6 +97,7 @@ export function registerAgent(mount: MountHandler, deps: AgentDeps): void {
       ok: true,
       module: "codzure-agent",
       products: ["neo", "nyumba"],
+      demoMode: Boolean(deps.demoMode),
     },
   }));
 

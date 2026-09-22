@@ -14,6 +14,7 @@ import type {
 } from "../contract.js";
 import { buildSystemPrompt } from "../knowledge.js";
 import { createAgentLogger } from "./logger.js";
+import { runOfflineLoop } from "./offline.js";
 import { getToolByName, getTools } from "./registry.js";
 
 const DEFAULT_MODEL = "claude-sonnet-4-20250514";
@@ -51,6 +52,10 @@ export async function runAgentLoop(
   input: AgentRequest,
   deps: AgentDeps,
 ): Promise<AgentResponse> {
+  if (deps.demoMode) {
+    return runOfflineLoop(input, deps);
+  }
+
   const logger = deps.logger ?? createAgentLogger();
   const client = new Anthropic({ apiKey: deps.anthropicApiKey });
   const model = deps.model ?? DEFAULT_MODEL;
