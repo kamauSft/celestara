@@ -46,7 +46,11 @@ agent/
 
 ## Other-dev handoff
 
-See **[HANDOFF.md](./HANDOFF.md)** — capabilities, port contracts, phrases/codes that must work, LLM providers, and pre-merge checklist. Read that before wiring RealAdapters.
+See **[HANDOFF.md](./HANDOFF.md)** — capabilities, port contracts, phrases/codes that must work, LLM providers, and pre-merge checklist.
+
+Also: **[HANDOFF.html](./HANDOFF.html)** · **[HANDOFF.pdf](./HANDOFF.pdf)**
+
+Live demo name: **https://demoagent.loca.lt/agent** (temporary tunnel).
 
 ## Adding a tool
 
