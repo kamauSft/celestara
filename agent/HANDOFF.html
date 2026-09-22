@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Codzure Agent — Next Developer Handoff</title>
+  <style>
+    :root {
+      --sky: #39B6FF;
+      --paper: #EAF1FB;
+      --ink: #1A1F24;
+      --muted: #59626D;
+      --line: #D7E4F5;
+      --soft: #F8FBFF;
+      --ok: #1a7f4b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.5;
+    }
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 0 1px var(--line);
+    }
+    header.brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--sky);
+      margin-bottom: 1.5rem;
+    }
+    header.brand img { height: 48px; width: auto; }
+    header.brand h1 {
+      margin: 0;
+      font-size: 1.55rem;
+      line-height: 1.15;
+    }
+    header.brand p {
+      margin: 0.25rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    h2 {
+      margin: 1.75rem 0 0.6rem;
+      font-size: 1.15rem;
+      color: var(--sky);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.25rem;
+    }
+    h3 { margin: 1rem 0 0.4rem; font-size: 1rem; }
+    p, li { font-size: 0.95rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 0.6rem 0 1rem;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.45rem 0.55rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--soft); }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+    }
+    code {
+      background: var(--soft);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+    pre {
+      background: #0f1720;
+      color: #e8eef5;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .callout {
+      background: var(--soft);
+      border-left: 4px solid var(--sky);
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .checklist label {
+      display: block;
+      padding: 0.25rem 0;
+      font-size: 0.92rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #e7f6ff;
+      color: #0b6ea8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    a { color: #0b6ea8; }
+    @media print {
+      body { background: #fff; }
+      .page { box-shadow: none; max-width: none; padding: 0.5in; }
+      pre { white-space: pre-wrap; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="brand">
+      <img src="assets/codzure_logo_full.png" alt="Codzure Solutions" />
+      <div>
+        <span class="badge">Handoff</span>
+        <h1>Agent module — next developer notes</h1>
+        <p>Capabilities · contracts · codes that must work · execution checklist</p>
+      </div>
+    </header>
+
+    <div class="callout">
+      <strong>Merge rule:</strong> everything lives in <code>/agent</code> only.
+      Host wiring is a separate one-line change (see INTEGRATION.md). Do not edit files outside <code>/agent</code> for this merge.<br />
+      Product reference (static docs): <a href="https://codzure-solutions.vercel.app/">codzure-solutions.vercel.app</a>
+    </div>
+
+    <h2>1. Read in this order</h2>
+    <ol>
+      <li><code>contract.ts</code> — shapes + ports (dependency-free). <strong>Do not break.</strong></li>
+      <li><code>INTEGRATION.md</code> — <code>registerAgent(mount, deps)</code> + Stub → Real.</li>
+      <li><code>adapters/real.ts</code> — fill every <code>// TODO</code>.</li>
+      <li><code>README.md</code> — run / curl / browser chat.</li>
+      <li>This document — capabilities + acceptance codes.</li>
+    </ol>
+
+    <h2>2. Capabilities (must remain)</h2>
+    <table>
+      <thead>
+        <tr><th>Product</th><th>Capability</th><th>Tool</th><th>Behavior</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Neo</strong></td><td>Draft sale from NL</td><td><code>record_sale</code></td><td>Returns <code>requiresConfirmation: true</code> — <strong>no write</strong></td></tr>
+        <tr><td><strong>Neo</strong></td><td>Confirm draft</td><td><code>confirm_action</code></td><td>Executes by <code>draftId</code> → persists <code>Sale</code></td></tr>
+        <tr><td><strong>Neo</strong></td><td>List sales</td><td><code>list_sales</code></td><td>Read-only, immediate</td></tr>
+        <tr><td><strong>Nyumba</strong></td><td>Search listings</td><td><code>search_listings</code></td><td>location / bedrooms / maxPrice / nearby — immediate</td></tr>
+      </tbody>
+    </table>
+    <p>Also: browser chat <code>GET /agent</code> (Codzure logo), health/tools, LLM providers <code>local</code> (default free) · <code>openai-compatible</code> · <code>anthropic</code>, StubAdapters + RealAdapters template.</p>
+
+    <h2>3. HTTP that must keep working</h2>
+    <p>Routes under <code>/agent/*</code> only. Env: <code>AGENT_*</code>.</p>
+    <table>
+      <thead><tr><th>Method</th><th>Path</th><th>Must return</th></tr></thead>
+      <tbody>
+        <tr><td>GET</td><td><code>/agent</code></td><td>HTML chat</td></tr>
+        <tr><td>GET</td><td><code>/agent/assets/codzure_logo_full.png</code></td><td>PNG 200</td></tr>
+        <tr><td>GET</td><td><code>/agent/health</code></td><td><code>{ ok, module, products, llm, demoMode, chat }</code></td></tr>
+        <tr><td>GET</td><td><code>/agent/tools?product=neo|nyumba</code></td><td>Tool list</td></tr>
+        <tr><td>POST</td><td><code>/agent/message</code></td><td><code>AgentResponse</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>POST /agent/message — request (must not change)</h3>
+<pre>{
+  "message": "string",
+  "product": "neo" | "nyumba",
+  "userId": "string",
+  "sessionId": "string"
+}</pre>
+
+    <h3>Response shape</h3>
+<pre>{
+  "reply": "string",
+  "product": "neo" | "nyumba",
+  "sessionId": "string",
+  "draft": {
+    "id": "agent_draft_…",
+    "tool": "record_sale",
+    "summary": "…",
+    "requiresConfirmation": true
+  },
+  "data": {}
+}</pre>
+    <p><code>draft</code> optional (writes only). <code>data</code> optional structured tool output.</p>
+
+    <h2>4. Ports that must work (<code>contract.ts</code>)</h2>
+    <h3>RecordSalePort</h3>
+    <ul>
+      <li><code>draftSale(input)</code> → <code>{ requiresConfirmation: true, draftId, summary }</code> — must <strong>not</strong> write yet</li>
+      <li><code>listSales(userId?)</code> → <code>Sale[]</code></li>
+    </ul>
+    <h3>SearchListingsPort</h3>
+    <ul>
+      <li><code>search({ location, bedrooms?, maxPrice?, nearby? })</code> → <code>Listing[]</code> — immediate</li>
+    </ul>
+    <h3>ConfirmActionPort</h3>
+    <ul>
+      <li><code>getDraft(draftId)</code> → <code>DraftAction | null</code></li>
+      <li><code>confirm(draftId)</code> → success/error — <strong>this</strong> writes Neo sales</li>
+    </ul>
+    <div class="callout">
+      <strong>Guardrails:</strong> draft-only writes · confirm by id · reads immediate · no singletons/monkey-patches · <code>agent_</code> id prefix.
+    </div>
+
+    <h2>5. Execution codes that must pass</h2>
+    <p>With StubAdapters + <code>AGENT_LLM_PROVIDER=local</code>:</p>
+
+    <h3>Neo</h3>
+<pre># 1) Draft — must return draft.requiresConfirmation === true
+curl -s -X POST http://127.0.0.1:8787/agent/message \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"sold 3 bags cement to Mary 1500","product":"neo","userId":"demo-user","sessionId":"neo-1"}'
+
+# 2) Confirm — replace DRAFT_ID
+curl -s -X POST http://127.0.0.1:8787/agent/message \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"confirm DRAFT_ID","product":"neo","userId":"demo-user","sessionId":"neo-1"}'
+
+# 3) List
+curl -s -X POST http://127.0.0.1:8787/agent/message \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"show my sales","product":"neo","userId":"demo-user","sessionId":"neo-1"}'</pre>
+
+    <h3>Nyumba (search must return listings)</h3>
+<pre>curl -s -X POST http://127.0.0.1:8787/agent/message \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"find 2 bedroom places in Westlands under 100000 near Sarit","product":"nyumba","userId":"demo-user","sessionId":"ny-1"}'
+
+curl -s -X POST http://127.0.0.1:8787/agent/message \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"show land in Ruiru","product":"nyumba","userId":"demo-user","sessionId":"ny-2"}'</pre>
+
+    <h3>Smoke + compile</h3>
+<pre>curl -s http://127.0.0.1:8787/agent/health
+curl -s 'http://127.0.0.1:8787/agent/tools?product=neo'
+cd agent && npm install && npm run typecheck && npm run build</pre>
+
+    <h2>6. LLM providers</h2>
+    <table>
+      <thead><tr><th>AGENT_LLM_PROVIDER</th><th>Paid?</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>local</code> (default)</td><td>No</td><td>Weak local NLU → same tools</td></tr>
+        <tr><td><code>openai-compatible</code></td><td>Free tier OK</td><td>Groq etc. via BASE_URL + API_KEY + MODEL</td></tr>
+        <tr><td><code>anthropic</code></td><td>Credits</td><td>Needs AGENT_ANTHROPIC_API_KEY with balance</td></tr>
+      </tbody>
+    </table>
+
+    <h2>7. Host wiring (minimal)</h2>
+<pre>import { registerAgent, createStubAdapters } from "./agent/index.js";
+
+registerAgent((path, method, handler) => {
+  app[method.toLowerCase()](path, async (req, res) => {
+    const out = await handler({ body: req.body, query: req.query, headers: req.headers });
+    res.status(out.status).type(out.contentType ?? "json").send(out.body);
+  });
+}, {
+  ...createStubAdapters(), // → createRealAdapters() in prod
+  anthropicApiKey: process.env.AGENT_ANTHROPIC_API_KEY ?? "unused",
+  llmProvider: process.env.AGENT_LLM_PROVIDER ?? "local",
+  demoMode: process.env.AGENT_DEMO_MODE === "1",
+});</pre>
+
+    <h2>8. Pre-merge checklist</h2>
+    <div class="checklist">
+      <label>☐ <code>npm run typecheck</code> + <code>npm run build</code> green</label>
+      <label>☐ Neo draft → confirm → list works</label>
+      <label>☐ Nyumba Westlands + Ruiru search returns listings</label>
+      <label>☐ <code>GET /agent</code> chat loads with Codzure logo</label>
+      <label>☐ <code>adapters/real.ts</code> TODOs planned / done for prod</label>
+      <label>☐ Env only <code>AGENT_*</code>; routes only <code>/agent/*</code></label>
+      <label>☐ Write tools still require confirmation</label>
+      <label>☐ No edits outside <code>/agent</code></label>
+      <label>☐ Secrets never committed</label>
+    </div>
+
+    <h2>9. File map</h2>
+<pre>agent/
+  contract.ts          ← MUST stay stable
+  knowledge.ts
+  index.ts             ← registerAgent / handleAgentMessage
+  demo-ui.ts / assets/
+  core/loop.ts / weak-llm.ts / openai-compat.ts / registry.ts / logger.ts
+  adapters/stub.ts / real.ts
+  tools/neo/* / tools/nyumba/*
+  HANDOFF.md · HANDOFF.html · HANDOFF.pdf
+  INTEGRATION.md · README.md</pre>
+
+    <footer>
+      Codzure Solutions · Neo (NeoBuk) &amp; Nyumba Zetu (Ask Nyumbani) · Agent module handoff<br />
+      Source: <code>agent/HANDOFF.md</code> · PR branch <code>cursor/agentic-ai-module-98e3</code>
+    </footer>
+  </div>
+</body>
+</html>

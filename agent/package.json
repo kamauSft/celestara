@@ -1,0 +1,36 @@
+{
+  "name": "@codzure/agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Standalone agentic AI module for Neo (NeoBuk) and Nyumba Zetu (Ask Nyumbani)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./contract": {
+      "types": "./dist/contract.d.ts",
+      "import": "./dist/contract.js"
+    }
+  },
+  "scripts": {
+    "agent:dev": "tsx dev.ts",
+    "start": "tsx dev.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
