@@ -261,8 +261,17 @@ agent/
   adapters/stub.ts     ← default seeded data
   adapters/real.ts     ← YOUR TODOs
   tools/neo/*  tools/nyumba/*
-  HANDOFF.md  INTEGRATION.md  README.md
+  HANDOFF.md  HANDOFF.html  HANDOFF.pdf
+  INTEGRATION.md  README.md
 ```
+
+Shareable handoff for the next developer:
+
+- Markdown: `HANDOFF.md`
+- HTML: `HANDOFF.html` (open in browser; logo via `assets/`)
+- PDF: `HANDOFF.pdf` (print-ready, 5 pages)
+
+Temporary public demo (while tunnel is up): **https://demoagent.loca.lt/agent**
 
 ---
 
