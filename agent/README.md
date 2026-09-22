@@ -1,0 +1,131 @@
+# Codzure Agentic AI Module
+
+Standalone agent for **Neo / NeoBuk** (SME sales & ops) and **Nyumba Zetu / Ask Nyumbani** (property discovery).  
+Everything lives in this folder. Imports nothing from outside `/agent`.
+
+Canonical product site (static reference only): https://codzure-solutions.vercel.app/
+
+## Quick start (standalone)
+
+```bash
+cd agent
+cp .env.example .env   # set AGENT_ANTHROPIC_API_KEY
+npm install
+npm start              # or: npm run agent:dev
+```
+
+Server defaults to `http://127.0.0.1:8787` (`AGENT_PORT`). Uses **StubAdapters** (in-memory sample sales + listings).
+
+```bash
+npm run typecheck
+npm run build
+```
+
+## Layout
+
+```
+agent/
+  contract.ts       # shared shapes + ports (dependency-free)
+  knowledge.ts      # product fact-sheet + SOURCE_URL (no runtime fetch)
+  index.ts          # registerAgent / handleAgentMessage
+  dev.ts            # standalone HTTP runner
+  core/loop.ts      # Anthropic tool-calling loop
+  core/registry.ts  # getTools("neo" | "nyumba")
+  core/logger.ts    # logs every tool call
+  adapters/stub.ts  # in-memory defaults
+  adapters/real.ts  # TODO template for real backends
+  tools/neo/        # record_sale, confirm_action, list_sales
+  tools/nyumba/     # search_listings
+  INTEGRATION.md    # host wiring (single-line style)
+```
+
+## Adding a tool
+
+1. New file under `tools/neo/` or `tools/nyumba/` exporting an `AgentToolDefinition`.
+2. One registry line in `core/registry.ts`.
+3. One port (or reuse) in `contract.ts` + stub/real adapter methods.
+
+## Example curls — Neo
+
+Health:
+
+```bash
+curl -s http://127.0.0.1:8787/agent/health | jq
+```
+
+List Neo tools:
+
+```bash
+curl -s 'http://127.0.0.1:8787/agent/tools?product=neo' | jq
+```
+
+Draft a sale (agent will call `record_sale` → confirmation required):
+
+```bash
+curl -s -X POST http://127.0.0.1:8787/agent/message \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "message": "sold 3 bags cement to Mary 1500",
+    "product": "neo",
+    "userId": "demo-user",
+    "sessionId": "neo-session-1"
+  }' | jq
+```
+
+Confirm a draft (use `draftId` from the previous reply / tool log):
+
+```bash
+curl -s -X POST http://127.0.0.1:8787/agent/message \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "message": "confirm draft agent_draft_xxxx",
+    "product": "neo",
+    "userId": "demo-user",
+    "sessionId": "neo-session-1"
+  }' | jq
+```
+
+## Example curls — Nyumba
+
+List Nyumba tools:
+
+```bash
+curl -s 'http://127.0.0.1:8787/agent/tools?product=nyumba' | jq
+```
+
+Search listings:
+
+```bash
+curl -s -X POST http://127.0.0.1:8787/agent/message \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "message": "find 2 bedroom places in Westlands under 100000 near Sarit",
+    "product": "nyumba",
+    "userId": "demo-user",
+    "sessionId": "nyumba-session-1"
+  }' | jq
+```
+
+Land / plot search:
+
+```bash
+curl -s -X POST http://127.0.0.1:8787/agent/message \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "message": "show land in Ruiru",
+    "product": "nyumba",
+    "userId": "demo-user",
+    "sessionId": "nyumba-session-2"
+  }' | jq
+```
+
+## Guardrails
+
+- Write tools return `{ requiresConfirmation: true, summary }` — no direct write.
+- Confirm path executes drafted action by id.
+- Read tools run immediately.
+- Env: `AGENT_*` only. Logger stays inside `/agent`.
+
+## Host integration
+
+See [INTEGRATION.md](./INTEGRATION.md). Merging this module does not require changing anything outside `/agent`.
