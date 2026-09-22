@@ -15,6 +15,7 @@ import type {
 import { runAgentLoop } from "./core/loop.js";
 import { createAgentLogger } from "./core/logger.js";
 import { getTools } from "./core/registry.js";
+import { DEMO_CHAT_HTML } from "./demo-ui.js";
 
 export type {
   AgentDeps,
@@ -91,6 +92,18 @@ export async function handleAgentMessage(
  *   }, deps);
  */
 export function registerAgent(mount: MountHandler, deps: AgentDeps): void {
+  mount("/agent", "GET", () => ({
+    status: 200,
+    body: DEMO_CHAT_HTML,
+    contentType: "text/html; charset=utf-8",
+  }));
+
+  mount("/agent/", "GET", () => ({
+    status: 200,
+    body: DEMO_CHAT_HTML,
+    contentType: "text/html; charset=utf-8",
+  }));
+
   mount("/agent/health", "GET", () => ({
     status: 200,
     body: {
@@ -98,6 +111,7 @@ export function registerAgent(mount: MountHandler, deps: AgentDeps): void {
       module: "codzure-agent",
       products: ["neo", "nyumba"],
       demoMode: Boolean(deps.demoMode),
+      chat: "/agent",
     },
   }));
 

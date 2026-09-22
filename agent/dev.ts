@@ -35,9 +35,13 @@ function readBody(req: IncomingMessage): Promise<unknown> {
 }
 
 function send(res: ServerResponse, out: AgentHttpResponse): void {
-  const payload = JSON.stringify(out.body);
+  const type = out.contentType ?? "application/json; charset=utf-8";
+  const payload =
+    typeof out.body === "string" && type.includes("text/html")
+      ? out.body
+      : JSON.stringify(out.body);
   res.writeHead(out.status, {
-    "Content-Type": "application/json; charset=utf-8",
+    "Content-Type": type,
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "GET,POST,OPTIONS",

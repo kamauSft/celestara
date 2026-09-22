@@ -156,6 +156,8 @@ export interface AgentHttpRequest {
 export interface AgentHttpResponse {
   status: number;
   body: unknown;
+  /** Defaults to application/json */
+  contentType?: string;
 }
 
 export interface AgentToolContext {

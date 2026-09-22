@@ -18,6 +18,8 @@ npm start              # or: npm run agent:dev
 
 Server defaults to `http://127.0.0.1:8787` (`AGENT_PORT`). Uses **StubAdapters** (in-memory sample sales + listings).
 
+**Chat in the browser:** open `/agent` (e.g. `http://127.0.0.1:8787/agent`) — type messages there; you do not need curl.
+
 ```bash
 npm run typecheck
 npm run build
