@@ -46,7 +46,7 @@ agent/
 
 ## Other-dev handoff
 
-See **[HANDOFF.md](./HANDOFF.md)** — what to read first, how to fill `adapters/real.ts`, wiring pointer, merge safety, checklist.
+See **[HANDOFF.md](./HANDOFF.md)** — capabilities, port contracts, phrases/codes that must work, LLM providers, and pre-merge checklist. Read that before wiring RealAdapters.
 
 ## Adding a tool
 
