@@ -14,7 +14,7 @@ npm install
 npm start              # or: npm run agent:dev
 ```
 
-**No money / no Anthropic credits?** Keep `AGENT_DEMO_MODE=1`. The server routes simple Neo/Nyumba phrases to the same tools + StubAdapters without calling Anthropic.
+**No money / no Anthropic credits?** Default is a **weak local LLM** (`AGENT_LLM_PROVIDER=local`) that still runs real `search_listings` / `record_sale` tools on StubAdapters. Optional: free Groq key via `openai-compatible` (see `.env.example`).
 
 Server defaults to `http://127.0.0.1:8787` (`AGENT_PORT`). Uses **StubAdapters** (in-memory sample sales + listings).
 

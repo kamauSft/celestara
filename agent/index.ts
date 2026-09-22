@@ -110,7 +110,8 @@ export function registerAgent(mount: MountHandler, deps: AgentDeps): void {
       ok: true,
       module: "codzure-agent",
       products: ["neo", "nyumba"],
-      demoMode: Boolean(deps.demoMode),
+      demoMode: Boolean(deps.demoMode) || deps.llmProvider === "local",
+      llm: deps.llmProvider ?? (deps.demoMode ? "local" : "anthropic"),
       chat: "/agent",
     },
   }));

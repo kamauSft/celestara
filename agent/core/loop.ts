@@ -1,6 +1,8 @@
 /**
- * Anthropic tool-calling loop (claude-sonnet).
- * message + product tools → execute via ports → feed results → until final text.
+ * Agent loop router:
+ * - local (default free): weak local NLU + real tools
+ * - openai-compatible: Groq / other free-tier OpenAI APIs
+ * - anthropic: Claude tool loop (needs credits)
  */
 
 import Anthropic from "@anthropic-ai/sdk";
@@ -14,8 +16,9 @@ import type {
 } from "../contract.js";
 import { buildSystemPrompt } from "../knowledge.js";
 import { createAgentLogger } from "./logger.js";
-import { runOfflineLoop } from "./offline.js";
+import { runOpenAiCompatibleLoop } from "./openai-compat.js";
 import { getToolByName, getTools } from "./registry.js";
+import { runWeakLocalLoop } from "./weak-llm.js";
 
 const DEFAULT_MODEL = "claude-sonnet-4-20250514";
 const MAX_ITERATIONS = 8;
@@ -48,12 +51,28 @@ function extractDraft(data: unknown): DraftActionSummary | undefined {
   return undefined;
 }
 
+function resolveProvider(deps: AgentDeps): AgentDeps["llmProvider"] {
+  if (deps.llmProvider) return deps.llmProvider;
+  if (deps.demoMode) return "local";
+  if (deps.llmBaseUrl) return "openai-compatible";
+  if (deps.anthropicApiKey && deps.anthropicApiKey !== "demo-offline") {
+    return "anthropic";
+  }
+  return "local";
+}
+
 export async function runAgentLoop(
   input: AgentRequest,
   deps: AgentDeps,
 ): Promise<AgentResponse> {
-  if (deps.demoMode) {
-    return runOfflineLoop(input, deps);
+  const provider = resolveProvider(deps);
+
+  if (provider === "local") {
+    return runWeakLocalLoop(input, deps);
+  }
+
+  if (provider === "openai-compatible") {
+    return runOpenAiCompatibleLoop(input, deps);
   }
 
   const logger = deps.logger ?? createAgentLogger();

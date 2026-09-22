@@ -135,10 +135,16 @@ export interface AgentDeps {
   model?: string;
   logger?: AgentLogger;
   /**
-   * Free offline demo: skip Anthropic and route simple phrases to tools.
-   * Use when you have no API credits (AGENT_DEMO_MODE=1).
+   * Free offline / weak-local demo: skip paid Anthropic.
+   * Use when AGENT_DEMO_MODE=1 or llmProvider is "local".
    */
   demoMode?: boolean;
+  /** anthropic | local | openai-compatible */
+  llmProvider?: "anthropic" | "local" | "openai-compatible";
+  /** OpenAI-compatible base URL, e.g. https://api.groq.com/openai/v1 */
+  llmBaseUrl?: string;
+  llmApiKey?: string;
+  llmModel?: string;
 }
 
 export type MountHandler = (

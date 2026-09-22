@@ -1,14 +1,17 @@
 /**
  * Standalone dev runner — StubAdapters by default.
- * Run from /agent: npm start  (or npm run agent:dev)
- *
- * Env: AGENT_ANTHROPIC_API_KEY, AGENT_PORT (default 8787)
+ * Free weak-local LLM by default (AGENT_DEMO_MODE=1). Optional Anthropic / OpenAI-compatible.
  */
 
+import { createReadStream, existsSync } from "node:fs";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import { extname, join, normalize } from "node:path";
+import { fileURLToPath } from "node:url";
 import { createStubAdapters } from "./adapters/stub.js";
 import type { AgentDeps, AgentHttpRequest, AgentHttpResponse } from "./contract.js";
 import { registerAgent } from "./index.js";
+
+const AGENT_ROOT = fileURLToPath(new URL(".", import.meta.url));
 
 function readEnv(name: string): string | undefined {
   return process.env[name];
@@ -49,15 +52,65 @@ function send(res: ServerResponse, out: AgentHttpResponse): void {
   res.end(payload);
 }
 
+function mimeFor(filePath: string): string {
+  switch (extname(filePath).toLowerCase()) {
+    case ".png":
+      return "image/png";
+    case ".jpg":
+    case ".jpeg":
+      return "image/jpeg";
+    case ".svg":
+      return "image/svg+xml";
+    case ".webp":
+      return "image/webp";
+    default:
+      return "application/octet-stream";
+  }
+}
+
+function tryServeAsset(pathname: string, res: ServerResponse): boolean {
+  if (!pathname.startsWith("/agent/assets/")) return false;
+  const rel = pathname.slice("/agent/assets/".length);
+  if (!rel || rel.includes("..") || rel.includes("/") || rel.includes("\\")) {
+    res.writeHead(400).end("bad path");
+    return true;
+  }
+  const filePath = normalize(join(AGENT_ROOT, "assets", rel));
+  if (!filePath.startsWith(join(AGENT_ROOT, "assets")) || !existsSync(filePath)) {
+    res.writeHead(404).end("not found");
+    return true;
+  }
+  res.writeHead(200, {
+    "Content-Type": mimeFor(filePath),
+    "Cache-Control": "public, max-age=3600",
+    "Access-Control-Allow-Origin": "*",
+  });
+  createReadStream(filePath).pipe(res);
+  return true;
+}
+
 async function main(): Promise<void> {
   const demoMode =
     readEnv("AGENT_DEMO_MODE") === "1" ||
-    readEnv("AGENT_DEMO_MODE")?.toLowerCase() === "true";
+    readEnv("AGENT_DEMO_MODE")?.toLowerCase() === "true" ||
+    readEnv("AGENT_LLM_PROVIDER") === "local" ||
+    !readEnv("AGENT_LLM_PROVIDER");
   const apiKey = readEnv("AGENT_ANTHROPIC_API_KEY") ?? "";
+  const llmProviderEnv = readEnv("AGENT_LLM_PROVIDER") as
+    | AgentDeps["llmProvider"]
+    | undefined;
 
-  if (!demoMode && !apiKey) {
+  const llmProvider: AgentDeps["llmProvider"] =
+    llmProviderEnv ??
+    (readEnv("AGENT_LLM_BASE_URL")
+      ? "openai-compatible"
+      : demoMode
+        ? "local"
+        : "anthropic");
+
+  if (llmProvider === "anthropic" && !apiKey) {
     console.error(
-      "Missing AGENT_ANTHROPIC_API_KEY (or set AGENT_DEMO_MODE=1 for free offline demo).",
+      "Missing AGENT_ANTHROPIC_API_KEY (or set AGENT_DEMO_MODE=1 / AGENT_LLM_PROVIDER=local).",
     );
     process.exit(1);
   }
@@ -67,7 +120,11 @@ async function main(): Promise<void> {
   const deps: AgentDeps = {
     ...stubs,
     anthropicApiKey: apiKey || "demo-offline",
-    demoMode,
+    demoMode: llmProvider === "local",
+    llmProvider,
+    llmBaseUrl: readEnv("AGENT_LLM_BASE_URL"),
+    llmApiKey: readEnv("AGENT_LLM_API_KEY") ?? readEnv("GROQ_API_KEY"),
+    llmModel: readEnv("AGENT_LLM_MODEL"),
   };
 
   type Route = {
@@ -95,6 +152,8 @@ async function main(): Promise<void> {
     }
 
     const url = new URL(req.url ?? "/", `http://127.0.0.1:${port}`);
+    if (method === "GET" && tryServeAsset(url.pathname, res)) return;
+
     const key = `${method} ${url.pathname}`;
     const route = routes.get(key);
 
@@ -103,7 +162,7 @@ async function main(): Promise<void> {
         status: 404,
         body: {
           error: "Not found",
-          hint: "POST /agent/message | GET /agent/health | GET /agent/tools?product=neo",
+          hint: "Open /agent for chat | POST /agent/message | GET /agent/health",
         },
       });
       return;
@@ -128,10 +187,8 @@ async function main(): Promise<void> {
 
   server.listen(port, () => {
     console.log(`[agent] listening on http://127.0.0.1:${port}`);
-    console.log("[agent] StubAdapters active (in-memory Neo sales + Nyumba listings)");
-    if (demoMode) {
-      console.log("[agent] DEMO MODE on — free offline tool routing (no Anthropic credits)");
-    }
+    console.log("[agent] StubAdapters active · chat UI at /agent");
+    console.log(`[agent] LLM provider: ${llmProvider}`);
     console.log("[agent] POST /agent/message  GET /agent/health  GET /agent/tools?product=");
   });
 }

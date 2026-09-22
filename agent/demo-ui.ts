@@ -1,5 +1,5 @@
 /**
- * Browser chat page for the free demo (no curl required).
+ * Browser chat page — Codzure branding + free weak-local agent.
  */
 
 export const DEMO_CHAT_HTML = `<!DOCTYPE html>
@@ -7,83 +7,110 @@ export const DEMO_CHAT_HTML = `<!DOCTYPE html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Codzure Agent Demo</title>
+  <title>Codzure Agent · Neo &amp; Nyumba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0f1a17;
-      --panel: #16241f;
-      --ink: #e8f2ec;
-      --muted: #9bb5a8;
-      --accent: #3dba7a;
-      --neo: #4aa3ff;
-      --nyumba: #e0a35a;
-      --line: #2a3d35;
+      --sky: #39B6FF;
+      --paper: #EAF1FB;
+      --ink: #1A1F24;
+      --muted: #59626D;
+      --white: #FFFFFF;
+      --line: #D7E4F5;
+      --neo: #39B6FF;
+      --nyumba: #2F6FED;
+      --soft: #F8FBFF;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0; min-height: 100vh;
-      font-family: "Segoe UI", system-ui, sans-serif;
-      background:
-        radial-gradient(ellipse at top, #1a3329 0%, transparent 55%),
-        var(--bg);
+      font-family: "DM Sans", system-ui, sans-serif;
       color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, #cfe9ff 0%, transparent 55%),
+        linear-gradient(180deg, var(--paper) 0%, var(--white) 45%, #f3f8ff 100%);
       display: flex; flex-direction: column;
     }
     header {
-      padding: 1.25rem 1.25rem 0.75rem;
+      padding: 1rem 1.25rem 0.85rem;
       border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(10px);
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.85rem 1.25rem;
     }
-    header h1 {
-      margin: 0; font-size: 1.35rem; letter-spacing: 0.02em;
+    .brand {
+      display: flex; align-items: center; gap: 0.75rem; min-width: 0;
     }
-    header p { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.9rem; }
+    .brand img {
+      height: 42px; width: auto; display: block;
+    }
+    .brand-copy { min-width: 0; }
+    .brand-copy strong {
+      display: block; font-size: 0.72rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--sky); font-weight: 700;
+    }
+    .brand-copy h1 {
+      margin: 0.1rem 0 0;
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400; font-size: 1.45rem; line-height: 1.1;
+    }
     .badge {
-      display: inline-block; margin-top: 0.5rem;
-      font-size: 0.75rem; padding: 0.2rem 0.5rem;
-      border: 1px solid var(--line); border-radius: 4px; color: var(--accent);
+      margin-left: auto;
+      font-size: 0.75rem; padding: 0.35rem 0.65rem;
+      border-radius: 999px; border: 1px solid var(--line);
+      background: var(--soft); color: var(--muted);
     }
     main {
       flex: 1; display: flex; flex-direction: column;
-      max-width: 720px; width: 100%; margin: 0 auto; padding: 1rem;
+      max-width: 760px; width: 100%; margin: 0 auto; padding: 1rem;
       gap: 0.75rem;
     }
     .products { display: flex; gap: 0.5rem; }
     .products button {
-      flex: 1; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--line);
-      background: var(--panel); color: var(--ink); cursor: pointer; font-weight: 600;
+      flex: 1; padding: 0.7rem; border-radius: 12px; border: 1px solid var(--line);
+      background: var(--white); color: var(--ink); cursor: pointer; font-weight: 600;
+      font-family: inherit;
     }
-    .products button.active.neo { border-color: var(--neo); color: var(--neo); }
-    .products button.active.nyumba { border-color: var(--nyumba); color: var(--nyumba); }
+    .products button.active.neo { border-color: var(--neo); color: var(--neo); box-shadow: 0 0 0 3px rgba(57,182,255,0.15); }
+    .products button.active.nyumba { border-color: var(--nyumba); color: var(--nyumba); box-shadow: 0 0 0 3px rgba(47,111,237,0.12); }
     #log {
-      flex: 1; min-height: 280px; overflow-y: auto;
-      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+      flex: 1; min-height: 300px; overflow-y: auto;
+      background: var(--white); border: 1px solid var(--line); border-radius: 16px;
       padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;
+      box-shadow: 0 10px 30px rgba(26, 31, 36, 0.04);
     }
-    .msg { max-width: 92%; padding: 0.65rem 0.8rem; border-radius: 10px; white-space: pre-wrap; line-height: 1.4; font-size: 0.95rem; }
-    .msg.user { align-self: flex-end; background: #243830; }
-    .msg.bot { align-self: flex-start; background: #1b2a24; border: 1px solid var(--line); }
-    .msg .meta { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.25rem; }
-    form {
-      display: flex; gap: 0.5rem;
-    }
+    .msg { max-width: 92%; padding: 0.7rem 0.85rem; border-radius: 14px; white-space: pre-wrap; line-height: 1.45; font-size: 0.95rem; }
+    .msg.user { align-self: flex-end; background: #e8f6ff; border: 1px solid #c5e7ff; }
+    .msg.bot { align-self: flex-start; background: var(--soft); border: 1px solid var(--line); }
+    .msg .meta { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.25rem; font-weight: 600; }
+    form { display: flex; gap: 0.5rem; }
     form input {
-      flex: 1; padding: 0.8rem 0.9rem; border-radius: 8px;
-      border: 1px solid var(--line); background: var(--panel); color: var(--ink);
-      font-size: 1rem;
+      flex: 1; padding: 0.85rem 1rem; border-radius: 12px;
+      border: 1px solid var(--line); background: var(--white); color: var(--ink);
+      font-size: 1rem; font-family: inherit;
     }
+    form input:focus { outline: 2px solid rgba(57,182,255,0.35); border-color: var(--sky); }
     form button {
-      padding: 0.8rem 1.1rem; border: none; border-radius: 8px;
-      background: var(--accent); color: #062014; font-weight: 700; cursor: pointer;
+      padding: 0.85rem 1.15rem; border: none; border-radius: 12px;
+      background: var(--sky); color: #fff; font-weight: 700; cursor: pointer;
+      font-family: inherit;
     }
-    form button:disabled { opacity: 0.5; cursor: wait; }
-    .hints { color: var(--muted); font-size: 0.8rem; }
-    .hints code { color: var(--ink); }
+    form button:disabled { opacity: 0.55; cursor: wait; }
+    .hints { color: var(--muted); font-size: 0.82rem; margin: 0; }
+    .hints code { color: var(--ink); background: #eef5ff; padding: 0.1rem 0.35rem; border-radius: 4px; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Codzure Agent</h1>
-    <p>Free demo — Neo sales &amp; Nyumba listings (stub data, no paid API).</p>
+    <div class="brand">
+      <img src="/agent/assets/codzure_logo_full.png" alt="Codzure Solutions" />
+      <div class="brand-copy">
+        <strong>Codzure Solutions</strong>
+        <h1>Ask Neo &amp; Nyumba</h1>
+      </div>
+    </div>
     <span class="badge" id="mode">checking…</span>
   </header>
   <main>
@@ -94,7 +121,7 @@ export const DEMO_CHAT_HTML = `<!DOCTYPE html>
     <p class="hints" id="hints"></p>
     <div id="log" aria-live="polite"></div>
     <form id="chat">
-      <input id="message" autocomplete="off" placeholder="Type a message…" />
+      <input id="message" autocomplete="off" placeholder="Ask to search or record a sale…" />
       <button type="submit" id="send">Send</button>
     </form>
   </main>
@@ -117,7 +144,7 @@ export const DEMO_CHAT_HTML = `<!DOCTYPE html>
         product = btn.dataset.product;
         hintsEl.innerHTML = hints[product];
         sessionId = 'web-' + Math.random().toString(36).slice(2, 10);
-        add('bot', 'Switched to ' + (product === 'neo' ? 'Neo' : 'Nyumba Zetu') + '. New session.');
+        add('bot', 'Switched to ' + (product === 'neo' ? 'Neo' : 'Nyumba Zetu') + '. Ask me anything for this product.');
       });
     });
 
@@ -134,10 +161,10 @@ export const DEMO_CHAT_HTML = `<!DOCTYPE html>
     }
 
     fetch('/agent/health').then((r) => r.json()).then((h) => {
-      modeEl.textContent = h.demoMode ? 'demoMode: free offline' : 'LLM mode';
+      modeEl.textContent = (h.llm || 'local') + (h.demoMode ? ' · free' : '');
     }).catch(() => { modeEl.textContent = 'offline?'; });
 
-    add('bot', 'Hi — pick Neo or Nyumba, then send a message.');
+    add('bot', 'Hi — I am the Codzure agent. Pick Neo (sales) or Nyumba (property search), then send a message.');
 
     document.getElementById('chat').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -152,19 +179,11 @@ export const DEMO_CHAT_HTML = `<!DOCTYPE html>
         const res = await fetch('/agent/message', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message,
-            product,
-            userId: 'web-demo',
-            sessionId
-          })
+          body: JSON.stringify({ message, product, userId: 'web-demo', sessionId })
         });
         const data = await res.json();
-        if (!res.ok) {
-          add('bot', data.error || JSON.stringify(data));
-        } else {
-          add('bot', data.reply || JSON.stringify(data, null, 2));
-        }
+        if (!res.ok) add('bot', data.error || JSON.stringify(data));
+        else add('bot', data.reply || JSON.stringify(data, null, 2));
       } catch (err) {
         add('bot', 'Request failed: ' + err.message);
       } finally {
