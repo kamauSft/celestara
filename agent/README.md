@@ -9,4 +9,6 @@ Start: [who-pays.html](./who-pays.html)
 | Njeri plot seller | [nyumbani-seller.html](./nyumbani-seller.html) | 4,500 once |
 | Wanjiku plot buyer | [nyumbani-buyer.html](./nyumbani-buyer.html) | 2,500 buyer pack |
 
-**PDF (buyer + seller, both apps):** [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf) · print source [print.html](./print.html)
+**Download PDF:** [download.html](./download.html) → [BUYER-AND-SELLER.pdf](./BUYER-AND-SELLER.pdf) (`download="Codzure-Buyer-and-Seller.pdf"`)
+
+Same bytes: [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf) · print source [print.html](./print.html)

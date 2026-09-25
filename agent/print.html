@@ -10,6 +10,8 @@
     h1 { font-family: ui-serif, Georgia, serif; font-size: 26px; margin: 0 0 6px; }
     h2 { font-size: 15px; margin: 0 0 8px; letter-spacing: .04em; text-transform: uppercase; }
     .lead { margin: 0 0 16px; color: #44505A; font-size: 14px; }
+    a.dl { display: inline-block; margin: 0 0 16px; background: #39B6FF; color: #0F1A24; font-weight: 800; text-decoration: none; padding: 12px 18px; border-radius: 10px; }
+    @media print { a.dl { display: none; } }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .card { border: 1.5px solid #C9D6E2; border-radius: 14px; padding: 12px; page-break-inside: avoid; }
     .card.seller { background: #FFF8F3; }
@@ -28,6 +30,7 @@
 <body>
   <div class="page">
     <h1>Buyer and seller</h1>
+    <a class="dl" href="BUYER-AND-SELLER.pdf" download="Codzure-Buyer-and-Seller.pdf">Download PDF</a>
     <p class="lead">Codzure is us. Four people. Two apps. Each deal has a seller and a buyer. No chat. They tap a button. Someone pays us.</p>
     <div class="grid">
       <div class="card seller">
