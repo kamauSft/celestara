@@ -1,15 +1,15 @@
-# CVM pack (open this — not the .docx)
+# Top 1% agentic AI pack (Neo & Nyumba Zetu)
 
-Cursor and GitHub **cannot preview Word `.docx` binaries**. Use these instead:
+Word `.docx` will **not** preview in Cursor or GitHub. Open:
 
-| Open in the IDE / browser | What it is |
+| File | What |
 |---|---|
-| [demo.html](./demo.html) | Comprehensive **CVM demo board** (both products) |
-| [demo-cvm.png](./demo-cvm.png) | High-resolution screenshot of that board |
-| [CVM-PACK.html](./CVM-PACK.html) | Printable / browser document (same story as Word) |
-| [BUSINESS_CASE.md](./BUSINESS_CASE.md) | Full markdown case |
-| [CVM-Agentic-AI-Neo-Nyumba-Zetu.pdf](./CVM-Agentic-AI-Neo-Nyumba-Zetu.pdf) | PDF export of the pack |
+| [demo.html](./demo.html) | Dual-product **agent loop** board |
+| [demo-agentic.png](./demo-agentic.png) | High-resolution screenshot of that board |
+| [AGENTIC-PACK.html](./AGENTIC-PACK.html) | Short browser document |
+| [BUSINESS_CASE.md](./BUSINESS_CASE.md) | Full case (operator, not chat widget) |
+| [index.html](./index.html) | Longer presentable case |
 
-The `.docx` remains only for people who download and open it in Microsoft Word.
+A top 1% agent finishes a real job with tools, grounds answers in this shop / these listings, and waits for Confirm before any write. The model is replaceable. CVM slides are optional.
 
-**CVM = Customer · Value · Mechanism** plus a six-stage cycle (Identify → Understand → Design → Deliver → Capture → Measure).
+Product truth: [codzure-solutions.vercel.app](https://codzure-solutions.vercel.app/) — NeoBuk and Ask Nyumbani.

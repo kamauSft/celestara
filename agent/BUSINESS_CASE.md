@@ -1,7 +1,7 @@
 # Business case: a top 0.5% agentic layer for Neo & Nyumba Zetu
 
 **Codzure Solutions · Neo (NeoBuk) + Nyumba Zetu (Ask Nyumbani)**  
-**Decision this document supports:** what to build, what to refuse, and how to know we are in the top fraction — not another chat widget.  
+**Decision this document supports:** what to build, what to refuse, and how to know we are in the top 1% of agentic product AI — not another chat widget. A CVM slide is optional; the agent loop is not.  
 **Source of product truth:** [codzure-solutions.vercel.app](https://codzure-solutions.vercel.app/)
 
 ---
