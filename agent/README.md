@@ -1,16 +1,15 @@
-# Agentic AI — CVM pack (Neo & Nyumba Zetu)
+# CVM pack (open this — not the .docx)
 
-Decision pack for a top-0.5% agentic layer on Codzure’s two products. Not the engine yet.
+Cursor and GitHub **cannot preview Word `.docx` binaries**. Use these instead:
 
-| File | Use |
+| Open in the IDE / browser | What it is |
 |---|---|
-| [CVM-Agentic-AI-Neo-Nyumba-Zetu.docx](./CVM-Agentic-AI-Neo-Nyumba-Zetu.docx) | **Word document** — CVM framework, both products, demo figure, build sequence |
-| [demo.html](./demo.html) | Dual-product **CVM demo board** (open in a browser) |
-| [demo-cvm.png](./demo-cvm.png) | Demo screenshot |
-| [index.html](./index.html) | Longer presentable business case |
-| [BUSINESS_CASE.md](./BUSINESS_CASE.md) | Same plan in Markdown |
-| [build_docx.py](./build_docx.py) | Regenerates the Word file (`python3 build_docx.py`) |
+| [demo.html](./demo.html) | Comprehensive **CVM demo board** (both products) |
+| [demo-cvm.png](./demo-cvm.png) | High-resolution screenshot of that board |
+| [CVM-PACK.html](./CVM-PACK.html) | Printable / browser document (same story as Word) |
+| [BUSINESS_CASE.md](./BUSINESS_CASE.md) | Full markdown case |
+| [CVM-Agentic-AI-Neo-Nyumba-Zetu.pdf](./CVM-Agentic-AI-Neo-Nyumba-Zetu.pdf) | PDF export of the pack |
 
-**CVM = Customer · Value · Mechanism.** If we cannot name all three on one screen, it is a chat widget.
+The `.docx` remains only for people who download and open it in Microsoft Word.
 
-Product truth: [codzure-solutions.vercel.app](https://codzure-solutions.vercel.app/) — NeoBuk and Ask Nyumbani (Nyumba Zetu).
+**CVM = Customer · Value · Mechanism** plus a six-stage cycle (Identify → Understand → Design → Deliver → Capture → Measure).

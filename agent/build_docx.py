@@ -121,7 +121,7 @@ def build(screenshot: Path | None = None) -> Path:
         space_after=10,
     )
     p(doc, "Product source of truth: https://codzure-solutions.vercel.app/", size=11, color=NY, space_after=4)
-    p(doc, "Companion demo board: agent/demo.html  ·  Full narrative: agent/BUSINESS_CASE.md", size=10, color=MUTED)
+    p(doc, "If Word preview is blocked: open agent/CVM-PACK.html or agent/CVM-Agentic-AI-Neo-Nyumba-Zetu.pdf. Demo board: agent/demo.html. Narrative: agent/BUSINESS_CASE.md", size=10, color=MUTED)
 
     heading(doc, "1. Why this document exists", 1)
     p(
