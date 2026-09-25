@@ -3,68 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ask Nyumbani — property seller</title>
+  <title>Njeri’s plot — Ask Nyumbani</title>
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; background: #0F1A24; font-family: ui-sans-serif, system-ui, sans-serif; }
-    .stage { min-height: 100vh; display: grid; place-items: start center; padding: 24px 16px 48px; }
-    .phone { width: 390px; background: #F4F8FC; color: #1A1F24; border-radius: 36px; overflow: hidden; border: 10px solid #15202B; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
-    .notch { height: 18px; background: #15202B; }
-    .top { padding: 14px 18px 8px; display: flex; justify-content: space-between; }
-    .top b { font-size: 18px; font-family: ui-serif, Georgia, serif; }
-    .top span { font-size: 12px; color: #59626D; }
-    .pay { margin: 0 18px 12px; background: #15202B; color: #EAF1FB; border-radius: 18px; padding: 14px; }
-    .pay em { font-style: normal; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #39B6FF; }
-    .pay .kes { font-size: 26px; font-weight: 800; margin: 8px 0 4px; }
-    .pay strong { display: block; font-size: 15px; line-height: 1.35; font-weight: 600; }
-    .photo { margin: 0 18px 10px; height: 120px; border-radius: 16px; background: linear-gradient(135deg,#9BB8C9,#EAF1FB); display: grid; place-items: end start; padding: 12px; color: #15202B; font-weight: 800; }
-    .card { margin: 0 18px 10px; background: #fff; border-radius: 16px; padding: 14px; border: 1px solid #D5E4F0; }
-    .card h2 { margin: 0 0 8px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #39B6FF; }
-    .f { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; }
-    .f span { color: #59626D; }
-    .why { font-size: 13px; line-height: 1.4; margin: 8px 0 0; color: #59626D; }
-    button { width: 100%; border: 0; border-radius: 12px; padding: 12px; font-weight: 800; font-family: inherit; cursor: pointer; margin-top: 10px; background: #39B6FF; color: #fff; }
-    .ghost { background: #EAF1FB; color: #1A1F24; }
-    .ok { display: none; background: #E3F2FD; border-radius: 10px; padding: 8px; margin-top: 8px; font-size: 13px; }
-    .nav { display: flex; background: #fff; border-top: 1px solid #D5E4F0; }
-    .nav span { flex: 1; text-align: center; padding: 12px 0; font-size: 11px; font-weight: 700; color: #8A9AAA; }
-    .nav .on { color: #1A1F24; }
+    .stage { display: grid; place-items: start center; padding: 20px 12px 40px; }
+    .phone { width: 390px; background: #F4F8FC; color: #1A1F24; border-radius: 36px; overflow: hidden; border: 10px solid #15202B; }
+    .notch { height: 16px; background: #15202B; }
+    .pad { padding: 16px 18px 8px; }
+    h1 { margin: 0; font-size: 22px; font-family: ui-serif, Georgia, serif; }
+    .sub { color: #59626D; font-size: 13px; margin: 4px 0 12px; }
+    .plot { height: 100px; border-radius: 16px; background: linear-gradient(#B7C9D6,#EAF1FB); display: grid; place-items: end start; padding: 12px; font-weight: 800; }
+    .card { background: #fff; border-radius: 16px; padding: 14px; margin-top: 10px; border: 1px solid #D5E4F0; }
+    .row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 15px; }
+    .row span { color: #59626D; }
+    .red { color: #9B2335; font-weight: 800; }
+    .ok { color: #187A48; font-weight: 800; }
+    p { font-size: 13px; color: #59626D; line-height: 1.4; }
+    button { width: 100%; border: 0; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 800; font-family: inherit; background: #39B6FF; color: #fff; cursor: pointer; }
+    .fee { text-align: center; font-size: 12px; color: #59626D; padding: 12px; }
+    .done { display: none; margin-top: 8px; background: #E3F2FD; border-radius: 10px; padding: 10px; font-size: 14px; }
   </style>
 </head>
 <body>
   <div class="stage">
     <div class="phone">
       <div class="notch"></div>
-      <div class="top"><b>Ask Nyumbani</b><span>Seller · Njeri</span></div>
-      <div class="pay">
-        <em>Why a seller pays us KES 4,500</em>
-        <div class="kes">You were about to list at 4.8M</div>
-        <strong>Comps next door closed 6.1M–6.5M. Underpricing that plot costs you more than a hundred listing fees. Buyers also ghost unverified land. A title-ready listing sells. That is what you buy.</strong>
+      <div class="pad">
+        <h1>Njeri’s plot</h1>
+        <p class="sub">Ask Nyumbani · you are selling land · you pay the bill</p>
+        <div class="plot">1/8 acre · Ruaka</div>
+        <div class="card">
+          <div class="row"><span>You typed</span><b>KES 4.8M</b></div>
+          <div class="row"><span>Nearby sold</span><b class="ok">KES 6.2M</b></div>
+          <div class="row"><span>You would lose</span><b class="red">KES 1.4M</b></div>
+          <p>Buyers also skip plots with no title pack. Pay once, list at the real price, with the checklist on the listing.</p>
+          <button type="button" id="c">Publish at 6.2M · pay KES 4,500</button>
+          <div class="done" id="d">Listed at 6.2M with title pack. You paid Codzure KES 4,500. You did not give away 1.4M.</div>
+        </div>
+        <p class="fee">One payment from the seller. Buyers browse free.</p>
       </div>
-      <div class="photo">Your 1/8 acre · Ruaka</div>
-      <div class="card">
-        <h2>Price — so you don’t give the land away</h2>
-        <div class="f"><span>Your ask</span><b>KES 4.8M</b></div>
-        <div class="f"><span>Comps (3 sales)</span><b>KES 6.2M mid</b></div>
-        <div class="f"><span>You leave on the table</span><b>≈ KES 1.4M</b></div>
-        <p class="why">Agent does not post the listing until you confirm the ask. You still own the number.</p>
-        <button type="button" id="p">List at 6.2M instead</button>
-        <div class="ok" id="okp">Ask updated to 6.2M. Not live until you publish.</div>
-      </div>
-      <div class="card">
-        <h2>Trust pack — so a buyer actually shows up</h2>
-        <div class="f"><span>Title status now</span><b>Unverified</b></div>
-        <p class="why">Serious Nairobi buyers skip “deposit this week” plots. For KES 4,500 we attach the document checklist to YOUR listing. You pay because viewings are the sale, and fear is killing viewings.</p>
-        <button type="button" id="t">Pay KES 4,500 · make it title-ready</button>
-        <button class="ghost" type="button">Publish without pack</button>
-        <div class="ok" id="okt">Pack attached. Buyers see the checklist. Codzure is paid.</div>
-      </div>
-      <div class="nav"><span class="on">My plot</span><span>Price</span><span>Trust</span><span>Pay</span></div>
     </div>
   </div>
   <script>
-    document.getElementById("p").onclick = () => document.getElementById("okp").style.display = "block";
-    document.getElementById("t").onclick = () => document.getElementById("okt").style.display = "block";
+    document.getElementById("c").onclick = () => document.getElementById("d").style.display = "block";
   </script>
 </body>
 </html>
