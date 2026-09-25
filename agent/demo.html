@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent demo — NeoBuk &amp; Ask Nyumbani</title>
+  <style>
+    :root { --ink:#1A1F24; --mute:#59626D; --sky:#39B6FF; --paper:#EAF1FB; --line:#D5E4F0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: #F2F7FD; color: var(--ink); }
+    header { padding: 20px 24px 8px; max-width: 1100px; margin: 0 auto; }
+    header p { margin: 0; color: var(--mute); font-size: 14px; }
+    h1 { font-family: ui-serif, Georgia, serif; font-size: 28px; font-weight: 600; margin: 8px 0 0; }
+    .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; max-width: 1100px; margin: 12px auto 40px; padding: 0 24px; }
+    @media (max-width: 800px) { .stage { grid-template-columns: 1fr; } }
+    .phone { background: #fff; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; box-shadow: 0 20px 50px rgba(26,31,36,.08); min-height: 640px; display: flex; flex-direction: column; }
+    .ph-h { padding: 16px 18px 10px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; }
+    .ph-h strong { font-size: 18px; }
+    .ph-h span { font-size: 12px; color: var(--mute); }
+    .log { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .b { max-width: 88%; padding: 12px 14px; border-radius: 16px; font-size: 15px; line-height: 1.4; }
+    .me { margin-left: auto; background: var(--ink); color: #fff; }
+    .ai { background: var(--paper); }
+    .draft { margin-top: 8px; background: #fff; border: 1px dashed var(--sky); border-radius: 12px; padding: 12px; }
+    .draft b { display: block; font-size: 16px; margin-bottom: 4px; }
+    .meta { font-size: 13px; color: var(--mute); }
+    .btns { display: flex; gap: 8px; margin-top: 10px; }
+    button { font: inherit; cursor: pointer; border: 0; border-radius: 999px; padding: 8px 14px; font-weight: 600; }
+    .yes { background: var(--sky); color: #fff; }
+    .no { background: #fff; border: 1px solid var(--line); }
+    .composer { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); }
+    .composer input { flex: 1; border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; font: inherit; }
+    .composer button { background: var(--ink); color: #fff; }
+    .risk { background: #FDECEC; color: #7A1D2E; border-radius: 10px; padding: 10px; margin-top: 8px; font-size: 14px; }
+    .ok { color: #1F6B45; font-size: 14px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <p>Standalone demo · does not change the Codzure website</p>
+    <h1>What the user sees.</h1>
+  </header>
+  <main class="stage">
+    <section class="phone" id="neo">
+      <div class="ph-h"><strong>NeoBuk</strong><span>Shop books</span></div>
+      <div class="log" id="neo-log"></div>
+      <form class="composer" id="neo-form">
+        <input id="neo-q" value="sold 3 bags cement to Mary, 1,500" />
+        <button type="submit">Send</button>
+      </form>
+    </section>
+    <section class="phone" id="ny">
+      <div class="ph-h"><strong>Ask Nyumbani</strong><span>Land &amp; homes</span></div>
+      <div class="log" id="ny-log"></div>
+      <form class="composer" id="ny-form">
+        <input id="ny-q" value="3-bed Ruaka under 8M near a school" />
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+  <script>
+    function add(id, cls, html) {
+      const el = document.createElement("div");
+      el.className = "b " + cls;
+      el.innerHTML = html;
+      document.getElementById(id).appendChild(el);
+    }
+    add("neo-log", "ai", "Speak a sale. I draft it. Nothing is saved until you confirm.");
+    add("neo-log", "me", "sold 3 bags cement to Mary, 1,500");
+    add("neo-log", "ai", `Draft — not written yet.
+      <div class="draft">
+        <b>Mary · 3 × bags cement</b>
+        <div class="meta">KES 1,500 · unpaid</div>
+        <div class="btns">
+          <button type="button" class="no" id="n">Discard</button>
+          <button type="button" class="yes" id="y">Confirm</button>
+        </div>
+      </div>`);
+    document.getElementById("y").onclick = () => {
+      add("neo-log", "ai", `<div class="ok">Saved to the shop books. One write. You can still see it in sales.</div>`);
+    };
+    document.getElementById("n").onclick = () => add("neo-log", "ai", "Discarded. Books unchanged.");
+    document.getElementById("neo-form").onsubmit = (e) => {
+      e.preventDefault();
+      add("neo-log", "me", document.getElementById("neo-q").value);
+      add("neo-log", "ai", "Who owes you: Otieno 24,000 (12 days), Amina 3,600 (21 days). From this shop — not invented.");
+    };
+
+    add("ny-log", "ai", "Describe a home or plot. Search runs now. Title checks attach to that listing.");
+    add("ny-log", "me", "3-bed Ruaka under 8M near a school");
+    add("ny-log", "ai", `Two matches:
+      <div class="draft"><b>3-bed maisonette · Ruaka</b><div class="meta">KES 7.2M · title clean · near school</div></div>
+      <div class="draft"><b>1/8 acre plot · Ruaka</b><div class="meta">KES 4.8M · title unverified</div></div>`);
+    add("ny-log", "me", "walk me through the cheap plot");
+    add("ny-log", "ai", `<div class="risk">High risk until an official search. Do not pay cash today. Demand title, ID match, rates, ArdhiSasa search, advocate client account. This is a guide, not legal advice.</div>`);
+    document.getElementById("ny-form").onsubmit = (e) => {
+      e.preventDefault();
+      add("ny-log", "me", document.getElementById("ny-q").value);
+      add("ny-log", "ai", "I only return listings I have. If nothing matches, I say so — I will not invent a plot.");
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THE UI — NeoBuk &amp; Ask Nyumbani apps</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0E141A; color: #E8EEF3; font-family: ui-sans-serif, system-ui, sans-serif; }
+    .banner { text-align: center; padding: 14px 16px 6px; }
+    .banner strong { display: block; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: #39B6FF; }
+    .banner h1 { margin: 6px 0 0; font-size: 22px; font-weight: 700; }
+    .banner p { margin: 6px 0 0; color: #8A9AAA; font-size: 13px; }
+    .phones { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; padding: 16px 16px 40px; }
+    .device { width: 340px; background: #111820; border: 8px solid #1B2430; border-radius: 36px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+    .notch { height: 22px; background: #0B1016; }
+    .app { background: #F7FAFD; color: #1A1F24; min-height: 640px; display: flex; flex-direction: column; }
+    .bar { padding: 10px 14px; display: flex; justify-content: space-between; align-items: baseline; }
+    .bar b { font-size: 18px; }
+    .bar i { font-style: normal; font-size: 12px; color: #59626D; }
+    .home { padding: 0 14px 14px; flex: 1; }
+    .hero { background: #1A1F24; color: #fff; border-radius: 16px; padding: 14px; margin-bottom: 12px; }
+    .hero em { font-style: normal; font-size: 11px; opacity: .7; }
+    .hero strong { display: block; font-size: 26px; }
+    .sheet { background: #fff; border: 1px solid #D7E4F0; border-radius: 16px; padding: 12px; margin-bottom: 10px; }
+    .sheet h2 { margin: 0 0 8px; font-size: 13px; color: #39B6FF; letter-spacing: .04em; text-transform: uppercase; }
+    .f { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; }
+    .f span { color: #59626D; }
+    .btns { display: flex; gap: 8px; margin-top: 10px; }
+    button { flex: 1; border: 0; border-radius: 12px; padding: 10px; font-weight: 700; font-family: inherit; cursor: pointer; }
+    .yes { background: #39B6FF; color: #fff; }
+    .no { background: #EEF3F8; }
+    .list { font-size: 13px; }
+    .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #EAF1FB; }
+    .pill { font-size: 11px; font-weight: 700; color: #A15C12; }
+    .tab { display: flex; border-top: 1px solid #D7E4F0; background: #fff; }
+    .tab span { flex: 1; text-align: center; padding: 10px 0; font-size: 11px; font-weight: 700; color: #8A9AAA; }
+    .tab .on { color: #1A1F24; }
+    .card { background: #fff; border-radius: 14px; padding: 10px; margin-bottom: 8px; border: 1px solid #D7E4F0; }
+    .card b { display: block; }
+    .muted { color: #59626D; font-size: 12px; }
+    .chk { font-size: 13px; padding: 6px 0; }
+    .danger { background: #FDECEC; color: #7A1D2E; border-radius: 10px; padding: 8px; font-size: 12px; margin: 8px 0; }
+    .saved { display: none; background: #E3F7EC; color: #14643A; border-radius: 10px; padding: 8px; font-size: 13px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <strong>This is the UI</strong>
+    <h1>The two apps. Not a chat. Not a spreadsheet about profit.</h1>
+    <p>What the user taps. Agent fills the form. Human hits Confirm. Site at codzure-solutions.vercel.app is not edited.</p>
+  </div>
+  <div class="phones">
+    <div class="device">
+      <div class="notch"></div>
+      <div class="app">
+        <div class="bar"><b>NeoBuk</b><i>Today</i></div>
+        <div class="home">
+          <div class="hero"><em>Collected today</em><strong>KES 17,600</strong></div>
+          <div class="sheet" id="sale">
+            <h2>Confirm before it hits the books</h2>
+            <div class="f"><span>Customer</span><b>Mary</b></div>
+            <div class="f"><span>Item</span><b>3 bags cement</b></div>
+            <div class="f"><span>Total</span><b>KES 1,500</b></div>
+            <div class="f"><span>Paid?</span><b>No — credit</b></div>
+            <div class="btns">
+              <button class="no" type="button" id="n1">Discard</button>
+              <button class="yes" type="button" id="y1">Confirm</button>
+            </div>
+            <div class="saved" id="s1">Saved. Mary owes 1,500. Books updated.</div>
+          </div>
+          <div class="sheet">
+            <h2>Stock alert — not a message</h2>
+            <div class="f"><span>Cement</span><b>4 bags · reorder 12</b></div>
+            <button class="yes" type="button" style="margin-top:8px;width:100%">Draft restock</button>
+          </div>
+          <div class="list">
+            <div class="row"><span>Otieno · iron sheets</span><span class="pill">24,000 overdue</span></div>
+            <div class="row"><span>Amina · PVC</span><span class="pill">3,600 overdue</span></div>
+          </div>
+        </div>
+        <div class="tab"><span class="on">Home</span><span>Sales</span><span>Stock</span><span>More</span></div>
+      </div>
+    </div>
+
+    <div class="device">
+      <div class="notch"></div>
+      <div class="app">
+        <div class="bar"><b>Ask Nyumbani</b><i>Ruaka</i></div>
+        <div class="home">
+          <div class="card"><b>3-bed maisonette · Ruaka</b><div class="muted">KES 7.2M · near school · title clean</div></div>
+          <div class="card">
+            <b>1/8 acre plot · Ruaka</b>
+            <div class="muted">KES 4.8M · title unverified</div>
+            <div class="danger">Do not pay cash. Official search missing.</div>
+            <div class="chk">☐ Original title in seller’s name</div>
+            <div class="chk">☐ ID matches title</div>
+            <div class="chk">☐ ArdhiSasa / Ministry search</div>
+            <div class="chk">☐ Advocate client account — not M-Pesa</div>
+            <button class="yes" type="button" style="width:100%;margin-top:8px">Buy title file · KES 2,500</button>
+          </div>
+        </div>
+        <div class="tab"><span class="on">Explore</span><span>Saved</span><span>Title</span><span>Me</span></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("y1").onclick = () => {
+      document.getElementById("s1").style.display = "block";
+      document.getElementById("y1").textContent = "Saved";
+      document.getElementById("y1").disabled = true;
+    };
+    document.getElementById("n1").onclick = () => {
+      document.getElementById("sale").style.opacity = .45;
+    };
+  </script>
+</body>
+</html>

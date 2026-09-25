@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Njeri’s plot — Ask Nyumbani</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0F1A24; font-family: ui-sans-serif, system-ui, sans-serif; }
+    .stage { display: grid; place-items: start center; padding: 20px 12px 40px; }
+    .phone { width: 390px; background: #F4F8FC; color: #1A1F24; border-radius: 36px; overflow: hidden; border: 10px solid #15202B; }
+    .notch { height: 16px; background: #15202B; }
+    .pad { padding: 16px 18px 8px; }
+    h1 { margin: 0; font-size: 22px; font-family: ui-serif, Georgia, serif; }
+    .sub { color: #59626D; font-size: 13px; margin: 4px 0 12px; }
+    .plot { height: 100px; border-radius: 16px; background: linear-gradient(#B7C9D6,#EAF1FB); display: grid; place-items: end start; padding: 12px; font-weight: 800; }
+    .card { background: #fff; border-radius: 16px; padding: 14px; margin-top: 10px; border: 1px solid #D5E4F0; }
+    .row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 15px; }
+    .row span { color: #59626D; }
+    .red { color: #9B2335; font-weight: 800; }
+    .ok { color: #187A48; font-weight: 800; }
+    p { font-size: 13px; color: #59626D; line-height: 1.4; }
+    button { width: 100%; border: 0; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 800; font-family: inherit; background: #39B6FF; color: #fff; cursor: pointer; }
+    .fee { text-align: center; font-size: 12px; color: #59626D; padding: 12px; }
+    .done { display: none; margin-top: 8px; background: #E3F2FD; border-radius: 10px; padding: 10px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="pad">
+        <h1>Njeri’s plot</h1>
+        <p class="sub">Ask Nyumbani · you are selling land · you pay the bill</p>
+        <div class="plot">1/8 acre · Ruaka</div>
+        <div class="card">
+          <div class="row"><span>You typed</span><b>KES 4.8M</b></div>
+          <div class="row"><span>Nearby sold</span><b class="ok">KES 6.2M</b></div>
+          <div class="row"><span>You would lose</span><b class="red">KES 1.4M</b></div>
+          <p>Buyers also skip plots with no title pack. Pay once, list at the real price, with the checklist on the listing.</p>
+          <button type="button" id="c">Publish at 6.2M · pay KES 4,500</button>
+          <div class="done" id="d">Listed at 6.2M with title pack. You paid Codzure KES 4,500. You did not give away 1.4M.</div>
+        </div>
+        <p class="fee">One payment from the seller. Buyers browse free.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("c").onclick = () => document.getElementById("d").style.display = "block";
+  </script>
+</body>
+</html>

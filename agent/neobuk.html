@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kamau’s shop — NeoBuk</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #1A1410; font-family: ui-sans-serif, system-ui, sans-serif; }
+    .stage { display: grid; place-items: start center; padding: 20px 12px 40px; }
+    .phone { width: 390px; background: #FFF7F1; color: #1C1410; border-radius: 36px; overflow: hidden; border: 10px solid #2A211C; }
+    .notch { height: 16px; background: #2A211C; }
+    .pad { padding: 16px 18px 8px; }
+    h1 { margin: 0; font-size: 22px; }
+    .sub { color: #7A6558; font-size: 13px; margin: 4px 0 12px; }
+    .owed { background: #1C1410; color: #fff; border-radius: 16px; padding: 14px; }
+    .owed span { font-size: 12px; opacity: .7; }
+    .owed b { display: block; font-size: 32px; margin-top: 4px; }
+    .person { background: #fff; border-radius: 16px; padding: 14px; margin-top: 10px; }
+    .person h2 { margin: 0 0 4px; font-size: 16px; }
+    .person p { margin: 0 0 10px; color: #7A6558; font-size: 13px; }
+    button { width: 100%; border: 0; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 800; font-family: inherit; background: #C45C1E; color: #fff; cursor: pointer; }
+    .fee { text-align: center; font-size: 12px; color: #7A6558; padding: 12px; }
+    .done { display: none; margin-top: 8px; background: #E7F6EC; color: #14643A; border-radius: 10px; padding: 10px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="pad">
+        <h1>Kamau’s shop</h1>
+        <p class="sub">NeoBuk · you sell hardware · you pay the bill</p>
+        <div class="owed">
+          <span>People owe you</span>
+          <b>KES 24,000</b>
+        </div>
+        <div class="person">
+          <h2>Otieno · iron sheets</h2>
+          <p>12 days late. Tap once. He gets the reminder. If he pays, you keep the 24,000.</p>
+          <button type="button" id="c">Collect KES 24,000</button>
+          <div class="done" id="d">Reminder sent. If Otieno pays, that money is yours. Your NeoBuk fee this month is KES 2,500.</div>
+        </div>
+        <p class="fee">Codzure charge: KES 2,500 / month — smaller than this one debt.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("c").onclick = () => document.getElementById("d").style.display = "block";
+  </script>
+</body>
+</html>

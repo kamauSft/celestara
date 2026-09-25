@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Codzure agents — money desk (not chat)</title>
+  <style>
+    :root {
+      --ink: #1A1F24; --mute: #59626D; --sky: #39B6FF; --paper: #EAF1FB;
+      --line: #D5E4F0; --go: #1B7A4A; --warn: #A15C12; --bg: #F2F7FD;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 22px 28px 12px; max-width: 1240px; margin: 0 auto;
+    }
+    h1 { font-family: ui-serif, Georgia, serif; font-size: 30px; font-weight: 600; margin: 0; }
+    header p { margin: 4px 0 0; color: var(--mute); font-size: 14px; }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 1240px; margin: 0 auto 16px; padding: 0 28px; }
+    .kpi { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+    .kpi em { display: block; font-style: normal; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+    .kpi b { font-size: 22px; }
+    .kpi span { display: block; font-size: 12px; color: var(--go); margin-top: 4px; }
+    .grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 14px; max-width: 1240px; margin: 0 auto 40px; padding: 0 28px; }
+    @media (max-width: 900px) { .kpis, .grid { grid-template-columns: 1fr; padding: 0 16px; } }
+    .col h2 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); margin: 0 0 10px; }
+    .job {
+      background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px;
+    }
+    .job .who { font-size: 12px; color: var(--sky); font-weight: 700; margin-bottom: 4px; }
+    .job h3 { margin: 0 0 6px; font-size: 16px; }
+    .job p { margin: 0 0 10px; color: var(--mute); font-size: 14px; }
+    .money { font-weight: 700; color: var(--go); }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    button { font: inherit; cursor: pointer; border: 0; border-radius: 999px; padding: 8px 14px; font-weight: 600; }
+    .yes { background: var(--sky); color: #fff; }
+    .no { background: #fff; border: 1px solid var(--line); }
+    .done { opacity: .55; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    th { background: var(--paper); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--mute); }
+    .note { max-width: 1240px; margin: -24px auto 32px; padding: 0 28px; font-size: 12px; color: var(--mute); }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Money desk — agents propose, you approve.</h1>
+      <p>No chat thread. Kenya KES. Codzure site unchanged. Three commercially viable agents on NeoBuk + Ask Nyumbani + M-Pesa till match.</p>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:12px;color:var(--mute)">Studio take this month</div>
+      <div style="font-size:28px;font-weight:800" id="studio">KES 41,280</div>
+    </div>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi"><em>NeoBuk · recovered credit</em><b>KES 186,000</b><span>Codzure take 8% = 14,880</span></div>
+    <div class="kpi"><em>Nyumbani · trust tickets</em><b>18 sold</b><span>× KES 2,500 = 45,000 · take 40% = 18,000</span></div>
+    <div class="kpi"><em>TillMatch · recon seats</em><b>22 shops</b><span>× KES 799 = 17,578 · nearly all margin</span></div>
+    <div class="kpi"><em>Shop owner kept</em><b>KES 171,120</b><span>They pay because the money was already theirs, leaking</span></div>
+  </div>
+
+  <div class="grid">
+    <div class="col">
+      <h2>Inbox — proposed actions (not messages)</h2>
+
+      <article class="job" data-take="1920">
+        <div class="who">NeoBuk · Deni catcher · hardware Githurai</div>
+        <h3>Collect Otieno’s KES 24,000 · 12 days late</h3>
+        <p>SMS draft ready in Sheng. You tap send. If he pays, Codzure takes <span class="money">8% = KES 1,920</span>. No send until you approve.</p>
+        <div class="row">
+          <button type="button" class="no">Drop</button>
+          <button type="button" class="yes">Approve send</button>
+        </div>
+      </article>
+
+      <article class="job" data-take="2500">
+        <div class="who">Ask Nyumbani · Cheti walk · Ruaka plot</div>
+        <h3>Sell a trust ticket on the unverified 1/8 acre</h3>
+        <p>Buyer pays <span class="money">KES 2,500</span> for a listing-bound title file (documents, red flags, advocate next step). Listings stay free. Codzure keeps KES 1,000–2,500 depending on advocate split.</p>
+        <div class="row">
+          <button type="button" class="no">Skip</button>
+          <button type="button" class="yes">Issue ticket</button>
+        </div>
+      </article>
+
+      <article class="job" data-take="0">
+        <div class="who">TillMatch · M-Pesa vs NeoBuk books</div>
+        <h3>3 till credits not in the sales book</h3>
+        <p>KES 11,400 hit 222333 today, no matching sale. Propose three sale rows. Confirm writes. Seat fee <span class="money">KES 799/mo</span> — this is why shops stay subscribed.</p>
+        <div class="row">
+          <button type="button" class="no">Ignore</button>
+          <button type="button" class="yes">Post as 3 sales</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="col">
+      <h2>How Codzure actually profits</h2>
+      <table>
+        <thead><tr><th>Agent</th><th>Who pays</th><th>Why they pay</th><th>Studio economics</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Deni</td>
+            <td>Shop</td>
+            <td>Credit is the Kenyan duka’s silent tax</td>
+            <td>8% of recovered, only after cash lands. Zero if they drop the SMS.</td>
+          </tr>
+          <tr>
+            <td>Cheti</td>
+            <td>Buyer</td>
+            <td>One bad deposit &gt; 100 tickets. Portals don’t sell safety.</td>
+            <td>KES 2,500 SKU. Ads don’t fund this; fear does.</td>
+          </tr>
+          <tr>
+            <td>TillMatch</td>
+            <td>Shop</td>
+            <td>M-Pesa is the ledger they already have</td>
+            <td>KES 799/mo SaaS. High retention. Confirm still required to write.</td>
+          </tr>
+        </tbody>
+      </table>
+      <article class="job" style="margin-top:12px">
+        <h3>Creative but bankable (12-month studio sketch)</h3>
+        <p>80 shops on Deni + TillMatch ≈ <b>KES 0.9–1.4M</b> contribution after take-rate and seats. 400 Cheti tickets ≈ <b>KES 0.6–1.0M</b>. Upsell on Codzure’s existing KES 150k–320k app packages: +KES 25k–60k agent module per build. Not a chat widget subscription hoping someone “engages.”</p>
+      </article>
+    </div>
+  </div>
+  <p class="note">Does not modify codzure-solutions.vercel.app. Agents attach to NeoBuk and Ask Nyumbani as extra revenue, not a new website.</p>
+  <script>
+    let studio = 41280;
+    const el = document.getElementById("studio");
+    document.querySelectorAll(".job .yes").forEach((btn) => {
+      btn.onclick = () => {
+        const job = btn.closest(".job");
+        const take = Number(job.dataset.take || 0);
+        studio += take;
+        el.textContent = "KES " + studio.toLocaleString();
+        job.classList.add("done");
+        btn.textContent = "Approved";
+        btn.disabled = true;
+      };
+    });
+    document.querySelectorAll(".job .no").forEach((btn) => {
+      btn.onclick = () => { btn.closest(".job").classList.add("done"); };
+    });
+  </script>
+</body>
+</html>
