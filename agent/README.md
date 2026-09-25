@@ -1,9 +1,11 @@
-# PDF and screenshot
+# PDF and screenshot (commercial desk)
+
+No chat. Agents propose actions. You approve. Kenya KES.
 
 | | File |
 |---|---|
-| **Screenshot** | [screenshot-user.png](./screenshot-user.png) |
+| **Screenshot** | [screenshot-money-desk.png](./screenshot-money-desk.png) |
 | **PDF** | [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf) |
-| **Live demo** | [demo.html](./demo.html) |
+| **Live desk** | [console.html](./console.html) |
 
 Does not change https://codzure-solutions.vercel.app/
