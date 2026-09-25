@@ -9,4 +9,4 @@ Start: [who-pays.html](./who-pays.html)
 | Njeri plot seller | [nyumbani-seller.html](./nyumbani-seller.html) | 4,500 once |
 | Wanjiku plot buyer | [nyumbani-buyer.html](./nyumbani-buyer.html) | 2,500 buyer pack |
 
-PDF: [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf)
+**PDF (buyer + seller, both apps):** [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf) · print source [print.html](./print.html)

@@ -2,24 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Seller and buyer — who pays</title>
+  <title>Buyer and seller — NeoBuk and Ask Nyumbani</title>
   <style>
-    body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 28px; color: #1A1F24; }
-    h1, h2 { font-family: ui-serif, Georgia, serif; }
-    img { width: 240px; border-radius: 18px; margin: 8px 12px 16px 0; vertical-align: top; }
-    p { line-height: 1.45; max-width: 680px; }
+    @page { size: A4; margin: 12mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; color: #1A1F24; }
+    h1 { font-family: ui-serif, Georgia, serif; font-size: 26px; margin: 0 0 6px; }
+    h2 { font-size: 15px; margin: 0 0 8px; letter-spacing: .04em; text-transform: uppercase; }
+    .lead { margin: 0 0 16px; color: #44505A; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .card { border: 1.5px solid #C9D6E2; border-radius: 14px; padding: 12px; page-break-inside: avoid; }
+    .card.seller { background: #FFF8F3; }
+    .card.buyer { background: #F3F8FC; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .08em; padding: 3px 8px; border-radius: 999px; margin-bottom: 6px; }
+    .seller .tag { background: #C45C1E; color: #fff; }
+    .buyer .tag { background: #1A7AB8; color: #fff; }
+    .card h3 { margin: 0 0 4px; font-size: 18px; }
+    .card p { margin: 0 0 8px; font-size: 13px; line-height: 1.4; color: #33404A; }
+    .pay { font-weight: 800; font-size: 14px; margin: 0 0 8px; }
+    img { width: 100%; max-width: 280px; display: block; margin: 0 auto; border-radius: 16px; }
+    .page { page-break-after: always; padding-bottom: 8px; }
+    .page:last-child { page-break-after: auto; }
   </style>
 </head>
 <body>
-  <h1>Seller and buyer</h1>
-  <p><b>NeoBuk seller Kamau</b> pays 2,500/mo to collect 24,000.</p>
-  <p><b>NeoBuk buyer Mary</b> locks a 1,500 bill so the shop cannot inflate it. She pays Kamau. We take 15 if she pays in the app.</p>
-  <p><b>Nyumbani seller Njeri</b> pays 4,500 to list 6.2M not 4.8M.</p>
-  <p><b>Nyumbani buyer Wanjiku</b> pays 2,500 for title search before she sends 6.2M.</p>
-  <h2>Four phones</h2>
-  <img src="screenshot-neobuk-seller.png" alt="Kamau" />
-  <img src="screenshot-neobuk-buyer.png" alt="Mary" />
-  <img src="screenshot-nyumbani-seller.png" alt="Njeri" />
-  <img src="screenshot-nyumbani-buyer.png" alt="Wanjiku" />
+  <div class="page">
+    <h1>Buyer and seller</h1>
+    <p class="lead">Codzure is us. Four people. Two apps. Each deal has a seller and a buyer. No chat. They tap a button. Someone pays us.</p>
+    <div class="grid">
+      <div class="card seller">
+        <span class="tag">SELLER</span>
+        <h3>Kamau · NeoBuk</h3>
+        <p>Owns the hardware shop. Collects Otieno’s KES 24,000.</p>
+        <p class="pay">Pays us KES 2,500 / month</p>
+      </div>
+      <div class="card buyer">
+        <span class="tag">BUYER</span>
+        <h3>Mary · NeoBuk</h3>
+        <p>Customer at the shop. Locks 3 bags at KES 1,500 so the bill cannot grow overnight.</p>
+        <p class="pay">Pays Kamau 1,500 · we take 1% if she pays in-app</p>
+      </div>
+      <div class="card seller">
+        <span class="tag">SELLER</span>
+        <h3>Njeri · Ask Nyumbani</h3>
+        <p>Selling 1/8 acre in Ruaka. Lists 6.2M not 4.8M, with a title pack.</p>
+        <p class="pay">Pays us KES 4,500 once to publish</p>
+      </div>
+      <div class="card buyer">
+        <span class="tag">BUYER</span>
+        <h3>Wanjiku · Ask Nyumbani</h3>
+        <p>Wants that plot. Price looks fair. Title search not done. Pays before she wires 6.2M.</p>
+        <p class="pay">Pays us KES 2,500 for the buyer pack</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+    <h2>NeoBuk — seller and buyer</h2>
+    <div class="grid">
+      <div class="card seller">
+        <span class="tag">SELLER</span>
+        <h3>Kamau</h3>
+        <p class="pay">KES 2,500 / month → Codzure</p>
+        <img src="screenshot-neobuk-seller.png" alt="Kamau seller" />
+      </div>
+      <div class="card buyer">
+        <span class="tag">BUYER</span>
+        <h3>Mary</h3>
+        <p class="pay">KES 1,500 to Kamau · 15 to us if in-app</p>
+        <img src="screenshot-neobuk-buyer.png" alt="Mary buyer" />
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+    <h2>Ask Nyumbani — seller and buyer</h2>
+    <div class="grid">
+      <div class="card seller">
+        <span class="tag">SELLER</span>
+        <h3>Njeri</h3>
+        <p class="pay">KES 4,500 once → Codzure</p>
+        <img src="screenshot-nyumbani-seller.png" alt="Njeri seller" />
+      </div>
+      <div class="card buyer">
+        <span class="tag">BUYER</span>
+        <h3>Wanjiku</h3>
+        <p class="pay">KES 2,500 buyer pack → Codzure</p>
+        <img src="screenshot-nyumbani-buyer.png" alt="Wanjiku buyer" />
+      </div>
+    </div>
+  </div>
 </body>
 </html>
