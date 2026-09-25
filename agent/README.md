@@ -1,11 +1,11 @@
-# How agents profit Codzure
+# THIS IS THE UI
 
-No chat. Three cash pipes: win the estimate, fatten the invoice, bill after the free month.
+Open **[app.html](./app.html)** — two phone apps:
 
-| | File |
-|---|---|
-| **UI** | [studio.html](./studio.html) |
-| **Screenshot** | [screenshot-studio-profit.png](./screenshot-studio-profit.png) |
-| **PDF** | [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf) |
+- **NeoBuk:** confirm-sale sheet (not chat)
+- **Ask Nyumbani:** listing + title checklist (not chat)
+
+Screenshot: [screenshot-the-ui.png](./screenshot-the-ui.png)  
+PDF: [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf)
 
 Does not change https://codzure-solutions.vercel.app/
