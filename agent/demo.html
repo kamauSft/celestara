@@ -3,292 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Top 1% agentic AI — Neo + Nyumba Zetu — Codzure</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Agent demo — NeoBuk &amp; Ask Nyumbani</title>
   <style>
-    :root {
-      --ink: #0e1b24; --muted: #536775; --line: #cfd9e1;
-      --neo: #c45c1e; --ny: #1b6a94; --go: #1b7a4c; --navy: #16344a; --risk: #9b2335;
-    }
+    :root { --ink:#1A1F24; --mute:#59626D; --sky:#39B6FF; --paper:#EAF1FB; --line:#D5E4F0; }
     * { box-sizing: border-box; }
-    html, body { margin: 0; }
-    body { font-family: "IBM Plex Sans", system-ui, sans-serif; color: var(--ink); background: #c5d0d8; }
-    .poster {
-      width: 1920px; margin: 0 auto; padding: 26px 30px 22px;
-      background:
-        radial-gradient(1100px 520px at 8% -4%, rgba(244,214,180,.55), transparent 58%),
-        radial-gradient(900px 480px at 96% 0%, rgba(186,214,232,.55), transparent 52%),
-        #f4f1ea;
-    }
-    .hdr { display: grid; grid-template-columns: 1.45fr .85fr .75fr; gap: 14px; margin-bottom: 12px; }
-    .kicker { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-    h1 { font-family: Fraunces, Georgia, serif; font-size: 36px; line-height: 1.08; margin: 8px 0 8px; }
-    .lede { font-size: 15px; color: var(--muted); max-width: 860px; line-height: 1.45; }
-    .box { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
-    .box h3 { margin: 0 0 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-    .box li { font-size: 13px; margin: 0 0 4px; line-height: 1.35; }
-    .box ul { margin: 0; padding-left: 16px; }
-    a { color: var(--ny); text-decoration: none; font-weight: 600; }
-    .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-    .vs article { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
-    .vs .bad { border-top: 4px solid var(--risk); }
-    .vs .good { border-top: 4px solid var(--go); }
-    .vs h2 { margin: 0 0 6px; font-size: 16px; }
-    .vs p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.4; }
-    .loop { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; margin-bottom: 14px; }
-    .loop .s { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 9px 10px 10px; min-height: 108px; }
-    .loop .n { width: 22px; height: 22px; border-radius: 50%; background: var(--navy); color: #fff; font-size: 11px; font-weight: 700; display: grid; place-items: center; margin-bottom: 5px; }
-    .loop .n.g { background: var(--go); }
-    .loop .n.o { background: var(--neo); }
-    .loop h4 { margin: 0 0 4px; font-size: 12.5px; }
-    .loop p { margin: 0; font-size: 11.5px; color: var(--muted); line-height: 1.35; }
-    .apps { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-    .app { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 13px; }
-    .app-h { display: flex; justify-content: space-between; align-items: center; }
-    .brand { font-weight: 700; font-size: 16px; }
-    .tag { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
-    .neo .tag { background: #fde8d4; color: #8a3a10; }
-    .ny .tag { background: #dceef8; color: #0e3d58; }
-    .from { font-size: 12px; color: var(--muted); margin: 6px 0 10px; }
-    .ui { display: grid; grid-template-columns: 292px 1fr; gap: 10px; }
-    .phone { border: 9px solid #171d22; border-radius: 28px; overflow: hidden; min-height: 548px; background: #f7f4ef; }
-    .ny .phone { background: #eef3f7; }
-    .notch { height: 16px; width: 108px; margin: 0 auto; background: #171d22; border-radius: 0 0 11px 11px; }
-    .screen { padding: 8px 10px 12px; }
-    .bar { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; margin-bottom: 6px; }
-    .bubble { font-size: 12px; line-height: 1.35; padding: 7px 9px; border-radius: 11px; margin: 5px 0; max-width: 94%; }
-    .me { margin-left: auto; background: #171d22; color: #fff; border-bottom-right-radius: 4px; }
-    .ai { background: #fff; border: 1px solid var(--line); }
-    .trace { font-size: 10px; font-family: ui-monospace, Menlo, monospace; color: var(--ny); margin: 4px 0 2px; }
-    .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin-top: 5px; }
-    .card b { display: block; font-size: 12.5px; }
-    .meta { font-size: 11px; color: var(--muted); }
-    .btns { display: flex; gap: 6px; margin-top: 8px; }
-    .btn { font-size: 11px; font-weight: 700; border-radius: 7px; padding: 6px 8px; color: #fff; }
-    .neo .btn { background: var(--neo); }
-    .ny .btn { background: var(--ny); }
-    .ghost { background: #fff !important; color: var(--ink) !important; border: 1px solid var(--line); }
-    .side { display: flex; flex-direction: column; gap: 8px; }
-    .panel { background: #f7f8fa; border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
-    .panel h4 { margin: 0 0 6px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-    .kpi { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-    .kpi span { background: #fff; border-radius: 8px; padding: 7px; display: block; }
-    .kpi em { display: block; font-style: normal; font-size: 10px; color: var(--muted); }
-    .kpi b { font-size: 14px; }
-    .alert { font-size: 12px; background: #fff; border-radius: 8px; padding: 7px 8px; margin-bottom: 5px; border-left: 3px solid var(--neo); }
-    .alert.w { border-left-color: #c48a12; }
-    .alert.r { border-left-color: var(--risk); }
-    .check { font-size: 12px; display: grid; grid-template-columns: 18px 1fr; gap: 6px; margin: 4px 0; }
-    .ok { color: var(--go); font-weight: 800; }
-    .no { color: var(--risk); font-weight: 800; }
-    .q { color: #9a6700; font-weight: 800; }
-    .riskbox { background: #fde8ec; color: #6f1c2c; font-size: 11.5px; border-radius: 8px; padding: 7px 8px; margin-top: 6px; }
-    .bot { display: grid; grid-template-columns: 1.15fr .85fr .9fr; gap: 10px; }
-    .arch {
-      font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; line-height: 1.45;
-      background: #12202c; color: #d5e7f2; border-radius: 14px; padding: 14px 16px; white-space: pre;
-    }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
-    th { background: #16344a; color: #fff; font-size: 11px; }
-    .foot { display: flex; justify-content: space-between; margin-top: 10px; font-size: 11.5px; color: var(--muted); }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: #F2F7FD; color: var(--ink); }
+    header { padding: 20px 24px 8px; max-width: 1100px; margin: 0 auto; }
+    header p { margin: 0; color: var(--mute); font-size: 14px; }
+    h1 { font-family: ui-serif, Georgia, serif; font-size: 28px; font-weight: 600; margin: 8px 0 0; }
+    .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; max-width: 1100px; margin: 12px auto 40px; padding: 0 24px; }
+    @media (max-width: 800px) { .stage { grid-template-columns: 1fr; } }
+    .phone { background: #fff; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; box-shadow: 0 20px 50px rgba(26,31,36,.08); min-height: 640px; display: flex; flex-direction: column; }
+    .ph-h { padding: 16px 18px 10px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; }
+    .ph-h strong { font-size: 18px; }
+    .ph-h span { font-size: 12px; color: var(--mute); }
+    .log { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .b { max-width: 88%; padding: 12px 14px; border-radius: 16px; font-size: 15px; line-height: 1.4; }
+    .me { margin-left: auto; background: var(--ink); color: #fff; }
+    .ai { background: var(--paper); }
+    .draft { margin-top: 8px; background: #fff; border: 1px dashed var(--sky); border-radius: 12px; padding: 12px; }
+    .draft b { display: block; font-size: 16px; margin-bottom: 4px; }
+    .meta { font-size: 13px; color: var(--mute); }
+    .btns { display: flex; gap: 8px; margin-top: 10px; }
+    button { font: inherit; cursor: pointer; border: 0; border-radius: 999px; padding: 8px 14px; font-weight: 600; }
+    .yes { background: var(--sky); color: #fff; }
+    .no { background: #fff; border: 1px solid var(--line); }
+    .composer { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); }
+    .composer input { flex: 1; border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; font: inherit; }
+    .composer button { background: var(--ink); color: #fff; }
+    .risk { background: #FDECEC; color: #7A1D2E; border-radius: 10px; padding: 10px; margin-top: 8px; font-size: 14px; }
+    .ok { color: #1F6B45; font-size: 14px; margin-top: 8px; }
   </style>
 </head>
 <body>
-  <div class="poster" id="poster">
-    <header class="hdr">
-      <div>
-        <div class="kicker">Codzure Solutions · Karen, Nairobi · One agent brain · Two products</div>
-        <h1>Top 1% agentic AI: it finishes the job, then waits for a yes.</h1>
-        <p class="lede">Built on the real products from <strong>codzure-solutions.vercel.app</strong> — NeoBuk (SME workspace) and Ask Nyumbani / Nyumba Zetu (land &amp; homes). The model is a router. Tools, confirmation, grounding, and evals are the product.</p>
-      </div>
-      <div class="box">
-        <h3>What 1% agents do</h3>
-        <ul>
-          <li>Call tools on <em>this</em> shop / <em>these</em> listings</li>
-          <li>Multi-step: parse → tool → result → next tool</li>
-          <li>Writes return a draft. Never silent save</li>
-          <li>Refuse cash-in-car-park and invented balances</li>
-          <li>Golden tasks fail the build if they regress</li>
-          <li>Still works if the API key is missing</li>
-        </ul>
-      </div>
-      <div class="box">
-        <h3>Product truth</h3>
-        <ul>
-          <li><a href="https://codzure-solutions.vercel.app/">codzure-solutions.vercel.app</a></li>
-          <li><strong>Neo</strong> — sales, expenses, inventory, workflows</li>
-          <li><strong>Nyumba Zetu</strong> — search, title-checklist, resale</li>
-          <li>Nairobi · Kiambu · Westlands · Ruaka · Syokimau · Karen · KES</li>
-        </ul>
-      </div>
-    </header>
-
-    <div class="vs">
-      <article class="bad">
-        <h2>99% “AI feature”</h2>
-        <p>A chat box that restates the marketing site. Invents listings and balances. Writes with no draft — or cannot write at all. Dies without an API key. No evals. Two separate bots for two apps. Sounds like a lawyer on land titles.</p>
-      </article>
-      <article class="good">
-        <h2>1% agentic product</h2>
-        <p>One brain, two toolkits. Intent becomes a port call. Reads run now. Money and listings wait for Confirm. Diligence is bound to a listing id and disclaims legal advice. Frozen utterances in CI. WhatsApp is a channel later — not a substitute for P0 reliability.</p>
-      </article>
-    </div>
-
-    <div class="loop">
-      <div class="s"><div class="n">1</div><h4>Utterance</h4><p>Plain language, including Sheng mix. “sold 3 bags to Mary 1500” / “3-bed Ruaka under 8M near a school.”</p></div>
-      <div class="s"><div class="n">2</div><h4>Route</h4><p>getTools("neo" | "nyumba") only. Knowledge (who built this) is static — never scraped at runtime.</p></div>
-      <div class="s"><div class="n">3</div><h4>Tool call</h4><p>JSON to a port: RecordSale, SearchListings, DueDiligence, Alerts. Logged: name, input, userId, time.</p></div>
-      <div class="s"><div class="n">4</div><h4>Ground</h4><p>Result from stub (today) or live backend (merge). Empty set → “I don’t have that.” Never hallucinate a row.</p></div>
-      <div class="s"><div class="n g">5</div><h4>Read now</h4><p>Search, performance, outstanding, checklist. User sees real cards immediately.</p></div>
-      <div class="s"><div class="n o">6</div><h4>Draft write</h4><p>requiresConfirmation + draftId + summary. UI Confirm / Discard. No second parse to save.</p></div>
-      <div class="s"><div class="n g">7</div><h4>Eval</h4><p>~20 golden tasks per product. If Mary’s sale or Ruaka search breaks, we do not ship.</p></div>
-    </div>
-
-    <div class="apps">
-      <section class="app neo">
-        <div class="app-h">
-          <div class="brand">Neo · NeoBuk — business partner</div>
-          <span class="tag">SME workspace · mobile-first</span>
+  <header>
+    <p>Standalone demo · does not change the Codzure website</p>
+    <h1>What the user sees.</h1>
+  </header>
+  <main class="stage">
+    <section class="phone" id="neo">
+      <div class="ph-h"><strong>NeoBuk</strong><span>Shop books</span></div>
+      <div class="log" id="neo-log"></div>
+      <form class="composer" id="neo-form">
+        <input id="neo-q" value="sold 3 bags cement to Mary, 1,500" />
+        <button type="submit">Send</button>
+      </form>
+    </section>
+    <section class="phone" id="ny">
+      <div class="ph-h"><strong>Ask Nyumbani</strong><span>Land &amp; homes</span></div>
+      <div class="log" id="ny-log"></div>
+      <form class="composer" id="ny-form">
+        <input id="ny-q" value="3-bed Ruaka under 8M near a school" />
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+  <script>
+    function add(id, cls, html) {
+      const el = document.createElement("div");
+      el.className = "b " + cls;
+      el.innerHTML = html;
+      document.getElementById(id).appendChild(el);
+    }
+    add("neo-log", "ai", "Speak a sale. I draft it. Nothing is saved until you confirm.");
+    add("neo-log", "me", "sold 3 bags cement to Mary, 1,500");
+    add("neo-log", "ai", `Draft — not written yet.
+      <div class="draft">
+        <b>Mary · 3 × bags cement</b>
+        <div class="meta">KES 1,500 · unpaid</div>
+        <div class="btns">
+          <button type="button" class="no" id="n">Discard</button>
+          <button type="button" class="yes" id="y">Confirm</button>
         </div>
-        <p class="from">Site: sales tracking &amp; reporting · expenses · inventory · operational workflows. Job: replace the notebook without stealing control of money.</p>
-        <div class="ui">
-          <div class="phone">
-            <div class="notch"></div>
-            <div class="screen">
-              <div class="bar"><span>Neo agent</span><span>KES · tool loop</span></div>
-              <div class="bubble me">sold 3 bags cement to Mary, 1,500</div>
-              <div class="trace">tool record_sale → DRAFT draft_7f3a · not committed</div>
-              <div class="bubble ai">
-                I will not write until you confirm.
-                <div class="card">
-                  <b>Mary Wanjiku · 3 × bags cement</b>
-                  <div class="meta">Total KES 1,500 · unit 500 · credit (unpaid)</div>
-                  <div class="btns"><span class="btn ghost">Discard</span><span class="btn">Confirm sale</span></div>
-                </div>
-              </div>
-              <div class="bubble me">who owes me? anything thin on stock?</div>
-              <div class="trace">tools get_outstanding + get_alerts · reads</div>
-              <div class="bubble ai">This shop only. Otieno 24,000 / 12d. Amina 3,600 / 21d. Cement 4 vs reorder 12.</div>
-            </div>
-          </div>
-          <div class="side">
-            <div class="panel">
-              <h4>Grounded insight — this week</h4>
-              <div class="kpi">
-                <span><em>Revenue</em><b>KES 45,200</b></span>
-                <span><em>Collected</em><b>KES 17,600</b></span>
-                <span><em>Outstanding</em><b>KES 34,000</b></span>
-              </div>
-            </div>
-            <div class="panel">
-              <h4>Proactive — still drafts</h4>
-              <div class="alert r"><b>Low stock · cement</b><br />4 on hand / 12 reorder. Restock note drafted — not ordered.</div>
-              <div class="alert w"><b>Overdue · Amina</b><br />KES 3,600 · 21 days. Follow-up drafted — not sent.</div>
-              <div class="alert"><b>Margin drift · paint 20L</b><br />Sold near cost. Review before next sale.</div>
-            </div>
-            <div class="panel">
-              <h4>1% test</h4>
-              <p style="margin:0;font-size:12.5px;line-height:1.4">If the owner retypes this into a form, the draft failed. If the agent records without Confirm, we are not shippable. If balances are invented, kill the release.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>`);
+    document.getElementById("y").onclick = () => {
+      add("neo-log", "ai", `<div class="ok">Saved to the shop books. One write. You can still see it in sales.</div>`);
+    };
+    document.getElementById("n").onclick = () => add("neo-log", "ai", "Discarded. Books unchanged.");
+    document.getElementById("neo-form").onsubmit = (e) => {
+      e.preventDefault();
+      add("neo-log", "me", document.getElementById("neo-q").value);
+      add("neo-log", "ai", "Who owes you: Otieno 24,000 (12 days), Amina 3,600 (21 days). From this shop — not invented.");
+    };
 
-      <section class="app ny">
-        <div class="app-h">
-          <div class="brand">Nyumba Zetu · Ask Nyumbani — safety first</div>
-          <span class="tag">Property &amp; land · paper blue</span>
-        </div>
-        <p class="from">Site: location search · title-checklist · resale marketplace. Job: matches without 12 filters, and a walkthrough that makes land fraud harder.</p>
-        <div class="ui">
-          <div class="phone">
-            <div class="notch"></div>
-            <div class="screen">
-              <div class="bar"><span>Nyumba agent</span><span>Ruaka · buyer</span></div>
-              <div class="bubble me">3-bedroom in Ruaka under 8M near a school</div>
-              <div class="trace">tool search_listings · read · 2 hits</div>
-              <div class="bubble ai">
-                Real rows, not a recap of your sentence.
-                <div class="card"><b>3-bed maisonette · Ruaka</b><div class="meta">KES 7.2M · near school · title: clean · lst_ruaka_3bed</div></div>
-                <div class="card"><b>1/8 acre plot · Ruaka</b><div class="meta">KES 4.8M · title: unverified · deposit pressure</div></div>
-              </div>
-              <div class="bubble me">walk me through the cheap plot</div>
-              <div class="trace">tool run_due_diligence({ listingId })</div>
-              <div class="bubble ai">
-                Bound to lst_ruaka_land.
-                <div class="riskbox">HIGH risk. Guide, not legal advice. No cash today. ArdhiSasa / Ministry search + advocate client account.</div>
-              </div>
-            </div>
-          </div>
-          <div class="side">
-            <div class="panel">
-              <h4>Listing-bound checklist</h4>
-              <div class="check"><span class="q">?</span><span>Original title in seller’s name</span></div>
-              <div class="check"><span class="q">?</span><span>National ID matches title</span></div>
-              <div class="check"><span class="no">✕</span><span>Official search attached — missing</span></div>
-              <div class="check"><span class="q">?</span><span>Rates, spousal consent, survey</span></div>
-              <div class="check"><span class="no">✕</span><span>Pressure for a fast cash deposit</span></div>
-              <div class="check"><span class="ok">✓</span><span>Next: advocate packet, not M-Pesa to a cousin</span></div>
-            </div>
-            <div class="panel">
-              <h4>Seller — same brain</h4>
-              <p style="margin:0;font-size:12.5px">“List my 2-bed Syokimau” → draft_listing + suggest_price (n=3, 5.4–6.2M) → Confirm to publish. Writes wait.</p>
-            </div>
-            <div class="panel">
-              <h4>1% test</h4>
-              <p style="margin:0;font-size:12.5px;line-height:1.4">Empty Karen-under-2M says “I don’t have that.” Diligence never guarantees a clean title. Two products share one loop — we do not fork a second agent.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <div class="bot">
-      <div class="arch">ONE ENGINE  (merge-safe)
-User (app · later WhatsApp channel adapter)
-  → handleAgentMessage({ product, message, confirmDraftId? })
-  → loop: Claude tool-use  OR  local operations brain
-  → getTools("neo" | "nyumba")
-  → ports in contract.ts
-  → stub adapters today  /  real adapters at merge
-  → host backends we never edit
-
-Write  → { requiresConfirmation, draftId, summary }
-Read   → data immediately
-Logs   → every tool: name, input, userId, ts
-Store  → /agent  AGENT_*  agent_ prefix</div>
-      <div class="box" style="padding:0;overflow:hidden">
-        <table>
-          <thead><tr><th>Ship this first (P0)</th><th>Done when</th></tr></thead>
-          <tbody>
-            <tr><td>Neo sale → draft → confirm</td><td>Fields right; Confirm writes once</td></tr>
-            <tr><td>Nyumba sentence search</td><td>Ruaka + 3-bed + &lt;8M + school</td></tr>
-            <tr><td>Confirm / discard by id</td><td>No re-parse to save</td></tr>
-            <tr><td>Golden evals + tool logs</td><td>~20 × 2; CI fails on regression</td></tr>
-            <tr><td>Standalone stubs</td><td>Runs with no host app</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="box" style="padding:0;overflow:hidden">
-        <table>
-          <thead><tr><th>Scorecard</th><th>1% healthy</th></tr></thead>
-          <tbody>
-            <tr><td>First confirmed sale</td><td>&lt; 1 min including yes</td></tr>
-            <tr><td>Draft yes-rate</td><td>Because the fields are right</td></tr>
-            <tr><td>Search precision</td><td>Area + price + beds</td></tr>
-            <tr><td>Diligence</td><td>Next actions on a listing id</td></tr>
-            <tr><td>Never ship</td><td>Silent write · fake listing · title guarantee · two agent stacks</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="foot">
-      <span>Top 1% rule: if it cannot call a tool, show a draft, and fail an eval, it is a widget.</span>
-      <span>Open agent/AGENTIC-PACK.html · agent/BUSINESS_CASE.md · source: codzure-solutions.vercel.app</span>
-    </div>
-  </div>
+    add("ny-log", "ai", "Describe a home or plot. Search runs now. Title checks attach to that listing.");
+    add("ny-log", "me", "3-bed Ruaka under 8M near a school");
+    add("ny-log", "ai", `Two matches:
+      <div class="draft"><b>3-bed maisonette · Ruaka</b><div class="meta">KES 7.2M · title clean · near school</div></div>
+      <div class="draft"><b>1/8 acre plot · Ruaka</b><div class="meta">KES 4.8M · title unverified</div></div>`);
+    add("ny-log", "me", "walk me through the cheap plot");
+    add("ny-log", "ai", `<div class="risk">High risk until an official search. Do not pay cash today. Demand title, ID match, rates, ArdhiSasa search, advocate client account. This is a guide, not legal advice.</div>`);
+    document.getElementById("ny-form").onsubmit = (e) => {
+      e.preventDefault();
+      add("ny-log", "me", document.getElementById("ny-q").value);
+      add("ny-log", "ai", "I only return listings I have. If nothing matches, I say so — I will not invent a plot.");
+    };
+  </script>
 </body>
 </html>
