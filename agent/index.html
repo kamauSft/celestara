@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Business case — Top 0.5% agentic AI for Neo &amp; Nyumba Zetu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #12202c;
+      --muted: #4d6270;
+      --line: #d7e0e7;
+      --paper: #f6f3ec;
+      --card: #fffdf8;
+      --neo: #b4531e;
+      --nyumba: #1f5f8b;
+      --go: #1f6b4a;
+      --stop: #9b2335;
+      --warn: #9a6700;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e7eef4 0%, transparent 50%),
+        radial-gradient(900px 400px at 100% 0%, #f3e6d6 0%, transparent 45%),
+        var(--paper);
+      line-height: 1.55;
+    }
+    a { color: var(--nyumba); }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+    header.hero {
+      padding: 28px 0 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .pill {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 999px;
+      padding: 3px 10px;
+      letter-spacing: 0.04em;
+    }
+    .pill.neo { color: var(--neo); border-color: #edc8a8; }
+    .pill.nyumba { color: var(--nyumba); border-color: #b9d4e6; }
+    h1 {
+      font-family: Fraunces, Georgia, serif;
+      font-weight: 650;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.15;
+      margin: 16px 0 12px;
+    }
+    .lede { font-size: 18px; color: var(--muted); max-width: 46rem; }
+    nav.toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin: 22px 0 8px;
+      font-size: 13px;
+    }
+    nav.toc a { text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--line); }
+    section { padding: 28px 0; border-bottom: 1px solid var(--line); }
+    h2 {
+      font-family: Fraunces, Georgia, serif;
+      font-size: 26px;
+      margin: 0 0 12px;
+    }
+    h3 { font-size: 16px; margin: 22px 0 8px; }
+    p { margin: 0 0 12px; }
+    ul, ol { margin: 0 0 12px; padding-left: 1.2rem; }
+    li { margin: 0 0 6px; }
+    .verdict {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--go);
+      padding: 16px 18px;
+      border-radius: 4px;
+      margin: 12px 0 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--card);
+      margin: 12px 0 16px;
+    }
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+    }
+    th { background: #eef3f7; font-weight: 600; }
+    .grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+    @media (min-width: 760px) {
+      .grid.two { grid-template-columns: 1fr 1fr; }
+      .grid.three { grid-template-columns: 1fr 1fr 1fr; }
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .card h3 { margin-top: 0; }
+    .card.neo { border-top: 3px solid var(--neo); }
+    .card.nyumba { border-top: 3px solid var(--nyumba); }
+    .card.stop { border-top: 3px solid var(--stop); }
+    .muted { color: var(--muted); }
+    .small { font-size: 13px; color: var(--muted); }
+    .arch {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      background: #12202c;
+      color: #d7e8f3;
+      padding: 16px;
+      border-radius: 10px;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.45;
+    }
+    .score good { }
+    footer {
+      margin-top: 28px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .check { list-style: none; padding: 0; }
+    .check li {
+      padding: 8px 10px 8px 32px;
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      margin-bottom: 8px;
+      border-radius: 8px;
+    }
+    .check li::before {
+      content: "☐";
+      position: absolute;
+      left: 10px;
+      color: var(--go);
+      font-weight: 700;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+    .p0 { background: #e8f6ee; color: var(--go); }
+    .p1 { background: #fff4d6; color: var(--warn); }
+    .p2 { background: #eef3f7; color: var(--muted); }
+    .no { background: #fde8ec; color: var(--stop); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="kicker">
+        <span>Codzure Solutions</span>
+        <span class="pill neo">Neo · NeoBuk</span>
+        <span class="pill nyumba">Nyumba Zetu · Ask Nyumbani</span>
+      </div>
+      <h1>A top 0.5% agentic layer is an operator, not a chat widget.</h1>
+      <p class="lede">
+        This business case is the plan for what to build, what to refuse, and how we will know we are in the top fraction.
+        It is written so a founder and a teammate can split work without inventing a second AI project.
+      </p>
+      <nav class="toc">
+        <a href="#verdict">Verdict</a>
+        <a href="#bar">The 0.5% bar</a>
+        <a href="#why">Why this</a>
+        <a href="#compete">Competition</a>
+        <a href="#build">What to build</a>
+        <a href="#journeys">Journeys</a>
+        <a href="#ops">Evals &amp; trust</a>
+        <a href="#score">Scorecard</a>
+        <a href="#decide">Approve / kill</a>
+      </nav>
+    </header>
+
+    <section id="verdict">
+      <h2>1. Verdict</h2>
+      <div class="verdict">
+        We do not win by wrapping Claude in a text box. That is what 99.5% of product AI looks like in 2026.
+        We win if the agent <strong>finishes a job the user already pays for with time, cash, or fear</strong> — then waits for a yes before anything important is saved.
+      </div>
+      <div class="grid two">
+        <article class="card neo">
+          <h3>Neo must do this</h3>
+          <p>“Sold 3 bags cement to Mary, 1,500” becomes a structured <strong>draft</strong>. “Who owes me?” is answered from <strong>this shop’s</strong> books.</p>
+          <p class="small">If we miss this, we are a chatbot that talks about bookkeeping.</p>
+        </article>
+        <article class="card nyumba">
+          <h3>Nyumba Zetu must do this</h3>
+          <p>“3-bed Ruaka under 8M near a school” returns <strong>real listings</strong>. Title fear gets a <strong>walkthrough on that listing</strong>, not a blog post.</p>
+          <p class="small">If we miss this, we are another listings site with an FAQ bot.</p>
+        </article>
+      </div>
+      <p><strong>One engine, two toolkits.</strong> Same reasoning core, same confirm-before-write rule, same eval harness. Only the actions and the product facts change. Recommended stance: make two flagship jobs boringly reliable on stub data, then swap adapters — do not expand the tool surface to look busy.</p>
+    </section>
+
+    <section id="bar">
+      <h2>2. What top 0.5% actually means</h2>
+      <p>Not model brand. Not token volume. A product standard:</p>
+      <ol>
+        <li><strong>Job completion, not conversation.</strong> Value = a confirmed action or a grounded answer from live data.</li>
+        <li><strong>The model is a router, not the product.</strong> Tools, contracts, and confirmation are the product. The LLM is replaceable.</li>
+        <li><strong>Write gates are sacred.</strong> Money, inventory, listings, records → draft. Reads run now. No silent writes.</li>
+        <li><strong>Grounded in the user’s world.</strong> Neo uses this shop. Nyumba searches these listings. Knowledge (what the product is) stays separate from tools (what it can do).</li>
+        <li><strong>Eval before vibe.</strong> Frozen golden tasks on every change. If sale-parse or Ruaka-search regresses, we do not ship.</li>
+        <li><strong>Works where the user already is.</strong> Phone-first. Later WhatsApp. English and Sheng/Swahili in one utterance.</li>
+        <li><strong>Honest about limits.</strong> Diligence is a checklist, not a legal opinion and not ArdhiSasa. Top products earn trust by declining.</li>
+      </ol>
+      <article class="card stop">
+        <h3>We are average if we ship this</h3>
+        <p class="muted">A floating “Ask AI” that restates the marketing site. Unbounded writes. Hallucinated listings or balances. One giant prompt and no ports (merge becomes a rewrite). No logs. Due diligence that sounds like a lawyer. A demo that dies without an API key.</p>
+      </article>
+    </section>
+
+    <section id="why">
+      <h2>3. Why this problem</h2>
+      <p><strong>Neo’s buyer</strong> currently keeps the business in their head, a notebook, or WhatsApp. They do not want software. They want the afternoon back, and they want to stop leaking money — unpaid credit, dead stock, mystery margins. The agent must operate sales, expenses, inventory, and workflows — not describe them.</p>
+      <p><strong>Nyumba’s buyer</strong> is trying not to get scammed on land in Nairobi, Kiambu, Ruaka, Syokimau, Karen, Westlands. Classifieds and portals barely offer title guidance. Search gets them in; due diligence is why they stay; seller drafts grow supply.</p>
+      <p><strong>Studio advantage:</strong> one Nairobi studio, two products, parallel development. A shared brain is cheaper than two AI projects. Isolation (<code>/agent</code>, <code>AGENT_</code> env, stub adapters) is how we stay fast and merge-safe.</p>
+    </section>
+
+    <section id="compete">
+      <h2>4. What we are actually competing with</h2>
+      <p>Not ChatGPT. The user’s current workaround.</p>
+      <h3>Neo</h3>
+      <table>
+        <thead><tr><th>Workaround</th><th>Why they stay</th><th>How we beat it</th></tr></thead>
+        <tbody>
+          <tr><td>Notebook / memory</td><td>Fast, free, no insight</td><td>Speech/text → ledger; week performance; overdue list</td></tr>
+          <tr><td>WhatsApp + M-Pesa</td><td>Habit</td><td>Same channel later; structured books, not chat archaeology</td></tr>
+          <tr><td>Spreadsheet / accounting</td><td>Powerful, heavy</td><td>A 5-second sale, not a chart of accounts</td></tr>
+          <tr><td>Generic AI chat</td><td>Fluent, ungrounded</td><td>This shop’s numbers; confirmation; alerts with a next action</td></tr>
+        </tbody>
+      </table>
+      <h3>Nyumba Zetu</h3>
+      <table>
+        <thead><tr><th>Workaround</th><th>Why they stay</th><th>How we beat it</th></tr></thead>
+        <tbody>
+          <tr><td>Listing portals / Jiji</td><td>Inventory</td><td>Conversation instead of 12 checkboxes; title checklist on the listing</td></tr>
+          <tr><td>Facebook + brokers</td><td>Access, high fraud risk</td><td>Red flags, documents to demand, never “pay cash today”</td></tr>
+          <tr><td>Advocate (too late)</td><td>Real safety, after they are already attached</td><td>Earlier guidance so they arrive with a packet, not a panic</td></tr>
+          <tr><td>Generic AI</td><td>Sounds like a lawyer</td><td>Grounded in this listing’s title status + comps; never impersonates counsel</td></tr>
+        </tbody>
+      </table>
+      <p>The durable moat is not the model. It is Kenyan operational texture, confirmed writes into the real apps, diligence UX nobody productises, data from confirmed actions, and WhatsApp once we have earned it.</p>
+    </section>
+
+    <section>
+      <h2>5. Principles we will not negotiate</h2>
+      <ul>
+        <li><strong>Purely additive.</strong> Everything in <code>/agent</code>. Host merge is one <code>registerAgent</code> call plus adapter swap.</li>
+        <li><strong>Ports, not hard-wiring.</strong> Brain asks for <code>RecordSalePort</code> / <code>SearchListingsPort</code>. Stubs today, real functions later.</li>
+        <li><strong>Confirm before write. Read immediately.</strong> That is the trust product.</li>
+        <li><strong>Knowledge ≠ tools.</strong> Codzure/Neo/Nyumba facts are static and offline. Tools are actions.</li>
+        <li><strong>Local usefulness without a key.</strong> A deterministic operations brain (parse → same tools → same drafts) is the floor. Claude is the upgrade.</li>
+        <li><strong>Decline well.</strong> Skip title search, pay cash, invent a balance → refuse and say why.</li>
+      </ul>
+      <p class="small">Architecture, in one picture:</p>
+      <div class="arch">User (app · later WhatsApp)
+  → handleAgentMessage
+  → loop (LLM tools  or  local operations brain)
+  → getTools("neo" | "nyumba")
+  → ports in contract.ts
+  → stub adapters now  /  real adapters at merge
+  → host backends we never edit</div>
+    </section>
+
+    <section id="build">
+      <h2>6. What to build — ranked</h2>
+      <p>Do not skip down this list because a slide looks busier.</p>
+      <h3><span class="tag p0">P0</span> Flagship jobs — must be true before we call it a product</h3>
+      <table>
+        <thead><tr><th>#</th><th>Capability</th><th>Done when</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Neo: natural-language sale → draft → confirm</td><td>“sold 3 bags cement to Mary, 1,500” yields qty, item, customer, KES, requiresConfirmation; confirm writes once. Mixed Swahili still works.</td></tr>
+          <tr><td>2</td><td>Nyumba: sentence search</td><td>“3-bedroom in Ruaka under 8M near a school” returns real matches, not a recap of the query.</td></tr>
+          <tr><td>3</td><td>Confirm / discard by draft id</td><td>UI can commit without re-parsing the sentence.</td></tr>
+          <tr><td>4</td><td>Golden evals + tool logs</td><td>~20 frozen utterances per product; CI fails on regressions; every tool call logged.</td></tr>
+          <tr><td>5</td><td>Standalone runner on stubs</td><td><code>cd agent && npm run dev</code> with no host app. Isolation held.</td></tr>
+        </tbody>
+      </table>
+      <h3><span class="tag p1">P1</span> Why people choose us — still reasonable</h3>
+      <table>
+        <thead><tr><th>#</th><th>Capability</th><th>Done when</th></tr></thead>
+        <tbody>
+          <tr><td>6</td><td>Due diligence bound to a listing</td><td>Documents, official-search steps, red flags tuned to titleStatus. Always: not legal advice.</td></tr>
+          <tr><td>7–8</td><td>Neo performance + outstanding balances</td><td>Answers from this shop’s sales/expenses. Named debtors, amounts, age.</td></tr>
+          <tr><td>9</td><td>Proactive alerts as drafts</td><td>Low stock, overdue, thin margin — suggested action, never auto-purchase.</td></tr>
+          <tr><td>10</td><td>Seller listing draft + comps</td><td>Confirm to publish; price shows sample size and range.</td></tr>
+        </tbody>
+      </table>
+      <h3><span class="tag p2">P2</span> Only after P0 is boring</h3>
+      <p>WhatsApp channel · official lands-search partnership (not scrape) · voice notes into the same sale parser · staff roles · resale marketplace assistant.</p>
+      <h3><span class="tag no">Never</span></h3>
+      <p>General ask-me-anything. Auto-chasing customers without confirm. Guaranteeing a title is clean. Two separate agents. Fine-tuning before ~1,000 confirmed actions. Letting the model invent listings or balances when a port is empty.</p>
+    </section>
+
+    <section id="journeys">
+      <h2>7. Design these two journeys, not “a chat UI”</h2>
+      <div class="grid two">
+        <article class="card neo">
+          <h3>Neo — 20 seconds vs a notebook</h3>
+          <ol>
+            <li>Owner: “sold 3 bags cement to Mary 1500.”</li>
+            <li>Draft card: Mary · 3 × cement · KES 1,500 · paid/unpaid.</li>
+            <li>Confirm. Ledger updates.</li>
+            <li>“Who has outstanding balances?” → named, aged debt.</li>
+            <li>Alert: cement at 4, reorder 12 — still a draft restock note.</li>
+          </ol>
+        </article>
+        <article class="card nyumba">
+          <h3>Nyumba — search, then safety</h3>
+          <ol>
+            <li>“3-bedroom in Ruaka under 8M near a school.”</li>
+            <li>1–3 real listings with price, title status, nearby.</li>
+            <li>“Walk me through the cheap plot.”</li>
+            <li>Checklist on <em>that</em> listing. Unverified/disputed = high risk. Never cash in a car park.</li>
+            <li>Seller: draft + comps → confirm.</li>
+          </ol>
+        </article>
+      </div>
+      <p>If a reviewer has three minutes, they see Neo journey steps 1–3 and Nyumba steps 3–4. That is the competitive demo.</p>
+    </section>
+
+    <section id="ops">
+      <h2>8. How 0.5% teams actually operate</h2>
+      <div class="grid two">
+        <article class="card">
+          <h3>Freeze golden tasks now</h3>
+          <p class="small">Neo: sale parse (EN + Sheng), week performance, who owes me, alerts, confirm, “who built this.”</p>
+          <p class="small">Nyumba: Ruaka 3-bed under 8M, Kiambu land, “is this plot safe,” documents to demand, comps, source URL.</p>
+          <p class="small">Pass: right KES, right area, no fake listing ids, write tools never commit in the parse turn.</p>
+        </article>
+        <article class="card">
+          <h3>Trust is a feature</h3>
+          <p class="small">Diligence: guide, not advocate. Fixed disclaimer. No “pay the seller’s cousin.” Title status is data, not a verdict. Drafts are auditable (id, payload, user, time). Degraded mode still completes the flagship job with no API key.</p>
+        </article>
+      </div>
+      <p><strong>Economics:</strong> do not spend on fine-tuning, multi-agent theatre, or a custom framework. Anthropic tool use plus a short loop is enough. Prove a shop records a real sale and a buyer finishes a listing-bound checklist. Monetisation follows trust. One brain × two products × (app + later WhatsApp) is the studio-level reason this exists.</p>
+    </section>
+
+    <section>
+      <h2>9. Two developers, one seam</h2>
+      <table>
+        <thead><tr><th>Role</th><th>Owns</th><th>Does not own</th></tr></thead>
+        <tbody>
+          <tr><td>Agent developer</td><td><code>/agent</code>, stubs, tools, loop, evals, INTEGRATION.md</td><td>Host screens, databases, auth</td></tr>
+          <tr><td>Host developer</td><td>Neo / Nyumba apps, live data, one <code>registerAgent</code> call</td><td>Prompts, tool schemas</td></tr>
+          <tr><td>Both, once</td><td>Field names in <code>contract.ts</code></td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p>If merge requires touching files outside <code>/agent</code> besides that one call, the design has already failed. If connecting the backend requires rewriting the loop, the ports were too weak.</p>
+    </section>
+
+    <section id="score">
+      <h2>10. Scorecard</h2>
+      <table>
+        <thead><tr><th>Metric</th><th>Healthy</th><th>Average</th></tr></thead>
+        <tbody>
+          <tr><td>Time to first confirmed Neo sale</td><td>Under a minute including yes</td><td>Five minutes of chat, nothing saved</td></tr>
+          <tr><td>Draft confirmation rate</td><td>Yes because the draft is right</td><td>They retype it into the old form</td></tr>
+          <tr><td>Search precision on golden queries</td><td>Area + price + beds</td><td>Generic 3-bed “in Nairobi”</td></tr>
+          <tr><td>Diligence completion</td><td>Next actions on a specific listing</td><td>Generic 800-word essay</td></tr>
+          <tr><td>Empty results</td><td>“I don’t have Karen under 2M”</td><td>Invented properties</td></tr>
+          <tr><td>Eval suite</td><td>Runs on every change</td><td>“It felt better this afternoon”</td></tr>
+          <tr><td>Isolation</td><td>Host greps clean except one mount</td><td>Shared configs, singletons</td></tr>
+          <tr><td>Degraded mode</td><td>Flagship jobs work without a key</td><td>Demo cancelled</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="decide">
+      <h2>11. Approve this — or ship a better form instead</h2>
+      <ul class="check">
+        <li>We are building an operator, not a mascot.</li>
+        <li>Two flagship tools + confirmation + evals before WhatsApp or extra tools.</li>
+        <li>Due diligence is the Nyumba differentiator — guidance with a clear disclaimer, never a title guarantee.</li>
+        <li>One contract file is the meeting point with the other developer.</li>
+        <li>Any tool that writes without a draft is killed.</li>
+        <li>We will not start a second agent stack for the second product.</li>
+      </ul>
+      <p>If that is not the plan, do not spend a model budget. A cleaner sale form and better listing filters will outperform a vague chatbot.</p>
+      <h3>Immediate sequence</h3>
+      <ol>
+        <li>Lock <code>contract.ts</code> with the host developer (Sale, Listing, request/response, ports).</li>
+        <li>Freeze 20+20 golden utterances, including Sheng mix and “who built this.”</li>
+        <li>Write the two flagship tools on Kenyan stub data.</li>
+        <li>Confirmation protocol used by both products.</li>
+        <li>Standalone runner + one-line INTEGRATION.md. Put it in a real owner’s and a real buyer’s hands. Listen for “useful,” not “cool.”</li>
+        <li>Only then: listing-bound diligence, Neo alerts, seller comps, WhatsApp as a channel adapter.</li>
+      </ol>
+      <p><strong>That sequence is the competitive, reasonable solution. Everything else is theatre.</strong></p>
+    </section>
+
+    <footer>
+      Product truth:
+      <a href="https://codzure-solutions.vercel.app/">codzure-solutions.vercel.app</a>
+      · Neo = NeoBuk · Nyumba Zetu = Ask Nyumbani
+      · Currency KES · Diligence is a guide, not a legal determination.
+      <br />Full write-up also in <code>BUSINESS_CASE.md</code>.
+    </footer>
+  </div>
+</body>
+</html>
