@@ -1,11 +1,11 @@
-# PDF and screenshot (commercial desk)
+# How agents profit Codzure
 
-No chat. Agents propose actions. You approve. Kenya KES.
+No chat. Three cash pipes: win the estimate, fatten the invoice, bill after the free month.
 
 | | File |
 |---|---|
-| **Screenshot** | [screenshot-money-desk.png](./screenshot-money-desk.png) |
+| **UI** | [studio.html](./studio.html) |
+| **Screenshot** | [screenshot-studio-profit.png](./screenshot-studio-profit.png) |
 | **PDF** | [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf) |
-| **Live desk** | [console.html](./console.html) |
 
 Does not change https://codzure-solutions.vercel.app/

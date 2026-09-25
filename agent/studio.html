@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How agents make Codzure money</title>
+  <style>
+    :root {
+      --ink:#1A1F24; --mute:#59626D; --sky:#39B6FF; --paper:#EAF1FB;
+      --line:#D5E4F0; --go:#187A48; --bg:#F4F8FC;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    header { max-width: 1200px; margin: 0 auto; padding: 20px 24px 8px; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+    h1 { font-family: ui-serif, Georgia, serif; font-size: 28px; font-weight: 600; margin: 0; }
+    .sub { color: var(--mute); font-size: 14px; margin: 6px 0 0; max-width: 640px; }
+    .big { text-align: right; }
+    .big em { display: block; font-style: normal; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+    .big b { font-size: 32px; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 8px 24px 36px; }
+    .engines { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0 16px; }
+    .eng { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+    .eng h2 { margin: 0 0 6px; font-size: 15px; }
+    .eng p { margin: 0; font-size: 13px; color: var(--mute); line-height: 1.4; }
+    .eng .n { color: var(--go); font-weight: 800; font-size: 18px; margin-top: 8px; }
+    .desk { display: grid; grid-template-columns: 1.05fr .95fr; gap: 14px; }
+    @media (max-width: 900px) { .engines, .desk { grid-template-columns: 1fr; } header { flex-direction: column; align-items: flex-start; } .big { text-align: left; } }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+    h3 { margin: 0 0 10px; font-size: 15px; }
+    label.toggle { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    label.toggle:last-of-type { border-bottom: 0; }
+    .amt { font-variant-numeric: tabular-nums; font-weight: 700; }
+    .on { accent-color: var(--sky); width: 18px; height: 18px; }
+    .total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--ink); }
+    .ghost { color: var(--mute); font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--mute); }
+    .win { background: var(--paper); border-radius: 12px; padding: 10px 12px; margin-top: 10px; font-size: 13px; }
+    .foot { font-size: 12px; color: var(--mute); margin-top: 14px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>How agents put money in Codzure’s account.</h1>
+      <p class="sub">Not chat. Not a shop’s 8% fantasy as the main story. Codzure today is project invoices + one free month, then silence. Agents are how the studio gets paid again after handover — and how more Get Estimate clicks become KES 150k–320k deals.</p>
+    </div>
+    <div class="big">
+      <em>Extra studio cash · this model year</em>
+      <b id="year">KES 2,184,000</b>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="engines">
+      <article class="eng">
+        <h2>1. Close the estimate</h2>
+        <p>The live operator demo is the sales weapon. Freelancers ship screens. Codzure ships an employee that records a sale and blocks a bad land deposit. That is why they pick the Android package instead of a KES 40k brochure site.</p>
+        <div class="n">+2 extra app deals / year ≈ KES 300,000–640,000</div>
+      </article>
+      <article class="eng">
+        <h2>2. Fatton the invoice</h2>
+        <p>Line item “Agent module” on the same build they already buy. No new company. No new website. Attach to NeoBuk / Ask Nyumbani / any SME or property app.</p>
+        <div class="n">+KES 45,000 on ~60% of mobile jobs</div>
+      </article>
+      <article class="eng">
+        <h2>3. Charge after the free month</h2>
+        <p>The site already promises one month free maintenance. That month is the trial. Month 2: Deni / Cheti / TillMatch seats. First real MRR in a project shop.</p>
+        <div class="n">KES 2,500 / app / month × live clients</div>
+      </article>
+    </div>
+
+    <div class="desk">
+      <section class="card">
+        <h3>Quote · Wanjiku Hardware · Githurai</h3>
+        <p class="ghost">Same client who would have bought Android-only. Toggle what Codzure actually invoices.</p>
+        <label class="toggle"><span>Android app (their current SKU)</span><span class="amt">KES 150,000</span></label>
+        <label class="toggle">
+          <span><input class="on" type="checkbox" id="a1" checked /> Agent module on this build (Deni + TillMatch wired to sales)</span>
+          <span class="amt">+ 45,000</span>
+        </label>
+        <label class="toggle">
+          <span><input class="on" type="checkbox" id="a2" checked /> Year-1 seats prepaid (month 2–12 after free maintenance)</span>
+          <span class="amt">+ 27,500</span>
+        </label>
+        <label class="toggle">
+          <span><input class="on" type="checkbox" id="a3" /> Pull them to full bundle (web + Android + iOS + admin) because the agent needs a portal</span>
+          <span class="amt">+ 170,000</span>
+        </label>
+        <div class="total"><span>Codzure invoices now</span><b id="now">KES 222,500</b></div>
+        <div class="ghost" id="residual">Then KES 2,500 / month starting month 13 if they stay. That is new money. The old model had KES 0.</div>
+        <div class="win" id="win">Without agents this quote is KES 150,000 and they go dark after the free month. With agents you print KES 72,500 extra on day one and open a residual.</div>
+      </section>
+
+      <section class="card">
+        <h3>Studio year · 6 mobile jobs (quiet Nairobi year)</h3>
+        <table>
+          <thead><tr><th></th><th>No agents</th><th>With agents</th></tr></thead>
+          <tbody>
+            <tr><td>Build invoices</td><td>KES 900,000</td><td>KES 1,170,000</td></tr>
+            <tr><td>Won because of the demo</td><td>0</td><td>+2 jobs · KES 390,000</td></tr>
+            <tr><td>Month-2 seats (18 live apps)</td><td>KES 0</td><td>KES 540,000 / year</td></tr>
+            <tr><td>Cheti tickets (Nyumbani clients)</td><td>KES 0</td><td>KES 84,000</td></tr>
+            <tr><td><b>Studio cash</b></td><td><b>KES 900,000</b></td><td><b>KES 2,184,000</b></td></tr>
+          </tbody>
+        </table>
+        <p class="win">Profit is not “AI magic.” It is (a) a higher close on Get Estimate, (b) a line on the same invoice, (c) the first subscription after the free month they already advertised.</p>
+      </section>
+    </div>
+    <p class="foot">Internal studio desk. Does not edit codzure-solutions.vercel.app. Numbers are a model so the team can argue — not a guarantee.</p>
+  </div>
+  <script>
+    const a1 = document.getElementById("a1");
+    const a2 = document.getElementById("a2");
+    const a3 = document.getElementById("a3");
+    const now = document.getElementById("now");
+    const residual = document.getElementById("residual");
+    const win = document.getElementById("win");
+    function kes(n) { return "KES " + n.toLocaleString(); }
+    function render() {
+      let t = 150000;
+      if (a1.checked) t += 45000;
+      if (a2.checked) t += 27500;
+      if (a3.checked) t += 170000;
+      now.textContent = kes(t);
+      residual.textContent = a2.checked
+        ? "Then KES 2,500 / month starting month 13 if they stay. That is new money. The old model had KES 0 after handover."
+        : "No prepaid seats — you are still selling a one-off. The free month ends and the WhatsApp goes quiet.";
+      win.textContent = "This invoice vs Android-only: " + kes(t - 150000) + " extra for Codzure on the same client visit.";
+    }
+    [a1, a2, a3].forEach((x) => x.onchange = render);
+    render();
+  </script>
+</body>
+</html>
