@@ -1,12 +1,12 @@
-# Who pays — then the two phones
+# Four phones
 
-**Read first:** [who-pays.html](./who-pays.html)
+Start: [who-pays.html](./who-pays.html)
 
-| Phone | File | Screenshot | They pay |
-|---|---|---|---|
-| Kamau / shop | [neobuk.html](./neobuk.html) | [screenshot-neobuk-seller.png](./screenshot-neobuk-seller.png) | KES 2,500/mo to collect 24,000 |
-| Njeri / plot | [nyumbani-seller.html](./nyumbani-seller.html) | [screenshot-nyumbani-seller.png](./screenshot-nyumbani-seller.png) | KES 4,500 to not list 1.4M too cheap |
+| Who | File | Pays us |
+|---|---|---|
+| Kamau shop seller | [neobuk.html](./neobuk.html) | 2,500/mo |
+| Mary shop buyer | [neobuk-buyer.html](./neobuk-buyer.html) | 1% if she pays in-app |
+| Njeri plot seller | [nyumbani-seller.html](./nyumbani-seller.html) | 4,500 once |
+| Wanjiku plot buyer | [nyumbani-buyer.html](./nyumbani-buyer.html) | 2,500 buyer pack |
 
-**PDF:** [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf)
-
-Does not change https://codzure-solutions.vercel.app/
+PDF: [AGENTIC-AI-Neo-Nyumba-Zetu.pdf](./AGENTIC-AI-Neo-Nyumba-Zetu.pdf)
