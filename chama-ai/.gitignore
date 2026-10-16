@@ -6,3 +6,4 @@ node_modules
 *.db-journal
 coverage
 next-env.d.ts
+*.tsbuildinfo
