@@ -1,0 +1,26 @@
+import { loginWithPin } from "@/lib/auth/service";
+import { clientIp, demoOtpVisible, limitAuth, setSessionCookie } from "@/lib/auth/http";
+
+export async function POST(request: Request) {
+  const limit = limitAuth(request, "login");
+  if (!limit.ok) {
+    return Response.json({ status: "rate_limited", retryAfterMs: limit.retryAfterMs }, { status: 429 });
+  }
+  const body = (await request.json().catch(() => null)) as { phone?: string; pin?: string; chamaId?: string } | null;
+  if (!body?.phone || !body.pin) {
+    return Response.json({ status: "invalid_credentials" }, { status: 400 });
+  }
+  const result = await loginWithPin({
+    phone: body.phone,
+    pin: body.pin,
+    chamaId: body.chamaId,
+    ip: clientIp(request),
+    userAgent: request.headers.get("user-agent") ?? undefined,
+    demoOtpVisible: demoOtpVisible(),
+  });
+  if (result.status === "authenticated") {
+    await setSessionCookie(result.token);
+    return Response.json({ status: "authenticated", role: result.role, chamaId: result.chamaId });
+  }
+  return Response.json(result, { status: result.status === "invalid_credentials" ? 401 : 200 });
+}

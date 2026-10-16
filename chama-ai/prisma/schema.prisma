@@ -1,0 +1,716 @@
+// Chama AI — tenant-scoped ledger.
+// Money is integer cents (KES × 100). Rates are basis points (1_000 = 10%).
+// Financial rows are corrected by reversal entries, not hard deletes.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Language {
+  EN
+  SW
+  SHENG
+}
+
+enum ChamaStatus {
+  TRIAL
+  ACTIVE
+  READ_ONLY
+  SUSPENDED
+}
+
+enum Plan {
+  FREE
+  STANDARD
+  PRO
+}
+
+enum MembershipRole {
+  CHAIR
+  TREASURER
+  SECRETARY
+  MEMBER
+  AUDITOR
+}
+
+enum MembershipStatus {
+  ACTIVE
+  SUSPENDED
+  EXITED
+}
+
+enum PaymentMethod {
+  CASH
+  MPESA
+  BANK
+}
+
+enum RecordSource {
+  MANUAL
+  AI
+  MPESA
+  IMPORT
+  SYSTEM
+}
+
+enum InterestType {
+  FLAT
+  REDUCING
+}
+
+enum LoanStatus {
+  APPLIED
+  UNDER_REVIEW
+  APPROVED
+  DISBURSED
+  ACTIVE
+  PAID
+  DEFAULTED
+  REJECTED
+}
+
+enum InstallmentStatus {
+  SCHEDULED
+  PARTIAL
+  PAID
+  OVERDUE
+}
+
+enum GuarantorStatus {
+  REQUESTED
+  ACCEPTED
+  DECLINED
+}
+
+enum FineType {
+  LATE_CONTRIBUTION
+  MISSED_MEETING
+  LATE_INSTALLMENT
+  OTHER
+}
+
+enum FineStatus {
+  UNPAID
+  PAID
+  WAIVED
+}
+
+enum WelfareType {
+  BEREAVEMENT
+  ILLNESS
+  OTHER
+}
+
+enum WelfareStatus {
+  PENDING
+  APPROVED
+  PAID
+  REJECTED
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum MpesaMatchStatus {
+  MATCHED
+  NEEDS_REVIEW
+  IGNORED
+}
+
+enum AgentRunStatus {
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+enum MessageChannel {
+  WHATSAPP
+  SMS
+  USSD
+  WEB
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum PollStatus {
+  DRAFT
+  OPEN
+  CLOSED
+}
+
+enum VoteChoice {
+  YES
+  NO
+  ABSTAIN
+}
+
+enum AuditSource {
+  MANUAL
+  AI
+  SYSTEM
+  MPESA
+}
+
+model Chama {
+  id             String      @id @default(cuid())
+  name           String
+  registrationNo String?
+  county         String?
+  currency       String      @default("KES")
+  settings       Json
+  plan           Plan        @default(PRO)
+  trialEndsAt    DateTime?
+  status         ChamaStatus @default(TRIAL)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  memberships      Membership[]
+  contributions    Contribution[]
+  loans            Loan[]
+  installments     LoanInstallment[]
+  repayments       LoanRepayment[]
+  guarantors       Guarantor[]
+  fines            Fine[]
+  expenses         Expense[]
+  welfareClaims    WelfareClaim[]
+  meetings         Meeting[]
+  polls            Poll[]
+  votes            Vote[]
+  savingsGoals     SavingsGoal[]
+  mpesaTransactions MpesaTransaction[]
+  approvals        Approval[]
+  auditLogs        AuditLog[]
+  agentRuns        AgentRun[]
+  messages         Message[]
+  notifications    Notification[]
+  subscription     Subscription?
+  invoices         Invoice[]
+  usageCounters    UsageCounter[]
+  valueMetrics     ValueMetric[]
+  pendingActions   PendingAction[]
+  supportAccess    SupportAccess[]
+}
+
+model Person {
+  id                  String    @id @default(cuid())
+  name                String
+  phone               String    @unique
+  preferredLanguage   Language  @default(EN)
+  channelPrefs        Json
+  consent             Json
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+  isSuperAdmin        Boolean   @default(false)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  memberships   Membership[]
+  sessions      Session[]
+  otpChallenges OtpChallenge[]
+  messages      Message[]
+  notifications Notification[]
+}
+
+model Membership {
+  id         String           @id @default(cuid())
+  chamaId    String
+  personId   String
+  role       MembershipRole
+  memberNo   String
+  joinDate   DateTime
+  exitDate   DateTime?
+  status     MembershipStatus @default(ACTIVE)
+  hashedPin  String
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  chama            Chama            @relation(fields: [chamaId], references: [id])
+  person           Person           @relation(fields: [personId], references: [id])
+  contributions    Contribution[]
+  loans            Loan[]
+  fines            Fine[]
+  finesWaived      Fine[]           @relation("FineWaiver")
+  welfareClaims    WelfareClaim[]
+  savingsGoals     SavingsGoal[]
+  guarantees       Guarantor[]      @relation("GuarantorMember")
+  votes            Vote[]
+  approvalsRequested Approval[]     @relation("ApprovalRequester")
+  approvalsGiven   Approval[]       @relation("ApprovalApprover")
+  sessions         Session[]
+  otpChallenges    OtpChallenge[]
+  supportGrants    SupportAccess[]
+  mpesaMatches     MpesaTransaction[]
+
+  @@unique([chamaId, personId])
+  @@unique([chamaId, memberNo])
+  @@index([chamaId])
+}
+
+model Contribution {
+  id           String        @id @default(cuid())
+  chamaId      String
+  membershipId String
+  amountCents  Int
+  period       String
+  datePaid     DateTime
+  method       PaymentMethod
+  reference    String?
+  source       RecordSource
+  reversesId   String?
+  createdAt    DateTime      @default(now())
+
+  chama      Chama          @relation(fields: [chamaId], references: [id])
+  membership Membership     @relation(fields: [membershipId], references: [id])
+  reverses   Contribution?  @relation("ContributionReversal", fields: [reversesId], references: [id])
+  reversedBy Contribution[] @relation("ContributionReversal")
+
+  @@index([chamaId, membershipId, period])
+}
+
+model Loan {
+  id              String       @id @default(cuid())
+  chamaId         String
+  membershipId    String
+  principalCents  Int
+  rateBps         Int
+  interestType    InterestType
+  months          Int
+  purpose         String
+  status          LoanStatus
+  applicationDate DateTime
+  issueDate       DateTime?
+  dueDate         DateTime?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  chama        Chama             @relation(fields: [chamaId], references: [id])
+  membership   Membership        @relation(fields: [membershipId], references: [id])
+  installments LoanInstallment[]
+  repayments   LoanRepayment[]
+  guarantors   Guarantor[]
+
+  @@index([chamaId, status])
+}
+
+model LoanInstallment {
+  id                 String            @id @default(cuid())
+  chamaId            String
+  loanId             String
+  dueDate            DateTime
+  principalDueCents  Int
+  interestDueCents   Int
+  paidAmountCents    Int               @default(0)
+  status             InstallmentStatus
+  createdAt          DateTime          @default(now())
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+  loan  Loan  @relation(fields: [loanId], references: [id])
+
+  @@index([chamaId, dueDate])
+  @@index([loanId])
+}
+
+model LoanRepayment {
+  id           String        @id @default(cuid())
+  chamaId      String
+  loanId       String
+  amountCents  Int
+  datePaid     DateTime
+  method       PaymentMethod
+  reference    String?
+  source       RecordSource
+  createdAt    DateTime      @default(now())
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+  loan  Loan  @relation(fields: [loanId], references: [id])
+
+  @@index([chamaId, loanId])
+}
+
+model Guarantor {
+  id                     String          @id @default(cuid())
+  chamaId                String
+  loanId                 String
+  guarantorMembershipId  String
+  amountGuaranteedCents  Int
+  status                 GuarantorStatus
+  createdAt              DateTime        @default(now())
+
+  chama      Chama      @relation(fields: [chamaId], references: [id])
+  loan       Loan       @relation(fields: [loanId], references: [id])
+  guarantor  Membership @relation("GuarantorMember", fields: [guarantorMembershipId], references: [id])
+
+  @@index([chamaId])
+  @@index([loanId])
+}
+
+model Fine {
+  id                   String     @id @default(cuid())
+  chamaId              String
+  membershipId         String
+  type                 FineType
+  amountCents          Int
+  date                 DateTime
+  status               FineStatus @default(UNPAID)
+  waivedByMembershipId String?
+  reason               String?
+  createdAt            DateTime   @default(now())
+
+  chama      Chama       @relation(fields: [chamaId], references: [id])
+  membership Membership  @relation(fields: [membershipId], references: [id])
+  waivedBy   Membership? @relation("FineWaiver", fields: [waivedByMembershipId], references: [id])
+
+  @@index([chamaId, membershipId])
+}
+
+model Expense {
+  id           String        @id @default(cuid())
+  chamaId      String
+  amountCents  Int
+  description  String
+  date         DateTime
+  method       PaymentMethod
+  reference    String?
+  source       RecordSource
+  reversesId   String?
+  createdAt    DateTime      @default(now())
+
+  chama      Chama     @relation(fields: [chamaId], references: [id])
+  reverses   Expense?  @relation("ExpenseReversal", fields: [reversesId], references: [id])
+  reversedBy Expense[] @relation("ExpenseReversal")
+
+  @@index([chamaId])
+}
+
+model WelfareClaim {
+  id           String        @id @default(cuid())
+  chamaId      String
+  membershipId String?
+  type         WelfareType
+  amountCents  Int
+  description  String
+  status       WelfareStatus
+  date         DateTime
+  createdAt    DateTime      @default(now())
+
+  chama      Chama       @relation(fields: [chamaId], references: [id])
+  membership Membership? @relation(fields: [membershipId], references: [id])
+
+  @@index([chamaId])
+}
+
+model Meeting {
+  id           String   @id @default(cuid())
+  chamaId      String
+  date         DateTime
+  agenda       String
+  attendance   Json
+  minutes      String?
+  decisions    Json
+  voiceNoteUrl String?
+  createdAt    DateTime @default(now())
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+
+  @@index([chamaId, date])
+}
+
+model Poll {
+  id        String     @id @default(cuid())
+  chamaId   String
+  question  String
+  status    PollStatus
+  quorumBps Int
+  opensAt   DateTime
+  closesAt  DateTime?
+  createdAt DateTime   @default(now())
+
+  chama Chama  @relation(fields: [chamaId], references: [id])
+  votes Vote[]
+
+  @@index([chamaId])
+}
+
+model Vote {
+  id           String     @id @default(cuid())
+  chamaId      String
+  pollId       String
+  membershipId String
+  choice       VoteChoice
+  createdAt    DateTime   @default(now())
+
+  chama      Chama      @relation(fields: [chamaId], references: [id])
+  poll       Poll       @relation(fields: [pollId], references: [id])
+  membership Membership @relation(fields: [membershipId], references: [id])
+
+  @@unique([pollId, membershipId])
+  @@index([chamaId])
+}
+
+model SavingsGoal {
+  id           String   @id @default(cuid())
+  chamaId      String
+  membershipId String
+  title        String
+  targetCents  Int
+  targetDate   DateTime
+  createdAt    DateTime @default(now())
+
+  chama      Chama      @relation(fields: [chamaId], references: [id])
+  membership Membership @relation(fields: [membershipId], references: [id])
+
+  @@index([chamaId, membershipId])
+}
+
+model MpesaTransaction {
+  id                  String           @id @default(cuid())
+  chamaId             String
+  transId             String           @unique
+  rawPayload          Json
+  amountCents         Int
+  phone               String?
+  billRef             String?
+  matchedMembershipId String?
+  status              MpesaMatchStatus
+  createdAt           DateTime         @default(now())
+
+  chama             Chama       @relation(fields: [chamaId], references: [id])
+  matchedMembership Membership? @relation(fields: [matchedMembershipId], references: [id])
+
+  @@index([chamaId, status])
+}
+
+model Approval {
+  id                      String         @id @default(cuid())
+  chamaId                 String
+  entityType              String
+  entityId                String
+  requestedByMembershipId String
+  approvedByMembershipId  String?
+  status                  ApprovalStatus
+  createdAt               DateTime       @default(now())
+  decidedAt               DateTime?
+
+  chama     Chama      @relation(fields: [chamaId], references: [id])
+  requester Membership @relation("ApprovalRequester", fields: [requestedByMembershipId], references: [id])
+  approver  Membership? @relation("ApprovalApprover", fields: [approvedByMembershipId], references: [id])
+
+  @@index([chamaId, entityType, entityId])
+}
+
+model AuditLog {
+  id                String      @id @default(cuid())
+  chamaId           String
+  seq               Int
+  prevHash          String
+  hash              String
+  actorMembershipId String?
+  actorPersonId     String?
+  source            AuditSource
+  action            String
+  entityType        String
+  entityId          String
+  before            Json?
+  after             Json?
+  createdAt         DateTime    @default(now())
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+
+  @@unique([chamaId, seq])
+  @@index([chamaId])
+}
+
+model AgentRun {
+  id           String         @id @default(cuid())
+  chamaId      String
+  agent        String
+  trigger      String
+  inputSummary String
+  toolsCalled  Json
+  output       String
+  inputTokens  Int            @default(0)
+  outputTokens Int            @default(0)
+  costCents    Int            @default(0)
+  status       AgentRunStatus
+  durationMs   Int
+  createdAt    DateTime       @default(now())
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+
+  @@index([chamaId, createdAt])
+}
+
+model Message {
+  id        String           @id @default(cuid())
+  chamaId   String
+  personId  String?
+  channel   MessageChannel
+  direction MessageDirection
+  content   String
+  agent     String?
+  createdAt DateTime         @default(now())
+
+  chama  Chama   @relation(fields: [chamaId], references: [id])
+  person Person? @relation(fields: [personId], references: [id])
+
+  @@index([chamaId, createdAt])
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  chamaId   String
+  personId  String?
+  title     String
+  body      String
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  chama  Chama   @relation(fields: [chamaId], references: [id])
+  person Person? @relation(fields: [personId], references: [id])
+
+  @@index([chamaId])
+}
+
+model Subscription {
+  id          String   @id @default(cuid())
+  chamaId     String   @unique
+  plan        Plan
+  status      String
+  periodStart DateTime
+  periodEnd   DateTime
+  cancelAt    DateTime?
+  createdAt   DateTime @default(now())
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+}
+
+model Invoice {
+  id          String    @id @default(cuid())
+  chamaId     String
+  period      String
+  amountCents Int
+  status      String
+  paidAt      DateTime?
+  reference   String?
+  createdAt   DateTime  @default(now())
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+
+  @@index([chamaId, period])
+}
+
+model UsageCounter {
+  id             String @id @default(cuid())
+  chamaId        String
+  period         String
+  aiCalls        Int    @default(0)
+  aiInputTokens  Int    @default(0)
+  aiOutputTokens Int    @default(0)
+  costCents      Int    @default(0)
+  messagesSent   Int    @default(0)
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+
+  @@unique([chamaId, period])
+}
+
+model ValueMetric {
+  id                          String @id @default(cuid())
+  chamaId                     String
+  period                      String
+  minutesSaved                Int
+  remindersSent               Int
+  questionsAnswered           Int
+  paymentsRecorded            Int
+  onTimeRateBps               Int
+  onTimeRateBeforeBps         Int
+  arrearsRecoveredCents       Int
+  statementsIssued            Int
+  reconciliationVarianceCents Int
+  createdAt                   DateTime @default(now())
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+
+  @@unique([chamaId, period])
+}
+
+model PendingAction {
+  id                     String    @id @default(cuid())
+  chamaId                String
+  agent                  String
+  actionType             String
+  payload                Json
+  confirmationTokenHash  String    @unique
+  expiresAt              DateTime
+  confirmedAt            DateTime?
+  confirmedByMembershipId String?
+  rejectedAt             DateTime?
+  createdAt              DateTime  @default(now())
+
+  chama Chama @relation(fields: [chamaId], references: [id])
+
+  @@index([chamaId])
+}
+
+model SupportAccess {
+  id                    String    @id @default(cuid())
+  chamaId               String
+  grantedByMembershipId String
+  reason                String
+  startsAt              DateTime
+  expiresAt             DateTime
+  revokedAt             DateTime?
+  createdAt             DateTime  @default(now())
+
+  chama     Chama      @relation(fields: [chamaId], references: [id])
+  grantedBy Membership @relation(fields: [grantedByMembershipId], references: [id])
+
+  @@index([chamaId])
+}
+
+model Session {
+  id           String    @id @default(cuid())
+  personId     String
+  membershipId String
+  chamaId      String
+  tokenHash    String    @unique
+  createdAt    DateTime  @default(now())
+  lastSeenAt   DateTime  @default(now())
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  userAgent    String?
+  ip           String?
+
+  person     Person     @relation(fields: [personId], references: [id])
+  membership Membership @relation(fields: [membershipId], references: [id])
+
+  @@index([personId])
+}
+
+model OtpChallenge {
+  id           String    @id @default(cuid())
+  personId     String
+  membershipId String
+  chamaId      String
+  codeHash     String
+  expiresAt    DateTime
+  attempts     Int       @default(0)
+  consumedAt   DateTime?
+  createdAt    DateTime  @default(now())
+
+  person     Person     @relation(fields: [personId], references: [id])
+  membership Membership @relation(fields: [membershipId], references: [id])
+
+  @@index([personId])
+}

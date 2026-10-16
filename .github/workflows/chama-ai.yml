@@ -1,0 +1,27 @@
+name: Chama AI
+
+on:
+  push:
+    paths:
+      - "chama-ai/**"
+      - ".github/workflows/chama-ai.yml"
+  pull_request:
+    paths:
+      - "chama-ai/**"
+      - ".github/workflows/chama-ai.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: chama-ai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: chama-ai/package-lock.json
+      - run: npm ci
+      - run: npm run test:coverage
