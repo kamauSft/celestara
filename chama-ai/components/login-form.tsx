@@ -9,9 +9,9 @@ interface ChamaChoice {
   role: string;
 }
 
-export function LoginForm() {
+export function LoginForm({ initialPhone = "0712345005" }: { initialPhone?: string }) {
   const router = useRouter();
-  const [phone, setPhone] = useState("0712345005");
+  const [phone, setPhone] = useState(initialPhone);
   const [pin, setPin] = useState("2580");
   const [chamaId, setChamaId] = useState("");
   const [choices, setChoices] = useState<ChamaChoice[]>([]);

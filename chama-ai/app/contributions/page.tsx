@@ -29,7 +29,8 @@ export default async function ContributionsPage() {
 
   return (
     <Shell chamaName={desk.chamaName} personName={session.personName} role={session.role} current="/contributions">
-      <h1 className="font-serif text-4xl">Contributions</h1>
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">Treasurer&apos;s view</p>
+      <h1 className="mt-1 font-serif text-4xl">Every member, every month</h1>
       <p className="mt-1 text-sm text-stone-600">
         {desk.period} collected {desk.collectedLabel} of {desk.expectedLabel} ({desk.collectionRateLabel}).
       </p>

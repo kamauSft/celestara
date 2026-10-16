@@ -1,14 +1,17 @@
 import { auditIsIntact } from "../audit/intact";
 import { parseChamaSettings } from "../chama/rules";
 import { getDb } from "../db";
+import { contributionCell, periodLabel } from "../chama/picture";
 import {
   arrears,
   finesDue,
   formatKes,
+  installmentRemaining,
   loanBalance,
   memberNetPosition,
   memberSavings,
   overdueInstallments,
+  periodOf,
 } from "../finance";
 import { assertCanReadMembership, TenantIsolationError } from "../tenancy/context";
 
@@ -48,6 +51,28 @@ export async function loadMemberHome(membershipId: string, asOf = new Date()) {
     asOf,
   });
   const lateInstallments = overdueInstallments(installments, asOf);
+  const period = periodOf(asOf);
+  const thisMonth = contributionCell({
+    period,
+    dueDay: settings.contributionDueDay,
+    monthlyCents: settings.monthlyContributionCents,
+    joinDate: membership.joinDate,
+    exitDate: membership.exitDate,
+    payments: contributions
+      .filter((row) => row.period === period)
+      .map((row) => ({ amountCents: row.amountCents, date: row.datePaid })),
+    asOf,
+  });
+  const nextInstallment = openLoans
+    .flatMap((loan) =>
+      loan.installments.map((installment) => ({
+        purpose: loan.purpose,
+        dueDate: installment.dueDate,
+        remainingCents: installmentRemaining(installment),
+      })),
+    )
+    .filter((row) => row.remainingCents > 0)
+    .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())[0];
 
   return {
     chamaName: membership.chama.name,
@@ -65,6 +90,17 @@ export async function loadMemberHome(membershipId: string, asOf = new Date()) {
     arrearsLabel: formatKes(arrearsReport.totalOutstandingCents),
     overdueInstallmentCents: lateInstallments.reduce((sum, row) => sum + row.remainingCents, 0),
     auditIntact,
+    period,
+    periodLabel: periodLabel(period),
+    thisMonth,
+    monthlyDueLabel: formatKes(settings.monthlyContributionCents),
+    nextInstallment: nextInstallment
+      ? {
+          purpose: nextInstallment.purpose,
+          dueDate: nextInstallment.dueDate.toISOString().slice(0, 10),
+          remainingLabel: formatKes(nextInstallment.remainingCents),
+        }
+      : null,
     goals: goals.map((goal) => ({
       title: goal.title,
       targetLabel: formatKes(goal.targetCents),

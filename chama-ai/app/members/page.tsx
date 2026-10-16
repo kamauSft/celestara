@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { MonthPill } from "@/components/month-pill";
 import { Shell } from "@/components/shell";
 import { booksAsOf } from "@/lib/chama/clock";
 import { loadDesk } from "@/lib/chama/load-desk";
@@ -15,13 +16,15 @@ export default async function MembersPage() {
 
   return (
     <Shell chamaName={desk.chamaName} personName={session.personName} role={session.role} current="/members">
-      <h1 className="font-serif text-4xl">Members</h1>
-      <p className="mt-1 text-sm text-stone-600">{desk.activeMembers} active · books as of {desk.asOf}</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">Treasurer&apos;s view</p>
+      <h1 className="mt-1 font-serif text-4xl">Register</h1>
+      <p className="mt-1 text-sm text-stone-600">{desk.activeMembers} active · open a name to see that member&apos;s own months and loan.</p>
       <div className="mt-6 overflow-x-auto">
         <table className="w-full min-w-[46rem] text-left text-sm">
           <thead className="text-stone-500">
             <tr>
               <th className="py-2 font-medium">Member</th>
+              <th className="py-2 font-medium">{desk.periodLabel}</th>
               <th className="py-2 font-medium">Role</th>
               <th className="py-2 font-medium">Status</th>
               <th className="py-2 font-medium">Savings</th>
@@ -34,11 +37,12 @@ export default async function MembersPage() {
             {desk.members.map((member) => (
               <tr key={member.membershipId} className="border-t border-stone-200">
                 <td className="py-2">
-                  <Link className="underline decoration-stone-300" href={`/statement?memberNo=${member.memberNo}`}>
+                  <Link className="underline decoration-stone-300" href={`/members/${member.memberNo}`}>
                     {member.memberNo} {member.name}
                   </Link>
                   <p className="text-xs text-stone-500">{member.phoneMasked}</p>
                 </td>
+                <td><MonthPill cell={member.thisMonth} /></td>
                 <td>{member.role}</td>
                 <td>{member.status}</td>
                 <td>{member.savingsLabel}</td>

@@ -6,7 +6,9 @@ Money is integer cents. Rates are basis points (`1000` = 10% per month). `lib/fi
 
 ## What a chama sees
 
-- **Desk** — lending pool, this month's collection rate, who is behind, and unmatched M-Pesa receipts.
+The front door has two entrances. Peter the treasurer opens the October meeting: who paid, who to chase, the lending pool, and unmatched M-Pesa receipts. Amina the member opens only her money, her months, her loan, and her statement. She is turned away from the treasurer's register.
+
+- **Treasurer** — this month's register, the chase list, and receipts still unmatched.
 - **Members** — savings, loan, fines, and arrears for every member. A member cannot open this.
 - **Contributions** — members by month, marked paid, late, missed, or not due.
 - **Loans** — open, waiting, repaid, and declined.

@@ -146,6 +146,9 @@ describe("Umoja seed", () => {
     const jamesRow = desk.grid.find((row) => row.memberNo === "M006");
     expect(aminaRow?.cells.at(-1)).toBe("PAID");
     expect(jamesRow?.cells.at(-1)).toBe("MISSED");
+    expect(desk.monthTally.MISSED).toBe(3);
+    expect(desk.members.find((row) => row.memberNo === "M006")?.thisMonth).toBe("MISSED");
+    expect(desk.receipts).toHaveLength(3);
     expect(desk.loans.filter((loan) => loan.status === "ACTIVE")).toHaveLength(4);
     expect(desk.loans.filter((loan) => loan.status === "DEFAULTED")).toHaveLength(1);
 

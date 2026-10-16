@@ -4,19 +4,18 @@ import { isOfficial } from "@/lib/tenancy/context";
 import { roleLabel } from "@/lib/chama/picture";
 
 const OFFICIAL_LINKS = [
-  ["Desk", "/desk"],
-  ["Members", "/members"],
-  ["Contributions", "/contributions"],
+  ["Treasurer", "/desk"],
+  ["Register", "/members"],
+  ["Months", "/contributions"],
   ["Loans", "/loans"],
-  ["Value", "/value"],
-  ["Statement", "/statement"],
-  ["My position", "/home"],
+  ["Receipts", "/receipts"],
 ] as const;
 
 const MEMBER_LINKS = [
-  ["My position", "/home"],
+  ["My money", "/home"],
+  ["My months", "/mine"],
+  ["My loan", "/loan"],
   ["Statement", "/statement"],
-  ["Value", "/value"],
 ] as const;
 
 export function Shell({

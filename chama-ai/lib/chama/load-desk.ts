@@ -20,6 +20,7 @@ import {
   interestCollectedCents,
   monthlyPriceCents,
   periodsBetween,
+  periodLabel,
   roleLabel,
   type ContributionCell,
 } from "./picture";
@@ -38,7 +39,10 @@ export interface DeskView {
   expectedLabel: string;
   collectedLabel: string;
   period: string;
+  periodLabel: string;
   mpesaNeedsReview: number;
+  monthTally: Record<ContributionCell, number>;
+  receipts: { transId: string; amountLabel: string; phoneMasked: string; billRef: string }[];
   behind: {
     membershipId: string;
     memberNo: string;
@@ -46,6 +50,7 @@ export interface DeskView {
     arrearsLabel: string;
     finesLabel: string;
     overdueLoanLabel: string;
+    thisMonth: ContributionCell;
   }[];
   members: {
     membershipId: string;
@@ -58,6 +63,7 @@ export interface DeskView {
     finesLabel: string;
     arrearsLabel: string;
     phoneMasked: string;
+    thisMonth: ContributionCell;
   }[];
   periods: string[];
   grid: { membershipId: string; memberNo: string; name: string; cells: ContributionCell[] }[];
@@ -97,7 +103,7 @@ export async function loadDesk(asOf: Date): Promise<DeskView> {
   if (!chama) throw new Error("Chama is missing");
   const settings = parseChamaSettings(chama.settings);
 
-  const [memberships, expenses, welfare, metrics, mpesaNeedsReview, auditIntact] = await Promise.all([
+  const [memberships, expenses, welfare, metrics, receipts, auditIntact] = await Promise.all([
     db.membership.findMany({
       include: {
         person: true,
@@ -110,9 +116,10 @@ export async function loadDesk(asOf: Date): Promise<DeskView> {
     db.expense.findMany(),
     db.welfareClaim.findMany(),
     db.valueMetric.findMany({ orderBy: { period: "asc" } }),
-    db.mpesaTransaction.count({ where: { status: "NEEDS_REVIEW" } }),
+    db.mpesaTransaction.findMany({ where: { status: "NEEDS_REVIEW" }, orderBy: { createdAt: "asc" } }),
     auditIsIntact(),
   ]);
+  const mpesaNeedsReview = receipts.length;
 
   const period = periodOf(asOf);
   const start = memberships.reduce((earliest, membership) => {
@@ -272,7 +279,20 @@ export async function loadDesk(asOf: Date): Promise<DeskView> {
     expectedLabel: formatKes(summary.expectedContributionCents),
     collectedLabel: formatKes(summary.contributionCents),
     period,
+    periodLabel: periodLabel(period),
     mpesaNeedsReview,
+    monthTally: {
+      PAID: rows.filter((row) => row.cells.at(-1) === "PAID").length,
+      LATE: rows.filter((row) => row.cells.at(-1) === "LATE").length,
+      MISSED: rows.filter((row) => row.cells.at(-1) === "MISSED").length,
+      NOT_DUE: rows.filter((row) => row.cells.at(-1) === "NOT_DUE").length,
+    },
+    receipts: receipts.map((receipt) => ({
+      transId: receipt.transId,
+      amountLabel: formatKes(receipt.amountCents),
+      phoneMasked: maskPhone(receipt.phone ?? ""),
+      billRef: receipt.billRef || "No account number",
+    })),
     behind: behind.map((row) => ({
       membershipId: row.membershipId,
       memberNo: row.memberNo,
@@ -280,6 +300,7 @@ export async function loadDesk(asOf: Date): Promise<DeskView> {
       arrearsLabel: formatKes(row.arrearsCents),
       finesLabel: formatKes(row.finesCents),
       overdueLoanLabel: formatKes(row.overdueLoanCents),
+      thisMonth: row.cells.at(-1) ?? "NOT_DUE",
     })),
     members: rows.map((row) => ({
       membershipId: row.membershipId,
@@ -292,6 +313,7 @@ export async function loadDesk(asOf: Date): Promise<DeskView> {
       finesLabel: formatKes(row.finesCents),
       arrearsLabel: formatKes(row.arrearsCents),
       phoneMasked: row.phoneMasked,
+      thisMonth: row.cells.at(-1) ?? "NOT_DUE",
     })),
     periods,
     grid: rows.map((row) => ({

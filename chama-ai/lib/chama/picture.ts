@@ -81,6 +81,14 @@ export function formatRateBps(bps: number): string {
   return `${whole}.${fraction}%`;
 }
 
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+export function periodLabel(period: string): string {
+  const month = Number(period.slice(5, 7));
+  const name = MONTHS[month - 1] ?? period;
+  return `${name} ${period.slice(0, 4)}`;
+}
+
 export function roleLabel(role: string): string {
   const labels: Record<string, string> = {
     CHAIR: "Chair",
