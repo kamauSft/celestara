@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Chama AI",
-  description: "Records, balances, and approvals for a savings group.",
+  title: "Kikapu",
+  description: "The chama treasurer's desk and each member's own position.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

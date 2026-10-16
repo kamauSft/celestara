@@ -9,3 +9,12 @@ body {
     #f4efe6;
   color: #1c1915;
 }
+
+@media print {
+  body {
+    background: white;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

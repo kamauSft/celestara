@@ -33,7 +33,7 @@ export function LoginForm() {
     const body = await response.json();
     setPending(false);
     if (body.status === "authenticated") {
-      router.push("/home");
+      router.push(body.role && body.role !== "MEMBER" ? "/desk" : "/home");
       router.refresh();
       return;
     }
@@ -66,7 +66,7 @@ export function LoginForm() {
     const body = await response.json();
     setPending(false);
     if (body.status === "authenticated") {
-      router.push("/home");
+      router.push(body.role && body.role !== "MEMBER" ? "/desk" : "/home");
       router.refresh();
       return;
     }

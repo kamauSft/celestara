@@ -1,4 +1,4 @@
-import { verifyAuditChain, type AuditBody } from "../audit/chain";
+import { auditIsIntact } from "../audit/intact";
 import { parseChamaSettings } from "../chama/rules";
 import { getDb } from "../db";
 import {
@@ -21,12 +21,12 @@ export async function loadMemberHome(membershipId: string, asOf = new Date()) {
   });
   if (!membership) throw new TenantIsolationError("Membership is not in this chama");
 
-  const [contributions, fines, loans, goals, logs] = await Promise.all([
+  const [contributions, fines, loans, goals, auditIntact] = await Promise.all([
     db.contribution.findMany({ where: { membershipId } }),
     db.fine.findMany({ where: { membershipId } }),
     db.loan.findMany({ where: { membershipId }, include: { installments: true } }),
     db.savingsGoal.findMany({ where: { membershipId } }),
-    db.auditLog.findMany({ orderBy: { seq: "asc" } }),
+    auditIsIntact(),
   ]);
 
   const settings = parseChamaSettings(membership.chama.settings);
@@ -48,25 +48,6 @@ export async function loadMemberHome(membershipId: string, asOf = new Date()) {
     asOf,
   });
   const lateInstallments = overdueInstallments(installments, asOf);
-  const chain = verifyAuditChain(
-    logs.map((log) => ({
-      prevHash: log.prevHash,
-      hash: log.hash,
-      body: {
-        chamaId: log.chamaId,
-        seq: log.seq,
-        actorMembershipId: log.actorMembershipId,
-        actorPersonId: log.actorPersonId,
-        source: log.source,
-        action: log.action,
-        entityType: log.entityType,
-        entityId: log.entityId,
-        before: log.before ?? null,
-        after: log.after ?? null,
-        createdAt: log.createdAt.toISOString(),
-      } satisfies AuditBody,
-    })),
-  );
 
   return {
     chamaName: membership.chama.name,
@@ -83,7 +64,7 @@ export async function loadMemberHome(membershipId: string, asOf = new Date()) {
     arrearsCents: arrearsReport.totalOutstandingCents,
     arrearsLabel: formatKes(arrearsReport.totalOutstandingCents),
     overdueInstallmentCents: lateInstallments.reduce((sum, row) => sum + row.remainingCents, 0),
-    auditIntact: chain.ok,
+    auditIntact,
     goals: goals.map((goal) => ({
       title: goal.title,
       targetLabel: formatKes(goal.targetCents),

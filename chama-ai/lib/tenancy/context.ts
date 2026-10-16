@@ -32,6 +32,19 @@ export class TenantIsolationError extends Error {
   }
 }
 
+export function isOfficial(role?: MembershipRoleName): boolean {
+  return role !== undefined && OFFICIALS.has(role);
+}
+
+export function assertOfficial(): void {
+  const context = currentTenant();
+  if (!context || context.bypass) return;
+  if (context.isSuperAdmin && context.supportAccess) return;
+  if (!isOfficial(context.role)) {
+    throw new TenantIsolationError("Officials only");
+  }
+}
+
 export function assertCanReadMembership(targetMembershipId: string): void {
   const context = currentTenant();
   if (!context || context.bypass) return;

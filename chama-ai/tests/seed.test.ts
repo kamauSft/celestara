@@ -4,7 +4,9 @@ import { verifyAuditChain } from "@/lib/audit/chain";
 import { loginWithPin } from "@/lib/auth/service";
 import { umojaSettings } from "@/lib/chama/rules";
 import { prismaRaw } from "@/lib/db";
+import { loadDesk } from "@/lib/chama/load-desk";
 import { loadMemberHome } from "@/lib/member/home";
+import { loadStatement } from "@/lib/member/statement";
 import { runWithTenant, TenantIsolationError } from "@/lib/tenancy/context";
 import { DEMO_PIN, SEED_AS_OF, loans, members, mpesaQueue, savingsCentsAt } from "../prisma/seed-data";
 import { seedDatabase } from "../prisma/seed";
@@ -121,5 +123,46 @@ describe("Umoja seed", () => {
       now: new Date(`${SEED_AS_OF}T12:00:00.000Z`),
     });
     expect(signedIn.status).toBe("authenticated");
+  });
+
+  it("opens the treasurer desk and keeps a member out of other people's books", async () => {
+    const treasurer = await prismaRaw.membership.findFirst({ where: { memberNo: "M002" }, include: { person: true } });
+    const amina = await prismaRaw.membership.findFirst({ where: { memberNo: "M005" } });
+    if (!treasurer || !amina) throw new Error("seed members missing");
+    const asOf = new Date(`${SEED_AS_OF}T00:00:00.000Z`);
+
+    const desk = await runWithTenant(
+      { chamaId: treasurer.chamaId, membershipId: treasurer.id, personId: treasurer.personId, role: "TREASURER" },
+      () => loadDesk(asOf),
+    );
+    expect(desk.activeMembers).toBe(19);
+    expect(desk.collectionRateBps).toBe(8421);
+    expect(desk.behind.map((row) => row.memberNo).sort()).toEqual(["M006", "M009", "M014"]);
+    expect(desk.value.proCents).toBe(114_000);
+    expect(desk.value.onTimeLabel).toBe("91.4%");
+    expect(desk.mpesaNeedsReview).toBe(3);
+    expect(desk.auditIntact).toBe(true);
+    const aminaRow = desk.grid.find((row) => row.memberNo === "M005");
+    const jamesRow = desk.grid.find((row) => row.memberNo === "M006");
+    expect(aminaRow?.cells.at(-1)).toBe("PAID");
+    expect(jamesRow?.cells.at(-1)).toBe("MISSED");
+    expect(desk.loans.filter((loan) => loan.status === "ACTIVE")).toHaveLength(4);
+    expect(desk.loans.filter((loan) => loan.status === "DEFAULTED")).toHaveLength(1);
+
+    await expect(
+      runWithTenant({ chamaId: amina.chamaId, membershipId: amina.id, role: "MEMBER" }, () => loadDesk(asOf)),
+    ).rejects.toBeInstanceOf(TenantIsolationError);
+
+    const own = await runWithTenant(
+      { chamaId: amina.chamaId, membershipId: amina.id, role: "MEMBER" },
+      () => loadStatement(amina.id),
+    );
+    expect(own.personName).toBe("Amina Hassan Bakari");
+    expect(own.lines.some((line) => line.description.includes("2026-10"))).toBe(true);
+    await expect(
+      runWithTenant({ chamaId: amina.chamaId, membershipId: amina.id, role: "MEMBER" }, () =>
+        loadStatement(treasurer.id),
+      ),
+    ).rejects.toBeInstanceOf(TenantIsolationError);
   });
 });
