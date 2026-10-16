@@ -12,6 +12,8 @@
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "seed": "tsx prisma/seed.ts",
+    "lockout:reset": "tsx scripts/reset-lockout.ts",
+    "test:e2e": "playwright test",
     "postinstall": "prisma generate"
   },
   "prisma": {
@@ -26,6 +28,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

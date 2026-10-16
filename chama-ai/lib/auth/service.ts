@@ -2,7 +2,7 @@ import type { MembershipRole } from "@prisma/client";
 import { prismaRaw } from "../db";
 import { devMessaging, type MessagingProvider } from "../messaging/provider";
 import { hashPin, verifyPin } from "./pin";
-import { normalizePhone } from "./phone";
+import { normalizePhone } from "../phone";
 import {
   LOCKOUT_MS,
   OTP_MAX_ATTEMPTS,
@@ -24,11 +24,27 @@ export interface ChamaChoice {
 }
 
 export type LoginResult =
-  | { status: "invalid_credentials" }
-  | { status: "locked"; lockedUntil: string }
+  | { status: "invalid_credentials"; message: string; triesLeft?: number }
+  | { status: "unknown_number"; message: string }
+  | { status: "locked"; lockedUntil: string; message: string }
   | { status: "choose_chama"; chamas: ChamaChoice[] }
   | { status: "otp_required"; challengeId: string; demoCode?: string }
   | { status: "authenticated"; token: string; chamaId: string; membershipId: string; role: MembershipRole };
+
+function triesLeftMessage(triesLeft: number): string {
+  return `Wrong PIN. ${triesLeft} ${triesLeft === 1 ? "try" : "tries"} left.`;
+}
+
+async function unknownNumber(): Promise<LoginResult> {
+  await verifyPin("0000", await dummyPinHash());
+  const chamas = await prismaRaw.chama.findMany({
+    select: { name: true },
+    orderBy: { createdAt: "asc" },
+    take: 2,
+  });
+  const where = chamas.length === 1 ? ` in ${chamas[0].name}` : "";
+  return { status: "unknown_number", message: `We couldn't find that number${where}.` };
+}
 
 let dummyHash: Promise<string> | null = null;
 
@@ -45,13 +61,18 @@ async function recordFailure(personId: string, attempts: number, now: Date): Pro
       where: { id: personId },
       data: { failedLoginAttempts: 0, lockedUntil },
     });
-    return { status: "locked", lockedUntil: lockedUntil.toISOString() };
+    return {
+      status: "locked",
+      lockedUntil: lockedUntil.toISOString(),
+      message: "Too many attempts. Try again in 15 minutes.",
+    };
   }
   await prismaRaw.person.update({
     where: { id: personId },
     data: { failedLoginAttempts: next },
   });
-  return { status: "invalid_credentials" };
+  const triesLeft = PIN_MAX_ATTEMPTS - next;
+  return { status: "invalid_credentials", triesLeft, message: triesLeftMessage(triesLeft) };
 }
 
 async function openSession(input: {
@@ -102,18 +123,23 @@ export async function loginWithPin(input: {
 }): Promise<LoginResult> {
   const now = input.now ?? new Date();
   const phone = normalizePhone(input.phone);
-  if (!phone || !/^\d{4,6}$/.test(input.pin)) {
+  if (!phone) {
     await verifyPin(input.pin || "0000", await dummyPinHash());
-    return { status: "invalid_credentials" };
+    return { status: "invalid_credentials", message: "Enter a Kenyan mobile number, like 0712 345 005." };
+  }
+  if (!/^\d{4,6}$/.test(input.pin)) {
+    await verifyPin(input.pin || "0000", await dummyPinHash());
+    return { status: "invalid_credentials", message: "A PIN is 4 to 6 digits." };
   }
 
   const person = await prismaRaw.person.findUnique({ where: { phone } });
-  if (!person) {
-    await verifyPin(input.pin, await dummyPinHash());
-    return { status: "invalid_credentials" };
-  }
+  if (!person) return unknownNumber();
   if (person.lockedUntil && person.lockedUntil > now) {
-    return { status: "locked", lockedUntil: person.lockedUntil.toISOString() };
+    return {
+      status: "locked",
+      lockedUntil: person.lockedUntil.toISOString(),
+      message: "Too many attempts. Try again in 15 minutes.",
+    };
   }
   if (person.lockedUntil && person.lockedUntil <= now) {
     await prismaRaw.person.update({

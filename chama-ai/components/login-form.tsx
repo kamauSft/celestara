@@ -9,6 +9,15 @@ interface ChamaChoice {
   role: string;
 }
 
+interface LoginBody {
+  status?: string;
+  role?: string;
+  message?: string;
+  challengeId?: string;
+  demoCode?: string;
+  chamas?: ChamaChoice[];
+}
+
 export function LoginForm({ initialPhone = "0712345005" }: { initialPhone?: string }) {
   const router = useRouter();
   const [phone, setPhone] = useState(initialPhone);
@@ -21,56 +30,79 @@ export function LoginForm({ initialPhone = "0712345005" }: { initialPhone?: stri
   const [message, setMessage] = useState("");
   const [pending, setPending] = useState(false);
 
+  async function readBody(response: Response): Promise<LoginBody | null> {
+    return (await response.json().catch(() => null)) as LoginBody | null;
+  }
+
   async function submitPin(event: React.FormEvent) {
     event.preventDefault();
     setPending(true);
     setMessage("");
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ phone, pin, chamaId: chamaId || undefined }),
-    });
-    const body = await response.json();
-    setPending(false);
-    if (body.status === "authenticated") {
-      router.push(body.role && body.role !== "MEMBER" ? "/desk" : "/home");
-      router.refresh();
-      return;
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ phone, pin, chamaId: chamaId || undefined }),
+      });
+      const body = await readBody(response);
+      if (!body?.status) {
+        setMessage("Sign-in could not be completed. Try again.");
+        return;
+      }
+      if (body.status === "authenticated") {
+        router.push(body.role && body.role !== "MEMBER" ? "/desk" : "/home");
+        router.refresh();
+        return;
+      }
+      if (body.status === "choose_chama") {
+        setChoices(body.chamas ?? []);
+        setMessage("Choose which chama to open.");
+        return;
+      }
+      if (body.status === "otp_required") {
+        setChallengeId(body.challengeId ?? "");
+        setDemoCode(body.demoCode ?? "");
+        setMessage(
+          body.demoCode
+            ? "Enter the SMS code. Officials confirm with a text message. The demo code is on this page."
+            : "Enter the SMS code sent to your phone.",
+        );
+        return;
+      }
+      setMessage(body.message || "That phone or PIN was not recognised.");
+    } catch {
+      setMessage("Sign-in could not be completed. Check your connection and try again.");
+    } finally {
+      setPending(false);
     }
-    if (body.status === "choose_chama") {
-      setChoices(body.chamas);
-      setMessage("Choose which chama to open.");
-      return;
-    }
-    if (body.status === "otp_required") {
-      setChallengeId(body.challengeId);
-      setDemoCode(body.demoCode ?? "");
-      setMessage("Enter the SMS code.");
-      return;
-    }
-    if (body.status === "locked") {
-      setMessage("Too many attempts. Try again in 15 minutes.");
-      return;
-    }
-    setMessage("That phone or PIN was not recognised.");
   }
 
   async function submitCode(event: React.FormEvent) {
     event.preventDefault();
     setPending(true);
-    const response = await fetch("/api/auth/otp", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ challengeId, code }),
-    });
-    const body = await response.json();
-    setPending(false);
-    if (body.status === "authenticated") {
-      router.push(body.role && body.role !== "MEMBER" ? "/desk" : "/home");
-      router.refresh();
-      return;
+    setMessage("");
+    try {
+      const response = await fetch("/api/auth/otp", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ challengeId, code }),
+      });
+      const body = await readBody(response);
+      if (!body?.status) {
+        setMessage("Sign-in could not be completed. Try again.");
+        return;
+      }
+      if (body.status === "authenticated") {
+        router.push(body.role && body.role !== "MEMBER" ? "/desk" : "/home");
+        router.refresh();
+        return;
+      }
+      setMessage(body.status === "otp_expired" ? "That code has expired." : "That code was not accepted.");
+    } catch {
+      setMessage("Sign-in could not be completed. Check your connection and try again.");
+    } finally {
+      setPending(false);
     }
-    setMessage(body.status === "otp_expired" ? "That code has expired." : "That code was not accepted.");
   }
 
   return (
@@ -86,6 +118,7 @@ export function LoginForm({ initialPhone = "0712345005" }: { initialPhone?: stri
                 onChange={(event) => setPhone(event.target.value)}
                 inputMode="tel"
                 autoComplete="tel"
+                name="phone"
               />
             </label>
             <label className="block text-sm font-medium">
@@ -97,6 +130,7 @@ export function LoginForm({ initialPhone = "0712345005" }: { initialPhone?: stri
                 type="password"
                 inputMode="numeric"
                 autoComplete="current-password"
+                name="pin"
               />
             </label>
             {choices.length > 0 ? (
@@ -125,6 +159,8 @@ export function LoginForm({ initialPhone = "0712345005" }: { initialPhone?: stri
               value={code}
               onChange={(event) => setCode(event.target.value)}
               inputMode="numeric"
+              autoComplete="one-time-code"
+              name="code"
             />
           </label>
         )}
@@ -136,11 +172,25 @@ export function LoginForm({ initialPhone = "0712345005" }: { initialPhone?: stri
           {pending ? "Checking…" : challengeId ? "Confirm code" : "Continue"}
         </button>
       </form>
-      {message ? <p className="mt-4 text-sm text-clay">{message}</p> : null}
-      {demoCode ? (
-        <p className="mt-3 rounded-xl bg-amber-50 px-3 py-2 text-sm text-stone-700">
-          Demo code, shown only while DEMO_OTP_VISIBLE is on: {demoCode}
+      {message ? (
+        <p className="mt-4 text-sm text-clay" role="alert" data-testid="login-error">
+          {message}
         </p>
+      ) : null}
+      {demoCode ? (
+        <div className="mt-3 rounded-xl bg-amber-50 px-3 py-2 text-sm text-stone-700">
+          <p>
+            Demo code, shown only while DEMO_OTP_VISIBLE is on:{" "}
+            <strong data-testid="demo-code">{demoCode}</strong>
+          </p>
+          <button
+            className="mt-2 underline"
+            type="button"
+            onClick={() => setCode(demoCode)}
+          >
+            Use demo code
+          </button>
+        </div>
       ) : null}
     </div>
   );

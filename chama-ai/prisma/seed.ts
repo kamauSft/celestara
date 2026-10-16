@@ -2,6 +2,13 @@ import "./load-env";
 import type { MembershipRole } from "@prisma/client";
 import { appendAuditLog } from "../lib/audit/log";
 import { hashPin } from "../lib/auth/pin";
+import { normalizePhone } from "../lib/phone";
+
+function requirePhone(input: string): string {
+  const phone = normalizePhone(input);
+  if (!phone) throw new Error(`Seed phone is not a Kenyan mobile number: ${input}`);
+  return phone;
+}
 import { umojaSettings } from "../lib/chama/rules";
 import { prismaRaw } from "../lib/db";
 import { shiftPeriod } from "../lib/finance/dates";
@@ -79,7 +86,7 @@ export async function seedDatabase() {
     const person = await prisma.person.create({
       data: {
         name: member.name,
-        phone: member.phone,
+        phone: requirePhone(member.phone),
         preferredLanguage: member.language,
         channelPrefs: { whatsapp: true, sms: true, ussd: false },
         consent: {
@@ -348,7 +355,7 @@ export async function seedDatabase() {
         transId: row.transId,
         rawPayload: row,
         amountCents: row.amountCents,
-        phone: row.phone,
+        phone: requirePhone(row.phone),
         billRef: row.billRef,
         status: row.status,
       },
@@ -360,7 +367,7 @@ export async function seedDatabase() {
       transId: "QJ202610M005",
       rawPayload: { note: "Matched to Amina's October contribution" },
       amountCents: 200_000,
-      phone: "+254712345005",
+      phone: requirePhone("+254712345005"),
       billRef: "M005",
       matchedMembershipId: idOf("M005"),
       status: "MATCHED",

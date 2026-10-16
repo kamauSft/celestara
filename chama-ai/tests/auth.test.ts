@@ -3,6 +3,7 @@ import { hashPin } from "@/lib/auth/pin";
 import { maskPhone, normalizePhone } from "@/lib/auth/phone";
 import { consumeRateLimit, resetRateLimits } from "@/lib/auth/rate-limit";
 import { sessionCookieOptions } from "@/lib/auth/session";
+import { resetLoginLockouts } from "@/lib/auth/lockout";
 import { getSession, loginWithPin, logout, logoutAll, verifyOtp } from "@/lib/auth/service";
 import { MemoryMessagingProvider } from "@/lib/messaging/provider";
 import { prismaRaw } from "@/lib/db";
@@ -65,7 +66,12 @@ describe("auth", () => {
 
     for (let attempt = 0; attempt < 4; attempt += 1) {
       const failed = await loginWithPin({ phone: "+254712345005", pin: "0000", now });
-      expect(failed.status).toBe("invalid_credentials");
+      const triesLeft = 4 - attempt;
+      expect(failed).toMatchObject({
+        status: "invalid_credentials",
+        triesLeft,
+        message: `Wrong PIN. ${triesLeft} ${triesLeft === 1 ? "try" : "tries"} left.`,
+      });
     }
     const locked = await loginWithPin({ phone: "+254712345005", pin: "0000", now });
     expect(locked.status).toBe("locked");
@@ -77,7 +83,14 @@ describe("auth", () => {
       now: new Date(now.getTime() + 16 * 60_000),
     });
     expect(later.status).toBe("authenticated");
-    expect(await loginWithPin({ phone: "nope", pin: "2580", now })).toMatchObject({ status: "invalid_credentials" });
+    expect(await loginWithPin({ phone: "nope", pin: "2580", now })).toMatchObject({
+      status: "invalid_credentials",
+      message: "Enter a Kenyan mobile number, like 0712 345 005.",
+    });
+    expect(await loginWithPin({ phone: "0711999000", pin: "2580", now })).toMatchObject({
+      status: "unknown_number",
+      message: "We couldn't find that number in Umoja.",
+    });
   });
 
   it("asks an official for a one-time code and can sign every device out", async () => {
@@ -152,6 +165,27 @@ describe("auth", () => {
     expect(await verifyOtp({ challengeId: again.challengeId, code: again.demoCode ?? "", now })).toMatchObject({
       status: "otp_invalid",
     });
+  });
+
+  it("clears a lockout outside production", async () => {
+    const fixture = await member({ phone: "+254712345099" });
+    await prismaRaw.person.update({
+      where: { id: fixture.person.id },
+      data: { failedLoginAttempts: 3, lockedUntil: new Date(now.getTime() + 60_000) },
+    });
+    expect(await resetLoginLockouts("0712345099")).toBe(1);
+    const cleared = await prismaRaw.person.findUniqueOrThrow({ where: { id: fixture.person.id } });
+    expect(cleared.failedLoginAttempts).toBe(0);
+    expect(cleared.lockedUntil).toBeNull();
+    const env = process.env as { NODE_ENV?: string };
+    const previous = env.NODE_ENV;
+    env.NODE_ENV = "production";
+    try {
+      await expect(resetLoginLockouts()).rejects.toThrow(/production/);
+    } finally {
+      env.NODE_ENV = previous;
+    }
+    await expect(resetLoginLockouts("123")).rejects.toThrow(/Kenyan mobile/);
   });
 
   it("limits repeated calls and describes the session cookie", () => {

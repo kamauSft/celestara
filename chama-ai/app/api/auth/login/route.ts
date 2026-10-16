@@ -8,7 +8,10 @@ export async function POST(request: Request) {
   }
   const body = (await request.json().catch(() => null)) as { phone?: string; pin?: string; chamaId?: string } | null;
   if (!body?.phone || !body.pin) {
-    return Response.json({ status: "invalid_credentials" }, { status: 400 });
+    return Response.json(
+      { status: "invalid_credentials", message: "Enter your phone number and PIN." },
+      { status: 400 },
+    );
   }
   const result = await loginWithPin({
     phone: body.phone,
@@ -22,5 +25,6 @@ export async function POST(request: Request) {
     await setSessionCookie(result.token);
     return Response.json({ status: "authenticated", role: result.role, chamaId: result.chamaId });
   }
-  return Response.json(result, { status: result.status === "invalid_credentials" ? 401 : 200 });
+  const failed = result.status === "invalid_credentials" || result.status === "unknown_number";
+  return Response.json(result, { status: failed ? 401 : 200 });
 }
