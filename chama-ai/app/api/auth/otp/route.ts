@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     userAgent: request.headers.get("user-agent") ?? undefined,
   });
   if (result.status === "authenticated") {
-    await setSessionCookie(result.token);
+    await setSessionCookie(result.token, result.role);
     return Response.json({ status: "authenticated", role: result.role });
   }
   return Response.json(result, { status: 401 });

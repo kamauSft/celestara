@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MemberPinForm } from "@/components/member-pin";
 import { MonthPill } from "@/components/month-pill";
 import { Shell } from "@/components/shell";
 import { Stat } from "@/components/stat";
@@ -57,6 +58,7 @@ export default async function HomePage() {
           ))}
         </section>
       ) : null}
+      {session.role === "MEMBER" ? <MemberPinForm /> : null}
       <div className="mt-6 flex flex-wrap gap-3">
         <Link href="/mine" className="rounded-full border border-stone-400 px-4 py-2 text-sm">My months</Link>
         <Link href="/loan" className="rounded-full border border-stone-400 px-4 py-2 text-sm">My loan</Link>

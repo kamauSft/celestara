@@ -6,11 +6,13 @@ import { normalizePhone } from "../phone";
 import {
   LOCKOUT_MS,
   OTP_MAX_ATTEMPTS,
+  OTP_MAX_SENDS,
+  OTP_SEND_WINDOW_MS,
   OTP_TTL_MS,
   PIN_MAX_ATTEMPTS,
-  SESSION_IDLE_MS,
   newOtpCode,
   newSessionToken,
+  sessionLifetimeMs,
   sha256,
 } from "./session";
 
@@ -26,10 +28,15 @@ export interface ChamaChoice {
 export type LoginResult =
   | { status: "invalid_credentials"; message: string; triesLeft?: number }
   | { status: "unknown_number"; message: string }
+  | { status: "pin_required"; message: string }
+  | { status: "rate_limited"; message: string }
   | { status: "locked"; lockedUntil: string; message: string }
   | { status: "choose_chama"; chamas: ChamaChoice[] }
   | { status: "otp_required"; challengeId: string; demoCode?: string }
   | { status: "authenticated"; token: string; chamaId: string; membershipId: string; role: MembershipRole };
+
+const UNREGISTERED = "This number isn't registered. Ask your treasurer to add you.";
+const LOCKED_MESSAGE = "Too many attempts. Try again in 15 minutes.";
 
 function triesLeftMessage(triesLeft: number): string {
   return `Wrong PIN. ${triesLeft} ${triesLeft === 1 ? "try" : "tries"} left.`;
@@ -37,13 +44,7 @@ function triesLeftMessage(triesLeft: number): string {
 
 async function unknownNumber(): Promise<LoginResult> {
   await verifyPin("0000", await dummyPinHash());
-  const chamas = await prismaRaw.chama.findMany({
-    select: { name: true },
-    orderBy: { createdAt: "asc" },
-    take: 2,
-  });
-  const where = chamas.length === 1 ? ` in ${chamas[0].name}` : "";
-  return { status: "unknown_number", message: `We couldn't find that number${where}.` };
+  return { status: "unknown_number", message: UNREGISTERED };
 }
 
 let dummyHash: Promise<string> | null = null;
@@ -64,7 +65,7 @@ async function recordFailure(personId: string, attempts: number, now: Date): Pro
     return {
       status: "locked",
       lockedUntil: lockedUntil.toISOString(),
-      message: "Too many attempts. Try again in 15 minutes.",
+      message: LOCKED_MESSAGE,
     };
   }
   await prismaRaw.person.update({
@@ -93,7 +94,7 @@ async function openSession(input: {
       tokenHash: sha256(token),
       createdAt: input.now,
       lastSeenAt: input.now,
-      expiresAt: new Date(input.now.getTime() + SESSION_IDLE_MS),
+      expiresAt: new Date(input.now.getTime() + sessionLifetimeMs(input.role)),
       ip: input.ip,
       userAgent: input.userAgent,
     },
@@ -111,9 +112,64 @@ async function openSession(input: {
   };
 }
 
+type LoginMembership = {
+  id: string;
+  chamaId: string;
+  personId: string;
+  role: MembershipRole;
+  hashedPin: string;
+  chama: { name: string };
+};
+
+function chamaChoices(memberships: LoginMembership[]): ChamaChoice[] {
+  return memberships.map((membership) => ({
+    chamaId: membership.chamaId,
+    chamaName: membership.chama.name,
+    role: membership.role,
+    membershipId: membership.id,
+  }));
+}
+
+async function sendLoginCode(input: {
+  personId: string;
+  phone: string;
+  membership: LoginMembership;
+  now: Date;
+  messaging?: MessagingProvider;
+  demoOtpVisible?: boolean;
+}): Promise<LoginResult> {
+  const since = new Date(input.now.getTime() - OTP_SEND_WINDOW_MS);
+  const sent = await prismaRaw.otpChallenge.count({
+    where: { personId: input.personId, createdAt: { gt: since } },
+  });
+  if (sent >= OTP_MAX_SENDS) {
+    return { status: "rate_limited", message: "Too many codes. Try again in 15 minutes." };
+  }
+  const code = newOtpCode();
+  const challenge = await prismaRaw.otpChallenge.create({
+    data: {
+      personId: input.personId,
+      membershipId: input.membership.id,
+      chamaId: input.membership.chamaId,
+      codeHash: sha256(code),
+      expiresAt: new Date(input.now.getTime() + OTP_TTL_MS),
+      createdAt: input.now,
+    },
+  });
+  await (input.messaging ?? devMessaging).sendSms({
+    to: input.phone,
+    body: `Smart Kikapu code: ${code}. It expires in 5 minutes.`,
+  });
+  return {
+    status: "otp_required",
+    challengeId: challenge.id,
+    demoCode: input.demoOtpVisible ? code : undefined,
+  };
+}
+
 export async function loginWithPin(input: {
   phone: string;
-  pin: string;
+  pin?: string;
   chamaId?: string;
   now?: Date;
   ip?: string;
@@ -122,24 +178,17 @@ export async function loginWithPin(input: {
   demoOtpVisible?: boolean;
 }): Promise<LoginResult> {
   const now = input.now ?? new Date();
+  const pin = input.pin?.trim() ?? "";
   const phone = normalizePhone(input.phone);
   if (!phone) {
-    await verifyPin(input.pin || "0000", await dummyPinHash());
+    await verifyPin(pin || "0000", await dummyPinHash());
     return { status: "invalid_credentials", message: "Enter a Kenyan mobile number, like 0712 345 005." };
-  }
-  if (!/^\d{4,6}$/.test(input.pin)) {
-    await verifyPin(input.pin || "0000", await dummyPinHash());
-    return { status: "invalid_credentials", message: "A PIN is 4 to 6 digits." };
   }
 
   const person = await prismaRaw.person.findUnique({ where: { phone } });
   if (!person) return unknownNumber();
   if (person.lockedUntil && person.lockedUntil > now) {
-    return {
-      status: "locked",
-      lockedUntil: person.lockedUntil.toISOString(),
-      message: "Too many attempts. Try again in 15 minutes.",
-    };
+    return { status: "locked", lockedUntil: person.lockedUntil.toISOString(), message: LOCKED_MESSAGE };
   }
   if (person.lockedUntil && person.lockedUntil <= now) {
     await prismaRaw.person.update({
@@ -150,16 +199,38 @@ export async function loginWithPin(input: {
   }
 
   const memberships = await prismaRaw.membership.findMany({
-    where: { personId: person.id },
+    where: { personId: person.id, status: "ACTIVE" },
     include: { chama: true },
   });
-  const matches = [];
+  if (memberships.length === 0) return unknownNumber();
+
+  if (!pin) {
+    if (memberships.some((membership) => OTP_ROLES.has(membership.role))) {
+      return { status: "pin_required", message: "Enter your PIN. Officials also confirm with a text message." };
+    }
+    const chosen = input.chamaId ? memberships.filter((membership) => membership.chamaId === input.chamaId) : memberships;
+    if (chosen.length === 0) return unknownNumber();
+    if (chosen.length > 1) return { status: "choose_chama", chamas: chamaChoices(chosen) };
+    return sendLoginCode({
+      personId: person.id,
+      phone: person.phone,
+      membership: chosen[0],
+      now,
+      messaging: input.messaging,
+      demoOtpVisible: input.demoOtpVisible,
+    });
+  }
+
+  if (!/^\d{4,6}$/.test(pin)) {
+    await verifyPin(pin, await dummyPinHash());
+    return { status: "invalid_credentials", message: "A PIN is 4 to 6 digits." };
+  }
+
+  const matches: LoginMembership[] = [];
   for (const membership of memberships) {
-    if (await verifyPin(input.pin, membership.hashedPin)) matches.push(membership);
+    if (await verifyPin(pin, membership.hashedPin)) matches.push(membership);
   }
-  if (matches.length === 0) {
-    return recordFailure(person.id, person.failedLoginAttempts, now);
-  }
+  if (matches.length === 0) return recordFailure(person.id, person.failedLoginAttempts, now);
   if (person.failedLoginAttempts !== 0) {
     await prismaRaw.person.update({
       where: { id: person.id },
@@ -169,40 +240,18 @@ export async function loginWithPin(input: {
 
   const chosen = input.chamaId ? matches.filter((membership) => membership.chamaId === input.chamaId) : matches;
   if (chosen.length === 0) return recordFailure(person.id, person.failedLoginAttempts, now);
-  if (chosen.length > 1) {
-    return {
-      status: "choose_chama",
-      chamas: chosen.map((membership) => ({
-        chamaId: membership.chamaId,
-        chamaName: membership.chama.name,
-        role: membership.role,
-        membershipId: membership.id,
-      })),
-    };
-  }
+  if (chosen.length > 1) return { status: "choose_chama", chamas: chamaChoices(chosen) };
 
   const membership = chosen[0];
   if (OTP_ROLES.has(membership.role)) {
-    const code = newOtpCode();
-    const challenge = await prismaRaw.otpChallenge.create({
-      data: {
-        personId: person.id,
-        membershipId: membership.id,
-        chamaId: membership.chamaId,
-        codeHash: sha256(code),
-        expiresAt: new Date(now.getTime() + OTP_TTL_MS),
-        createdAt: now,
-      },
+    return sendLoginCode({
+      personId: person.id,
+      phone: person.phone,
+      membership,
+      now,
+      messaging: input.messaging,
+      demoOtpVisible: input.demoOtpVisible,
     });
-    await (input.messaging ?? devMessaging).sendSms({
-      to: person.phone,
-      body: `Chama AI code: ${code}. It expires in 5 minutes.`,
-    });
-    return {
-      status: "otp_required",
-      challengeId: challenge.id,
-      demoCode: input.demoOtpVisible ? code : undefined,
-    };
   }
 
   return openSession({
@@ -216,6 +265,23 @@ export async function loginWithPin(input: {
   });
 }
 
+export async function setMemberPin(input: {
+  membershipId: string;
+  personId: string;
+  pin: string;
+}): Promise<{ ok: true } | { ok: false; message: string }> {
+  if (!/^\d{4}$/.test(input.pin)) return { ok: false, message: "Use a 4-digit PIN." };
+  const membership = await prismaRaw.membership.findFirst({
+    where: { id: input.membershipId, personId: input.personId, role: "MEMBER", status: "ACTIVE" },
+  });
+  if (!membership) return { ok: false, message: "Only a member can set this PIN." };
+  await prismaRaw.membership.update({
+    where: { id: membership.id },
+    data: { hashedPin: await hashPin(input.pin) },
+  });
+  return { ok: true };
+}
+
 export async function verifyOtp(input: {
   challengeId: string;
   code: string;
@@ -226,18 +292,30 @@ export async function verifyOtp(input: {
   const now = input.now ?? new Date();
   const challenge = await prismaRaw.otpChallenge.findUnique({
     where: { id: input.challengeId },
-    include: { membership: true },
+    include: { membership: true, person: true },
   });
   if (!challenge || challenge.consumedAt || challenge.attempts >= OTP_MAX_ATTEMPTS) {
     return { status: "otp_invalid" };
   }
+  if (challenge.person.lockedUntil && challenge.person.lockedUntil > now) {
+    return { status: "locked", lockedUntil: challenge.person.lockedUntil.toISOString(), message: LOCKED_MESSAGE };
+  }
   if (challenge.expiresAt <= now) return { status: "otp_expired" };
   if (sha256(input.code) !== challenge.codeHash) {
     const attempts = challenge.attempts + 1;
+    const lock = attempts >= OTP_MAX_ATTEMPTS;
     await prismaRaw.otpChallenge.update({
       where: { id: challenge.id },
-      data: { attempts, consumedAt: attempts >= OTP_MAX_ATTEMPTS ? now : null },
+      data: { attempts, consumedAt: lock ? now : null },
     });
+    if (lock) {
+      const lockedUntil = new Date(now.getTime() + LOCKOUT_MS);
+      await prismaRaw.person.update({
+        where: { id: challenge.personId },
+        data: { failedLoginAttempts: 0, lockedUntil },
+      });
+      return { status: "locked", lockedUntil: lockedUntil.toISOString(), message: LOCKED_MESSAGE };
+    }
     return { status: "otp_invalid" };
   }
   await prismaRaw.otpChallenge.update({
@@ -270,13 +348,14 @@ export async function getSession(token: string, now = new Date()): Promise<Activ
     include: { membership: true, person: true },
   });
   if (!session || session.revokedAt) return null;
-  if (now.getTime() - session.lastSeenAt.getTime() > SESSION_IDLE_MS || session.expiresAt <= now) {
+  const lifetime = sessionLifetimeMs(session.membership.role);
+  if (now.getTime() - session.lastSeenAt.getTime() > lifetime || session.expiresAt <= now) {
     await prismaRaw.session.update({ where: { id: session.id }, data: { revokedAt: now } });
     return null;
   }
   await prismaRaw.session.update({
     where: { id: session.id },
-    data: { lastSeenAt: now, expiresAt: new Date(now.getTime() + SESSION_IDLE_MS) },
+    data: { lastSeenAt: now, expiresAt: new Date(now.getTime() + lifetime) },
   });
   return {
     token,

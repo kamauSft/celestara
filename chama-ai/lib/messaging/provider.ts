@@ -3,11 +3,13 @@ export interface SmsMessage {
   body: string;
 }
 
-export interface MessagingProvider {
+export interface SmsProvider {
   sendSms(message: SmsMessage): Promise<{ providerMessageId: string }>;
 }
 
-export class MemoryMessagingProvider implements MessagingProvider {
+export type MessagingProvider = SmsProvider;
+
+export class MemoryMessagingProvider implements SmsProvider {
   readonly sent: SmsMessage[] = [];
 
   async sendSms(message: SmsMessage): Promise<{ providerMessageId: string }> {
@@ -16,4 +18,15 @@ export class MemoryMessagingProvider implements MessagingProvider {
   }
 }
 
-export const devMessaging = new MemoryMessagingProvider();
+/** Logs the code on the server. The login screen shows it only in demo mode. */
+export class DevSmsProvider extends MemoryMessagingProvider {
+  override async sendSms(message: SmsMessage): Promise<{ providerMessageId: string }> {
+    const result = await super.sendSms(message);
+    if (process.env.NODE_ENV !== "test") {
+      console.info(`[Smart Kikapu demo SMS] to ${message.to}: ${message.body}`);
+    }
+    return result;
+  }
+}
+
+export const devMessaging = new DevSmsProvider();

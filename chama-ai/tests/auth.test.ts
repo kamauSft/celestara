@@ -4,7 +4,7 @@ import { maskPhone, normalizePhone } from "@/lib/auth/phone";
 import { consumeRateLimit, resetRateLimits } from "@/lib/auth/rate-limit";
 import { sessionCookieOptions } from "@/lib/auth/session";
 import { resetLoginLockouts } from "@/lib/auth/lockout";
-import { getSession, loginWithPin, logout, logoutAll, verifyOtp } from "@/lib/auth/service";
+import { getSession, loginWithPin, logout, logoutAll, setMemberPin, verifyOtp } from "@/lib/auth/service";
 import { MemoryMessagingProvider } from "@/lib/messaging/provider";
 import { prismaRaw } from "@/lib/db";
 import { umojaSettings } from "@/lib/chama/rules";
@@ -62,7 +62,9 @@ describe("auth", () => {
     if (ok.status !== "authenticated") return;
     const session = await getSession(ok.token, new Date(now.getTime() + 60_000));
     expect(session?.role).toBe("MEMBER");
-    expect(await getSession(ok.token, new Date(now.getTime() + 60_000 + 31 * 60_000))).toBeNull();
+    const stillSignedIn = new Date(now.getTime() + 60_000 + 31 * 60_000);
+    expect(await getSession(ok.token, stillSignedIn)).not.toBeNull();
+    expect(await getSession(ok.token, new Date(stillSignedIn.getTime() + 31 * 24 * 60 * 60_000))).toBeNull();
 
     for (let attempt = 0; attempt < 4; attempt += 1) {
       const failed = await loginWithPin({ phone: "+254712345005", pin: "0000", now });
@@ -89,7 +91,7 @@ describe("auth", () => {
     });
     expect(await loginWithPin({ phone: "0711999000", pin: "2580", now })).toMatchObject({
       status: "unknown_number",
-      message: "We couldn't find that number in Umoja.",
+      message: "This number isn't registered. Ask your treasurer to add you.",
     });
   });
 
@@ -130,6 +132,7 @@ describe("auth", () => {
     const authed = await verifyOtp({ challengeId: pending.challengeId, code: pending.demoCode ?? "", now });
     expect(authed.status).toBe("authenticated");
     if (authed.status !== "authenticated") return;
+    expect(await getSession(authed.token, new Date(now.getTime() + 31 * 60_000))).toBeNull();
     expect(await verifyOtp({ challengeId: pending.challengeId, code: pending.demoCode ?? "", now })).toMatchObject({
       status: "otp_invalid",
     });
@@ -157,14 +160,49 @@ describe("auth", () => {
 
     const again = await loginWithPin({ phone: "+254712345001", pin: "2580", now, demoOtpVisible: true });
     if (again.status !== "otp_required") throw new Error("expected a code");
-    for (let attempt = 0; attempt < 5; attempt += 1) {
+    for (let attempt = 0; attempt < 4; attempt += 1) {
       expect(await verifyOtp({ challengeId: again.challengeId, code: "111111", now })).toMatchObject({
         status: "otp_invalid",
       });
     }
-    expect(await verifyOtp({ challengeId: again.challengeId, code: again.demoCode ?? "", now })).toMatchObject({
-      status: "otp_invalid",
+    expect(await verifyOtp({ challengeId: again.challengeId, code: "111111", now })).toMatchObject({
+      status: "locked",
     });
+    expect(await loginWithPin({ phone: "0712345001", pin: "2580", now: new Date(now.getTime() + 60_000) })).toMatchObject({
+      status: "locked",
+    });
+  });
+
+  it("texts a member a code, saves a PIN, and asks an official for a PIN first", async () => {
+    const fixture = await member({ phone: "+254712345005" });
+    const messaging = new MemoryMessagingProvider();
+    const pending = await loginWithPin({ phone: "0712345005", now, messaging, demoOtpVisible: true });
+    expect(pending.status).toBe("otp_required");
+    if (pending.status !== "otp_required") return;
+    expect(messaging.sent.at(-1)?.body).toContain(`Smart Kikapu code: ${pending.demoCode}`);
+    expect((await verifyOtp({ challengeId: pending.challengeId, code: pending.demoCode ?? "", now })).status).toBe(
+      "authenticated",
+    );
+
+    expect(await setMemberPin({ membershipId: fixture.membership.id, personId: fixture.person.id, pin: "12" })).toMatchObject({
+      ok: false,
+    });
+    expect(await setMemberPin({ membershipId: fixture.membership.id, personId: fixture.person.id, pin: "4321" })).toEqual({
+      ok: true,
+    });
+    expect((await loginWithPin({ phone: "0712345005", pin: "4321", now })).status).toBe("authenticated");
+
+    while (messaging.sent.length < 3) {
+      expect((await loginWithPin({ phone: "0712345005", now, messaging, demoOtpVisible: true })).status).toBe("otp_required");
+    }
+    expect(await loginWithPin({ phone: "0712345005", now, messaging })).toMatchObject({
+      status: "rate_limited",
+      message: "Too many codes. Try again in 15 minutes.",
+    });
+
+    await member({ phone: "+254712345002", role: "TREASURER" });
+    expect(await loginWithPin({ phone: "0712345002", now, messaging })).toMatchObject({ status: "pin_required" });
+    expect(messaging.sent.some((message) => message.to === "+254712345002")).toBe(false);
   });
 
   it("clears a lockout outside production", async () => {
@@ -200,6 +238,8 @@ describe("auth", () => {
     env.NODE_ENV = "test";
     expect(sessionCookieOptions().httpOnly).toBe(true);
     expect(sessionCookieOptions().sameSite).toBe("lax");
+    expect(sessionCookieOptions().maxAge).toBe(30 * 60);
+    expect(sessionCookieOptions(30 * 24 * 60 * 60).maxAge).toBe(30 * 24 * 60 * 60);
     env.NODE_ENV = previous;
   });
 });

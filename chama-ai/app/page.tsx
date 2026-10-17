@@ -41,7 +41,7 @@ export default function LandingPage() {
       </section>
 
       <p className="mt-6 text-sm text-stone-600">
-        Chair Grace uses the same treasurer books. <Link className="underline" href="/login?who=chair">Open as chair</Link>. PIN 2580 for everyone. Officials also type the SMS code the sign-in screen shows.
+        Chair Grace uses the same treasurer books. <Link className="underline" href="/login?who=chair">Open as chair</Link>. A member signs in with their number and the text code. Officials add PIN 2580, then the same code. A member can save a 4-digit PIN afterwards.
       </p>
 
       <section id="price" className="mt-14">
